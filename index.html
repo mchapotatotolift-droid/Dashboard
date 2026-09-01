@@ -542,6 +542,7 @@
           <div class="tier-rule" id="tr2"><span class="dotcol" style="background:linear-gradient(180deg,#3aa86a,#1f7a4d)"></span><span>Ventes 6-10 : <b>200 €</b></span></div>
           <div class="tier-rule" id="tr3"><span class="dotcol" style="background:linear-gradient(180deg,#ffd24a,#c98f1e)"></span><span>Ventes 11-40 : <b>300 €</b></span></div>
           <div class="tier-rule"><span class="dotcol" style="background:var(--muted)"></span><span>× nombre d'étages de la vente</span></div>
+          <div class="tier-rule"><span class="dotcol" style="background:var(--amber)"></span><span>Bonus remise : <b>100 € à 0 %</b> → <b>0 € à 8 %+</b></span></div>
           <div class="tier-rule"><span class="dotcol" style="background:var(--cyan)"></span><span>Signature en R1 (jour du devis) : <b>+10 €</b></span></div>
         </div>
       </div>
@@ -748,21 +749,21 @@ const salesJuillet=[
   {client:"Piccinin", floors:1, r1:false, payment:"direct"},
 ];
 const salesAout=[
-  {client:"Zappavigna (Modul'Air ST)", floors:1, r1:false, payment:"direct"},
-  {client:"Bongibault (Chécy)", floors:1, r1:false, payment:"direct"},
-  {client:"Chassagne", floors:1, r1:false, payment:"credit"},
-  {client:"Winkler Gérard", floors:1, r1:false, payment:"direct"},
-  {client:"Dos Santos", floors:1, r1:true, payment:"direct"},
-  {client:"Vandendriessche", floors:2, r1:false, payment:"direct"},
-  {client:"Chattou (Éragny)", floors:1, r1:false, payment:"direct"},
-  {client:"Petitbois Joëlle", floors:1, r1:false, payment:"direct"},
-  {client:"Jacquet Lionelle", floors:1, r1:false, payment:"direct"},
-  {client:"Rocchia", floors:2, r1:false, payment:"direct"},
-  {client:"Delalande", floors:1, r1:false, payment:"direct"},
-  {client:"Barbier Christiane", floors:1, r1:false, payment:"direct"},
-  {client:"Chirol Yvan", floors:1, r1:false, payment:"direct"},
-  {client:"Bardugogni M.", floors:1, r1:false, payment:"subvention"},
-]; /* ventes du mois en cours (Août) — cycle commission actif — OBJECTIF MENSUEL ATTEINT (14/14) */
+  {client:"Zappavigna (Modul'Air ST)", floors:1, r1:false, payment:"direct", remise:7},
+  {client:"Bongibault (Chécy)", floors:1, r1:false, payment:"direct", remise:10},
+  {client:"Chassagne", floors:1, r1:false, payment:"credit", remise:0},
+  {client:"Winkler Gérard", floors:1, r1:false, payment:"direct", remise:7},
+  {client:"Dos Santos", floors:1, r1:true, payment:"direct", remise:6},
+  {client:"Vandendriessche", floors:2, r1:false, payment:"direct", remise:0},
+  {client:"Chattou (Éragny)", floors:1, r1:false, payment:"direct", remise:11},
+  {client:"Petitbois Joëlle", floors:1, r1:false, payment:"direct", remise:12},
+  {client:"Jacquet Lionelle", floors:1, r1:false, payment:"direct", remise:13},
+  {client:"Rocchia", floors:2, r1:false, payment:"direct", remise:4},
+  {client:"Delalande", floors:1, r1:false, payment:"direct", remise:0},
+  {client:"Barbier Christiane", floors:1, r1:false, payment:"direct", remise:6},
+  {client:"Chirol Yvan", floors:1, r1:false, payment:"direct", remise:9},
+  {client:"Bardugogni M.", floors:1, r1:false, payment:"subvention", remise:11},
+]; /* ventes du mois en cours (Août) — cycle commission actif — OBJECTIF MENSUEL ATTEINT (14/14) — système complet (base×étages + bonus remise + bonus direct) validé le 01/09 */
 const challengeSales=salesJuillet.concat(salesAout);
 
 const cls=p=>p>=100?"pg":(p>=80?"pa":"pp");
@@ -1077,15 +1078,23 @@ let annualPlay=()=>{};
 /* ===== COMMISSIONS : calcul + trésor ===== */
 const fmtEUR=(x)=> x.toLocaleString("fr-FR");
 const baseRate=(pos)=> pos<=5?100 : pos<=10?200 : 300;
+const remiseBonusTable=(pct)=>{
+  const t=[100,75,50,35,25,15,10,5]; // 0%..7%
+  const r=Math.round(pct);
+  return r<0?100 : r>=8?0 : t[r];
+};
 function commissionData(sales){
-  let total=0, t1=0,t2=0,t3=0, r1Bonus=0, r1Count=0;
+  let total=0, t1=0,t2=0,t3=0, r1Bonus=0, r1Count=0, remiseBonusTotal=0, remiseSum=0;
   sales.forEach((s,i)=>{
-    const pos=i+1, base=baseRate(pos)*s.floors, bonus=s.r1?10:0, c=base+bonus;
-    total+=c; if(s.r1){r1Bonus+=bonus; r1Count++;}
+    const pos=i+1, base=baseRate(pos)*s.floors, dBonus=s.r1?10:0, rBonus=remiseBonusTable(s.remise||0);
+    const c=base+dBonus+rBonus;
+    total+=c; remiseBonusTotal+=rBonus; remiseSum+=(s.remise||0);
+    if(s.r1){r1Bonus+=dBonus; r1Count++;}
     if(pos<=5)t1+=c; else if(pos<=10)t2+=c; else t3+=c;
   });
   const n=sales.length;
-  return {total,t1,t2,t3,n,r1Bonus,r1Count,r2Count:n-r1Count,
+  return {total,t1,t2,t3,n,r1Bonus,r1Count,r2Count:n-r1Count,remiseBonusTotal,
+    remiseAvg: n?remiseSum/n:0,
     coins:Math.min(n,5),
     bills:Math.max(0,Math.min(n-5,5)),
     bars:Math.max(0,n-10)};
@@ -1217,6 +1226,7 @@ let moneyPlay=()=>{};
       `<div class="mb"><span class="mbk">Ventes 6-10</span><span class="mbv">${fmtEUR(d.t2)}&nbsp;\u20AC</span></div>`+
       `<div class="mb"><span class="mbk">Ventes 11+</span><span class="mbv">${fmtEUR(d.t3)}&nbsp;\u20AC</span></div>`+
       `<div class="mb"><span class="mbk">Commission moyenne</span><span class="mbv">${d.n?fmtEUR(Math.round(d.total/d.n)):0}&nbsp;\u20AC</span></div>`+
+      `<div class="mb"><span class="mbk">Bonus remise (moy. ${d.remiseAvg.toFixed(1)}%)</span><span class="mbv" style="color:var(--amber)">+${fmtEUR(d.remiseBonusTotal)}&nbsp;\u20AC</span></div>`+
       `<div class="mb"><span class="mbk">Bonus R1 (${d.r1Count} vente${d.r1Count>1?'s':''})</span><span class="mbv" style="color:var(--cyan)">+${fmtEUR(d.r1Bonus)}&nbsp;\u20AC</span></div>`;
   }
   refreshSide();
