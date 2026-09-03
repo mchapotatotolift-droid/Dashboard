@@ -505,7 +505,7 @@
           <div class="wbox future"><div class="wn">W40</div><div class="wv">0</div></div>
         </div>
         <div class="lstats stagger">
-          <div class="lstat"><div class="lk">Challenge Juil-Août (clos)</div><div class="lv" style="color:var(--cyan)"><span class="countup" data-to="84" data-suffix=" %">0</span></div><div class="ls">21 / 25 · ratio V2O 38 % · non qualifié</div></div>
+          <div class="lstat"><div class="lk">Challenge Sept-Oct</div><div class="lv" style="color:var(--cyan)"><span class="countup" data-to="0" data-suffix=" %">0</span></div><div class="ls">0 / 38 · en cours</div></div>
           <div class="lstat"><div class="lk">Cumul annuel (Janv-Sept)</div><div class="lv" style="color:var(--blue)"><span class="countup" data-to="84" data-suffix=" %">0</span></div><div class="ls">103 / 123</div></div>
           <div class="lstat"><div class="lk">Ratio Ventes / R1</div><div class="lv" style="color:var(--purple)"><span class="countup" data-to="47" data-suffix=" %">0</span></div><div class="ls">cumul 2026 · validé manager</div></div>
         </div>
@@ -590,16 +590,22 @@
           <div class="chal-sub">21 / 25 ventes · ratio V2O 38 % · prime 0 € (non qualifié)</div>
           <div class="prog"><div class="cfill" data-w="84" style="background:linear-gradient(90deg,#ff6470,#ffa07a)"></div></div>
         </div>
+        <div class="chal card live">
+          <div class="chal-h">Septembre — Octobre <span class="chal-badge b-cyan">EN COURS</span></div>
+          <div class="chal-pct" style="color:var(--cyan)"><span class="countup" data-to="0" data-suffix=" %">0</span></div>
+          <div class="chal-sub">0 / 38 ventes · en cours</div>
+          <div class="prog"><div class="cfill" data-w="0" style="background:linear-gradient(90deg,#39FF14,#FF0099)"></div></div>
+        </div>
       </div>
     </div>
 
     <div class="pod-mini reveal" style="margin-bottom:18px;">
-      <div class="r1r2-title">🖊️ Signatures — Challenge Juillet-Août (cumul)</div>
+      <div class="r1r2-title">🖊️ Signatures — Challenge Septembre-Octobre (cumul)</div>
       <div id="r1r2Challenge"></div>
     </div>
 
     <div class="pod-mini reveal" style="margin-bottom:18px;">
-      <div class="r1r2-title">🏁 Rythme pour la prime — Challenge Juillet-Août</div>
+      <div class="r1r2-title">🏁 Rythme pour la prime — Challenge Septembre-Octobre</div>
       <div id="rythmeChalBox"></div>
     </div>
 
@@ -778,6 +784,8 @@ const salesAout=[
 ]; /* ventes du mois en cours (Août) — cycle commission actif — OBJECTIF MENSUEL ATTEINT (14/14) — système complet (base×étages + bonus remise + bonus direct) validé le 01/09 */
 const challengeSales=salesJuillet.concat(salesAout);
 const salesSept=[]; /* ventes du mois en cours (Septembre) — cycle commission actif */
+const salesOct=[]; /* ventes d'octobre — pas encore commencé */
+const challengeSalesSO=salesSept.concat(salesOct); /* challenge Septembre-Octobre — objectif 38 (19+19) */
 
 const cls=p=>p>=100?"pg":(p>=80?"pa":"pp");
 const NS="http://www.w3.org/2000/svg";
@@ -914,21 +922,42 @@ function renderPayments(){
 function renderRythmeChallenge(){
   const box=document.getElementById("rythmeChalBox");
   if(!box) return;
-  /* Challenge Juillet-Août clos — objectif cumulé 25 (11 juillet + 14 août) */
-  const objectifChallenge=25;
-  const ventesChallenge=challengeSales.length;
-  const manque=Math.max(0, objectifChallenge-ventesChallenge);
+  /* Challenge Septembre-Octobre en cours — objectif cumulé 38 (19 sept. + 19 oct., pas de congé prévu) */
+  const objectifChallenge=38;
+  const monthLastDay=new Date(2026,9,31);
+  const vacances=[];
+  const today=new Date(); today.setHours(0,0,0,0);
+  const cap = today<monthLastDay ? today : monthLastDay;
+  let d=new Date(2026,8,1), joursRestants=0;
+  while(d<=monthLastDay){
+    if(d>cap){
+      const wd=d.getDay();
+      const inVac=vacances.some(([s,e])=> d>=s && d<=e);
+      if(wd!==0 && wd!==6 && !inVac) joursRestants++;
+    }
+    d=new Date(d.getFullYear(), d.getMonth(), d.getDate()+1);
+  }
+  const ventesChallenge=challengeSalesSO.length;
+  const ventesRestantes=Math.max(0, objectifChallenge-ventesChallenge);
+  const rRequis= joursRestants>0 ? ventesRestantes/joursRestants : 0;
+  const fmt=n=>n.toFixed(2).replace(".",",");
+  let statut, statutColor;
+  if(ventesRestantes<=0){ statut="Prime déjà en poche 🎉"; statutColor="var(--green)"; }
+  else if(rRequis<=1.0){ statut="Objectif prime atteignable, à ton rythme habituel"; statutColor="var(--green)"; }
+  else if(rRequis<=1.5){ statut="Rythme soutenu requis pour décrocher la prime"; statutColor="var(--amber)"; }
+  else{ statut="Prime difficile à ce stade — priorité au mensuel"; statutColor="var(--red)"; }
   box.innerHTML=
     `<div class="rythme-grid">
-      <div class="rythme-col"><div class="rythme-val">${ventesChallenge}</div><div class="rythme-lbl">ventes<br>réalisées</div></div>
-      <div class="rythme-col"><div class="rythme-val">${objectifChallenge}</div><div class="rythme-lbl">objectif<br>challenge</div></div>
-      <div class="rythme-col"><div class="rythme-val" style="color:var(--red)">-${manque}</div><div class="rythme-lbl">ventes<br>manquantes</div></div>
+      <div class="rythme-col"><div class="rythme-val">${joursRestants}</div><div class="rythme-lbl">jours travaillés<br>restants</div></div>
+      <div class="rythme-col"><div class="rythme-val">${ventesRestantes}</div><div class="rythme-lbl">ventes restantes<br>(challenge)</div></div>
+      <div class="rythme-col"><div class="rythme-val" style="color:var(--purple)">${fmt(rRequis)}</div><div class="rythme-lbl">ventes/jour<br>pour la prime</div></div>
     </div>
-    <div class="rythme-compare">Résultat final : <b>${ventesChallenge} / ${objectifChallenge}</b> (84 %) · challenge clos, non qualifié.</div>
-    <div class="rythme-note" style="color:var(--red)">Prime non décrochée — seuls les 2 premiers du réseau étaient qualifiés (Cyrille Mongin 112 %, Didier Milson 105 %)</div>`;
+    <div class="rythme-compare">Cumul challenge à date : <b>${ventesChallenge} / ${objectifChallenge}</b> · septembre + octobre, sans congé prévu.</div>
+    <div class="rythme-note" style="color:${statutColor}">${statut}</div>
+    <div class="rythme-compare" style="opacity:.75; margin-top:6px;">Repère indicatif pour la prime de challenge — n'affecte pas ton objectif mensuel.</div>`;
 }
 
-function fillChallenges(){ document.querySelectorAll("#challenges .cfill").forEach(f=>f.style.width=f.dataset.w+"%"); renderR1R2("r1r2Challenge","cumul juil.-août", challengeSales); renderRythmeChallenge(); }
+function fillChallenges(){ document.querySelectorAll("#challenges .cfill").forEach(f=>f.style.width=f.dataset.w+"%"); renderR1R2("r1r2Challenge","cumul sept.-oct.", challengeSalesSO); renderRythmeChallenge(); }
 function playPodiums(scopeId){
   const root=document.getElementById(scopeId)||document;
   const s=root.querySelectorAll(".pstep");
