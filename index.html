@@ -223,6 +223,8 @@
   .money-sub{font-size:14.5px; color:var(--muted); margin:8px 0 6px;}
   .money-grid{display:grid; grid-template-columns:1.3fr .7fr; gap:40px; align-items:center; margin-top:18px;}
   svg#moneyViz{width:100%; height:auto; display:block;}
+  .money-curve-wrap{margin:18px 0 6px;}
+  svg#commissionCurve{width:100%; height:auto; display:block;}
   .dropitem{opacity:0; transform:translateY(-230px); transform-box:fill-box; will-change:transform,opacity;}
   .dropitem.in{opacity:1; transform:translateY(0); transition:transform .85s cubic-bezier(.3,1.35,.5,1), opacity .3s ease;}
   .money-side{display:flex; flex-direction:column; gap:18px;}
@@ -538,6 +540,9 @@
     <div class="money-eyebrow">Gains cumulés</div>
     <div class="money-total"><span id="moneyTotal">0&nbsp;€</span></div>
     <div class="money-sub"><span id="moneyCount">0</span> ventes enregistrées · le trésor grossit à chaque vente</div>
+    <div class="money-curve-wrap">
+      <svg id="commissionCurve" viewBox="0 0 900 260" role="img" aria-label="Évolution des commissions cumulées"></svg>
+    </div>
     <div class="money-grid">
       <svg id="moneyViz" viewBox="0 0 520 300" role="img" aria-label="Trésor des commissions"></svg>
       <div class="money-side">
@@ -783,7 +788,7 @@ const salesAout=[
 ]; /* ventes du mois en cours (Août) — cycle commission actif — OBJECTIF MENSUEL ATTEINT (14/14) — système complet (base×étages + bonus remise + bonus direct) validé le 01/09 */
 const challengeSales=salesJuillet.concat(salesAout);
 const salesSept=[
-  {client:"Wattebled", floors:1, r1:false, payment:"direct", remise:12},
+  {client:"Wattebled", floors:1, r1:false, payment:"direct", remise:12, date:"2026-09-03"},
 ]; /* ventes du mois en cours (Septembre) — cycle commission actif */
 const salesOct=[]; /* ventes d'octobre — pas encore commencé */
 const challengeSalesSO=salesSept.concat(salesOct); /* challenge Septembre-Octobre — objectif 38 (19+19) */
@@ -1302,6 +1307,48 @@ let moneyPlay=()=>{};
     items.forEach(g=>g.classList.add("in"));
   };
 })();
+
+/* Courbe des commissions — un point par vente, à la date où elle est entrée */
+function fmtDateFR(iso){
+  if(!iso) return "";
+  const [y,m,day]=iso.split("-");
+  return day+"/"+m;
+}
+function buildCommissionCurve(){
+  const svg=document.getElementById("commissionCurve");
+  if(!svg) return;
+  svg.innerHTML="";
+  const sales=salesSept;
+  const n=sales.length;
+  const W=900,H=260,L=64,R=24,T=28,B=44,iw=W-L-R,ih=H-T-B;
+  if(n===0){
+    svg.appendChild(el("text",{x:W/2,y:H/2,"text-anchor":"middle","font-size":15,fill:THEME.muted()},"Ta courbe apparaîtra ici dès ta première vente du mois"));
+    return;
+  }
+  const cum=[]; for(let i=0;i<n;i++) cum.push(commissionData(sales.slice(0,i+1)).total);
+  const maxVal=Math.max(...cum);
+  const niceMax=Math.max(300, Math.ceil((maxVal+1)/100)*100);
+  const defs=el("defs");
+  defs.innerHTML=`<linearGradient id="commLine" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#ffe487"/><stop offset="1" stop-color="#e0a32e"/></linearGradient>`;
+  svg.appendChild(defs);
+  for(let g=0; g<=niceMax; g+=100){
+    const y=T+ih-(g/niceMax)*ih;
+    svg.appendChild(el("line",{x1:L,y1:y,x2:W-R,y2:y,stroke:THEME.grid()}));
+    svg.appendChild(el("text",{x:L-10,y:y+4,"text-anchor":"end","font-size":11,fill:THEME.muted()},fmtEUR(g)+" €"));
+  }
+  const px=i=> n===1 ? L+iw/2 : L+i*(iw/(n-1));
+  const py=v=> T+ih-(v/niceMax)*ih;
+  if(n>=2){
+    let dpath=""; cum.forEach((v,i)=>dpath+=(i?" L":"M")+px(i)+" "+py(v));
+    svg.appendChild(el("path",{d:dpath,fill:"none",stroke:"url(#commLine)","stroke-width":3,"stroke-linejoin":"round","stroke-linecap":"round"}));
+  }
+  cum.forEach((v,i)=>{
+    svg.appendChild(el("circle",{cx:px(i),cy:py(v),r:5.5,fill:THEME.node(),stroke:"#e0a32e","stroke-width":2.4}));
+    svg.appendChild(el("text",{x:px(i),y:py(v)-13,"text-anchor":"middle","font-size":12,"font-weight":700,fill:THEME.ink()},fmtEUR(v)+" €"));
+    svg.appendChild(el("text",{x:px(i),y:H-14,"text-anchor":"middle","font-size":11,fill:THEME.muted()},fmtDateFR(sales[i].date)||("#"+(i+1))));
+  });
+}
+buildCommissionCurve();
 
 const io=new IntersectionObserver((entries)=>{
   entries.forEach(e=>{
