@@ -811,6 +811,64 @@ const roundedPolyPath=(pts,r)=>{
   return d+"Z";
 };
 const RM=matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+/* ===== Sons du trésor (pièces / billets / lingots qui tombent) =====
+   Synthétisés au Web Audio API (pas de fichier son à charger).
+   iOS/Safari bloque l'audio tant qu'il n'y a pas eu un vrai geste utilisateur :
+   on "débloque" le contexte au premier tap/scroll tactile. */
+let audioCtx=null;
+function unlockAudio(){
+  if(!audioCtx){
+    try{ audioCtx=new (window.AudioContext||window.webkitAudioContext)(); }catch(e){ return; }
+  }
+  if(audioCtx.state==="suspended") audioCtx.resume();
+}
+document.addEventListener("touchstart", unlockAudio, {passive:true});
+document.addEventListener("click", unlockAudio, {passive:true});
+
+function playCoinSound(){
+  if(RM || !audioCtx || audioCtx.state!=="running") return;
+  const t0=audioCtx.currentTime;
+  [1600,2350].forEach((f,i)=>{
+    const osc=audioCtx.createOscillator(), gain=audioCtx.createGain();
+    osc.type="triangle";
+    osc.frequency.setValueAtTime(f, t0);
+    osc.frequency.exponentialRampToValueAtTime(f*0.85, t0+0.14);
+    gain.gain.setValueAtTime(0.0001, t0);
+    gain.gain.exponentialRampToValueAtTime(i?0.09:0.16, t0+0.006);
+    gain.gain.exponentialRampToValueAtTime(0.0001, t0+0.22);
+    osc.connect(gain).connect(audioCtx.destination);
+    osc.start(t0); osc.stop(t0+0.24);
+  });
+}
+function playBillSound(){
+  if(RM || !audioCtx || audioCtx.state!=="running") return;
+  const t0=audioCtx.currentTime, dur=0.16;
+  const bufferSize=audioCtx.sampleRate*dur;
+  const buffer=audioCtx.createBuffer(1,bufferSize,audioCtx.sampleRate);
+  const data=buffer.getChannelData(0);
+  for(let i=0;i<bufferSize;i++) data[i]=(Math.random()*2-1)*(1-i/bufferSize);
+  const noise=audioCtx.createBufferSource(); noise.buffer=buffer;
+  const bp=audioCtx.createBiquadFilter(); bp.type="bandpass"; bp.frequency.value=3200; bp.Q.value=0.7;
+  const gain=audioCtx.createGain();
+  gain.gain.setValueAtTime(0.22, t0);
+  gain.gain.exponentialRampToValueAtTime(0.0001, t0+dur);
+  noise.connect(bp).connect(gain).connect(audioCtx.destination);
+  noise.start(t0); noise.stop(t0+dur);
+}
+function playBarSound(){
+  if(RM || !audioCtx || audioCtx.state!=="running") return;
+  const t0=audioCtx.currentTime;
+  const osc=audioCtx.createOscillator(), gain=audioCtx.createGain();
+  osc.type="sine";
+  osc.frequency.setValueAtTime(210, t0);
+  osc.frequency.exponentialRampToValueAtTime(95, t0+0.3);
+  gain.gain.setValueAtTime(0.0001, t0);
+  gain.gain.exponentialRampToValueAtTime(0.3, t0+0.012);
+  gain.gain.exponentialRampToValueAtTime(0.0001, t0+0.38);
+  osc.connect(gain).connect(audioCtx.destination);
+  osc.start(t0); osc.stop(t0+0.4);
+}
 /* lit une variable CSS du thème courant (clair/sombre) */
 const cssv=(name)=>getComputedStyle(document.documentElement).getPropertyValue(name).trim();
 const THEME={
@@ -1201,7 +1259,14 @@ let moneyPlay=()=>{};
   svg.appendChild(el("ellipse",{cx:cx,cy:by+2,rx:type==="bar"?barShadowRX:130,ry:5,fill:"#000",opacity:type==="bar"?.22:.16}));
 
   const items=[];
-  function drop(g,idx){ g.setAttribute("class","dropitem"); g.style.transitionDelay=(idx*160)+"ms"; items.push(g); svg.appendChild(g); }
+  function drop(g,idx){
+    g.setAttribute("class","dropitem"); g.style.transitionDelay=(idx*160)+"ms";
+    g.addEventListener("transitionend",(e)=>{
+      if(e.propertyName!=="transform") return;
+      if(type==="coin") playCoinSound(); else if(type==="bill") playBillSound(); else playBarSound();
+    });
+    items.push(g); svg.appendChild(g);
+  }
 
   if(count===0){
     svg.appendChild(el("ellipse",{cx:cx,cy:by-12,rx:60,ry:16,fill:"none",stroke:THEME.grid(),"stroke-width":1.5,"stroke-dasharray":"5 6"}));
