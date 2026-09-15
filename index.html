@@ -12,6 +12,9 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
 <title>Bilan Commercial — Mickael Chapotat</title>
 <style>
   :root{
@@ -1494,7 +1497,13 @@ io.observe(document.getElementById("detail").closest(".panel"));
   btn.addEventListener("click", ()=>{
     if(btn.classList.contains("spinning")) return;
     btn.classList.add("spinning");
-    setTimeout(()=>{ location.reload(); }, 420);
+    setTimeout(()=>{
+      /* Un simple reload() peut resservir une copie en cache sur iOS en mode "écran d'accueil".
+         On force une vraie requête réseau avec une URL à chaque fois différente. */
+      const url=new URL(location.href);
+      url.searchParams.set("_r", Date.now());
+      location.replace(url.toString());
+    }, 420);
   });
 })();
 
