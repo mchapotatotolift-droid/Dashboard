@@ -110,6 +110,19 @@
     .tn-links a{padding:6px 10px;}
   }
 
+  /* Pastille "Touchez pour activer le son" (si le navigateur n'a pas compté le défilement comme un geste) */
+  .sound-hint{
+    position:fixed; left:50%; bottom:calc(22px + env(safe-area-inset-bottom)); z-index:95;
+    display:flex; align-items:center; gap:9px; padding:12px 18px; border-radius:999px; white-space:nowrap;
+    font:500 14px/1 -apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue",Arial,sans-serif; color:var(--ink);
+    background:var(--nav-bg); border:1px solid var(--hairline);
+    backdrop-filter:saturate(180%) blur(20px); -webkit-backdrop-filter:saturate(180%) blur(20px);
+    box-shadow:0 8px 30px rgba(0,0,0,.25); cursor:pointer; -webkit-tap-highlight-color:transparent;
+    opacity:0; transform:translate(-50%,16px); transition:opacity .3s ease, transform .3s ease;
+  }
+  .sound-hint.show{opacity:1; transform:translate(-50%,0);}
+  .sound-hint .i{width:18px; height:18px; vertical-align:0;}
+
   /* ===== V.10 — Icônes au trait (remplacent les emojis) ===== */
   .i{width:1.05em; height:1.05em; fill:none; stroke:currentColor; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; vertical-align:-.16em; flex:none;}
   .pod-t .i,.r1r2-title .i{margin-right:8px; color:var(--muted);}
@@ -1008,7 +1021,9 @@ const SFX=(()=>{
   };
   function build(){
     const AC=window.AudioContext||window.webkitAudioContext; if(!AC) return false;
-    try{ ctx=new AC(); }catch(e){ return false; }
+    /* latencyHint "playback" : tampon plus large → pas de grésillements sur les Android modestes */
+    try{ ctx=new AC({latencyHint:"playback"}); }catch(e){ try{ ctx=new AC(); }catch(e2){ return false; } }
+    ctx.onstatechange=()=>document.dispatchEvent(new Event("sfxstate"));
     const comp=ctx.createDynamicsCompressor();
     comp.threshold.value=-10; comp.ratio.value=4; comp.connect(ctx.destination);
     out=ctx.createGain(); out.gain.value=2.4; out.connect(comp);
@@ -1073,7 +1088,7 @@ const SFX=(()=>{
       const comp=ctx.createDynamicsCompressor(); comp.threshold.value=-12; comp.ratio.value=3; comp.connect(ctx.destination);
       bus=ctx.createGain(); bus.gain.value=0.0001; bus.connect(comp);
       duck=ctx.createGain(); duck.gain.value=1; duck.connect(bus);
-      verb=ctx.createConvolver(); verb.buffer=impulse(ctx,2.4);
+      verb=ctx.createConvolver(); verb.buffer=impulse(ctx,1.8);
       const vg=ctx.createGain(); vg.gain.value=.35; verb.connect(vg); vg.connect(bus);
       delay=ctx.createDelay(1); delay.delayTime.value=S16*3;               /* écho à la croche pointée */
       const fb=ctx.createGain(); fb.gain.value=.38; const dl=ctx.createBiquadFilter(); dl.type="lowpass"; dl.frequency.value=2600;
@@ -1166,6 +1181,7 @@ const SFX=(()=>{
     music:MUSIC,
     unlock,
     get enabled(){ return enabled; },
+    get running(){ return !!ctx && ctx.state==="running"; },
     setEnabled(v){
       enabled=v;
       try{ localStorage.setItem("dash-sound", v?"on":"off"); }catch(e){}
@@ -1932,6 +1948,29 @@ let ringsPlay=()=>{};
       requestAnimationFrame(()=>{ plays.forEach(r=>{ r.reveal.style.transition=""; }); ringsPlay(); });
     });
   }
+})();
+
+/* Pastille d'aide : si le son est activé mais n'a pas démarré après un défilement
+   (certains navigateurs Android ne comptent pas le défilement comme un geste), on invite à toucher l'écran. */
+(function(){
+  const hint=document.createElement("button");
+  hint.type="button"; hint.className="sound-hint"; hint.hidden=true;
+  hint.innerHTML='<svg class="i"><use href="#i-sound-on"/></svg>'+(matchMedia("(pointer:coarse)").matches?"Touchez l'écran pour activer le son":"Cliquez pour activer le son");
+  document.body.append(hint);
+  let done=false, pending=false;
+  const hide=()=>{ hint.classList.remove("show"); setTimeout(()=>{ hint.hidden=true; },320); };
+  hint.addEventListener("click",()=>{ SFX.unlock(); done=true; hide(); });
+  document.addEventListener("sfxstate",()=>{ if(SFX.running){ done=true; hide(); } });
+  window.addEventListener("scroll",()=>{
+    if(done || pending || !SFX.enabled || SFX.running || window.scrollY<200) return;
+    pending=true;
+    setTimeout(()=>{
+      if(done || !SFX.enabled || SFX.running) return;
+      done=true; hint.hidden=false;
+      requestAnimationFrame(()=>hint.classList.add("show"));
+      setTimeout(hide,6000);
+    },1200);
+  },{passive:true});
 })();
 
 /* Bouton son (haut-parleur) : active / coupe tous les sons, choix mémorisé */
