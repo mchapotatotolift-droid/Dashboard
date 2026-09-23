@@ -37,6 +37,8 @@
     --s2a:#f2f5f6; --s2b:#aab4bc;  /* argent (chrome) */
     --s3a:#e3a765; --s3b:#a8672b;  /* bronze (cuivre) */
     --hover:rgba(255,255,255,.04);
+    --ring-mois:#f5c451; --ring-chal:#a78bfa; --ring-annee:#2997ff;
+    --nav-bg:rgba(0,0,0,.72); --nav-active:rgba(255,255,255,.12);
   }
   *{box-sizing:border-box;}
   html{background:var(--bg);}
@@ -73,25 +75,75 @@
     100%{r:15; opacity:0;}
   }
   @media(prefers-reduced-motion:reduce){#trendSpark .spark-ring{animation:none; opacity:0;}}
-  .refresh-wrap{
-    display:flex; flex-direction:column; align-items:center; gap:6px;
-    width:fit-content; margin:22px auto 34px;
+  /* ===== V.10 — Barre de navigation en verre dépoli (sticky, sous la barre d'état iOS) ===== */
+  .topnav{
+    position:sticky; top:0; z-index:90;
+    margin:-48px -22px 56px;
+    padding-top:env(safe-area-inset-top);
+    background:var(--nav-bg);
+    backdrop-filter:saturate(180%) blur(20px); -webkit-backdrop-filter:saturate(180%) blur(20px);
+    border-bottom:1px solid var(--hairline);
   }
+  .topnav-in{max-width:1080px; margin:0 auto; height:52px; display:flex; align-items:center; gap:14px; padding:0 22px;}
+  .tn-brand{flex:none; font-size:15px; font-weight:600; letter-spacing:-.01em; color:var(--ink); text-decoration:none;}
+  .tn-links{
+    flex:1; min-width:0; display:flex; justify-content:center; gap:2px;
+    overflow-x:auto; scrollbar-width:none; -webkit-overflow-scrolling:touch;
+  }
+  .tn-links::-webkit-scrollbar{display:none;}
+  .tn-links a{
+    flex:none; font-size:13px; font-weight:500; color:var(--muted); text-decoration:none; white-space:nowrap;
+    padding:6px 12px; border-radius:980px; -webkit-tap-highlight-color:transparent;
+    transition:color .25s ease, background .25s ease;
+  }
+  .tn-links a:hover{color:var(--ink);}
+  .tn-links a.active{color:var(--ink); background:var(--nav-active);}
   .refresh-btn{
-    width:42px; height:42px; border-radius:50%; display:grid; place-items:center; flex:none;
-    background:var(--pod-bg); backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px);
-    border:1px solid var(--hairline); color:var(--ink-soft);
+    flex:none; width:34px; height:34px; border-radius:50%; display:grid; place-items:center;
+    background:transparent; border:0; color:var(--ink-soft); padding:0;
     cursor:pointer; -webkit-tap-highlight-color:transparent; -webkit-user-select:none; user-select:none;
     transition:background .2s ease, transform .15s ease;
   }
-  .refresh-btn:hover{background:var(--hover);}
-  .refresh-btn:active{transform:scale(.90);}
-  .refresh-btn svg{width:19px; height:19px; display:block;}
+  .refresh-btn:hover{background:var(--nav-active);}
+  .refresh-btn:active{transform:scale(.88);}
+  .refresh-btn svg{width:18px; height:18px; display:block;}
   .refresh-btn.spinning svg{animation:refreshSpin .7s linear;}
   @keyframes refreshSpin{ to{ transform:rotate(360deg); } }
   @media(prefers-reduced-motion:reduce){.refresh-btn.spinning svg{animation:none;}}
-  .refresh-lbl{font-size:12px; font-weight:600; color:var(--muted); letter-spacing:.01em; -webkit-user-select:none; user-select:none;}
-  @media(max-width:640px){.refresh-btn{width:38px; height:38px;} .refresh-btn svg{width:17px; height:17px;} .refresh-wrap{margin:16px auto 26px;}}
+  section.lane{scroll-margin-top:calc(68px + env(safe-area-inset-top));}
+  @media(max-width:880px){ .topnav{margin:-32px -18px 40px;} .topnav-in{padding:0 12px 0 8px; gap:6px;} }
+  @media(max-width:640px){
+    .tn-brand{display:none;}
+    .tn-links{justify-content:flex-start; -webkit-mask-image:linear-gradient(90deg,#000 88%,transparent); mask-image:linear-gradient(90deg,#000 88%,transparent); padding-right:18px;}
+    .tn-links a{padding:6px 10px;}
+  }
+
+  /* ===== V.10 — Icônes au trait (remplacent les emojis) ===== */
+  .i{width:1.05em; height:1.05em; fill:none; stroke:currentColor; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; vertical-align:-.16em; flex:none;}
+  .pod-t .i,.r1r2-title .i{margin-right:8px; color:var(--muted);}
+  .chal-badge .i{width:1.1em; height:1.1em; stroke-width:2.4; margin-left:3px; vertical-align:-.2em;}
+
+  /* ===== V.10 — Anneaux de progression (façon Apple Watch) ===== */
+  .rings{display:flex; align-items:center; gap:56px; margin:0 0 110px;}
+  .rings-viz{flex:none; width:250px;}
+  .rings-viz svg{width:100%; height:auto; display:block; overflow:visible;}
+  .rings-viz .ring-fill{transition:stroke-dashoffset 1.6s cubic-bezier(.22,1,.36,1);}
+  .rings-legend{flex:1; min-width:0; display:flex; flex-direction:column;}
+  .ring-row{display:grid; grid-template-columns:auto 1fr auto; align-items:center; gap:16px; padding:18px 0; border-bottom:1px solid var(--hairline);}
+  .ring-row:first-child{padding-top:0;}
+  .ring-dot{width:10px; height:10px; border-radius:50%; background:var(--rc);}
+  .ring-k{font-size:13px; font-weight:500; color:var(--muted); margin-bottom:2px;}
+  .ring-v{font-size:34px; font-weight:600; letter-spacing:-.025em; line-height:1.1; color:var(--ink); font-variant-numeric:tabular-nums;}
+  .ring-of{font-size:20px; font-weight:500; color:var(--muted); letter-spacing:-.01em;}
+  .ring-pct{font-size:22px; font-weight:600; letter-spacing:-.02em; color:var(--rc); font-variant-numeric:tabular-nums;}
+  .ring-foot{font-size:12.5px; color:var(--muted); padding-top:16px;}
+  @media(max-width:640px){
+    .rings{flex-direction:column; gap:30px; margin-bottom:80px;}
+    .rings-viz{width:220px;}
+    .rings-legend{width:100%;}
+    .ring-v{font-size:30px;}
+  }
+  @media(prefers-reduced-motion:reduce){.rings-viz .ring-fill{transition:none;}}
   .badge{
     width:64px; height:64px; border-radius:16px; flex:none; display:grid; place-items:center;
     background:rgba(10,132,255,.10); border:1px solid rgba(10,132,255,.25); box-shadow:none;
@@ -384,6 +436,8 @@
       --s2a:#eef2f3; --s2b:#93a0a8;
       --s3a:#e3b384; --s3b:#96632c;
       --hover:rgba(0,0,0,.03);
+      --ring-mois:#c8961e; --ring-chal:#7c5ce6; --ring-annee:#0071e3;
+      --nav-bg:rgba(245,245,247,.78); --nav-active:rgba(0,0,0,.07);
     }
     body{
       background:
@@ -398,7 +452,38 @@
 </style>
 </head>
 <body>
-<div class="shell">
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-pen" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></symbol>
+  <symbol id="i-flag" viewBox="0 0 24 24"><path d="M4 22V4"/><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1"/></symbol>
+  <symbol id="i-calendar" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2.5"/><path d="M16 2v4M8 2v4M3 10h18"/></symbol>
+  <symbol id="i-flame" viewBox="0 0 24 24"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.4-.5-2-1-3-1.07-2.14-.22-4.05 2-6 .5 2.5 2 4.9 4 6.5s3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.15.43-2.29 1-3a2.5 2.5 0 0 0 2.5 2.5Z"/></symbol>
+  <symbol id="i-cart" viewBox="0 0 24 24"><circle cx="9" cy="20" r="1.3"/><circle cx="18" cy="20" r="1.3"/><path d="M2 3h3l2.4 12.5a1 1 0 0 0 1 .8H18a1 1 0 0 0 1-.8L20.5 7H6"/></symbol>
+  <symbol id="i-trend" viewBox="0 0 24 24"><path d="M22 7l-8.5 8.5-5-5L2 17"/><path d="M16 7h6v6"/></symbol>
+  <symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/></symbol>
+  <symbol id="i-trophy" viewBox="0 0 24 24"><path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0Z"/><path d="M7 6H4v1a3 3 0 0 0 3 3M17 6h3v1a3 3 0 0 1-3 3"/></symbol>
+  <symbol id="i-check-circle" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.7 2.7L16.5 9"/></symbol>
+  <symbol id="i-pie" viewBox="0 0 24 24"><path d="M21.2 15.9A10 10 0 1 1 8 2.8"/><path d="M22 12A10 10 0 0 0 12 2v10Z"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></symbol>
+  <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M21 12a9 9 0 0 1-15.5 6.2L3 16"/><path d="M3 21v-5h5"/><path d="M3 12a9 9 0 0 1 15.5-6.2L21 8"/><path d="M21 3v5h-5"/></symbol>
+</svg>
+
+<nav class="topnav" id="topnav" aria-label="Sections du tableau de bord">
+  <div class="topnav-in">
+    <a class="tn-brand" href="#top">Bilan Commercial</a>
+    <div class="tn-links" id="tnLinks">
+      <a href="#sec-mois">Mois</a>
+      <a href="#money">Commissions</a>
+      <a href="#sec-chal">Challenges</a>
+      <a href="#sec-annee">Année</a>
+      <a href="#sec-histo">Historique</a>
+    </div>
+    <button type="button" class="refresh-btn" id="refreshBtn" aria-label="Actualiser">
+      <svg class="i" style="width:18px;height:18px;vertical-align:0"><use href="#i-refresh"/></svg>
+    </button>
+  </div>
+</nav>
+
+<div class="shell" id="top">
 
   <header class="card reveal">
     <div class="head-main">
@@ -414,35 +499,34 @@
     </div>
   </header>
 
-  <div class="refresh-wrap">
-    <button type="button" class="refresh-btn" id="refreshBtn" aria-label="Actualiser">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <polyline points="23 4 23 10 17 10"></polyline>
-        <polyline points="1 20 1 14 7 14"></polyline>
-        <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
-      </svg>
-    </button>
-    <span class="refresh-lbl">Actualiser</span>
-  </div>
-
-  <!-- KPI -->
-  <div class="kpis stagger" id="kpis">
-    <div class="kpi green card reveal">
-      <div class="ic"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="20" r="1.4"/><circle cx="18" cy="20" r="1.4"/><path d="M2 3 h3 l2.4 12.5 a1 1 0 0 0 1 .8 H18 a1 1 0 0 0 1-.8 L20.5 7 H6"/></svg></div>
-      <div><div class="num"><span class="countup" data-to="117">0</span><small>ventes</small></div><div class="lbl">Cumul 2026 (à date · septembre)</div></div>
+  <!-- ANNEAUX DE PROGRESSION -->
+  <section class="rings reveal" id="rings" aria-label="Progression mois, challenge et année">
+    <div class="rings-viz"><svg id="ringsSvg" viewBox="0 0 240 240" role="img" aria-label="Anneaux de progression"></svg></div>
+    <div class="rings-legend">
+      <div class="ring-row" style="--rc:var(--ring-mois)">
+        <span class="ring-dot"></span>
+        <div><div class="ring-k">Objectif du mois · <span data-stat="mois.label"></span></div>
+          <div class="ring-v"><span class="countup" data-stat="mois.n">0</span><span class="ring-of"> / <span data-stat="mois.obj"></span> ventes</span></div></div>
+        <div class="ring-pct"><span class="countup" data-stat="mois.pct" data-suffix=" %">0</span></div>
+      </div>
+      <div class="ring-row" style="--rc:var(--ring-chal)">
+        <span class="ring-dot"></span>
+        <div><div class="ring-k">Challenge · <span data-stat="chal.label"></span></div>
+          <div class="ring-v"><span class="countup" data-stat="chal.n">0</span><span class="ring-of"> / <span data-stat="chal.obj"></span> ventes</span></div></div>
+        <div class="ring-pct"><span class="countup" data-stat="chal.pct" data-suffix=" %">0</span></div>
+      </div>
+      <div class="ring-row" style="--rc:var(--ring-annee)">
+        <span class="ring-dot"></span>
+        <div><div class="ring-k">Année 2026 · cumul à date</div>
+          <div class="ring-v"><span class="countup" data-stat="annee.n">0</span><span class="ring-of"> / <span data-stat="annee.obj"></span> ventes</span></div></div>
+        <div class="ring-pct"><span class="countup" data-stat="annee.pct" data-suffix=" %">0</span></div>
+      </div>
+      <div class="ring-foot">Dernier exercice clos · 2025 : 99 % (184 / 186)</div>
     </div>
-    <div class="kpi blue card reveal">
-      <div class="ic"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4.6"/><circle cx="12" cy="12" r="1"/></svg></div>
-      <div><div class="num"><span class="countup" data-to="95" data-suffix="%">0</span></div><div class="lbl">Objectif 2026 à date (117 / 123 · septembre inclus)</div></div>
-    </div>
-    <div class="kpi purple card reveal">
-      <div class="ic"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 21h8M12 17v4M6 4h12v4a6 6 0 0 1-12 0z"/><path d="M6 6H3v2a3 3 0 0 0 3 3M18 6h3v2a3 3 0 0 1-3 3"/></svg></div>
-      <div><div class="num"><span class="countup" data-to="99" data-suffix="%">0</span></div><div class="lbl">Dernier exercice clos 2025 (184 / 186)</div></div>
-    </div>
-  </div>
+  </section>
 
   <!-- ============ LANE 1 : MOIS EN COURS ============ -->
-  <section class="lane l-month">
+  <section class="lane l-month" id="sec-mois">
     <div class="lane-h"><div class="num-step">1</div><div class="ttl">Où j'en suis ce mois-ci</div><div class="desc">Septembre 2026 · actualisé chaque semaine</div></div>
 
     <div class="lane-body-wrap"><div class="lane-body-in">
@@ -452,41 +536,36 @@
         <div class="panel-h">
           <span class="dot"></span><h3>Mois en cours — Septembre</h3>
           <span class="live-badge">● EN COURS</span>
-          <span class="end">3 semaines sur 4 · W36–W39</span>
+          <span class="end" id="weekInfo"></span>
         </div>
         <div class="live-top">
-          <div class="live-big"><span class="countup" data-to="14">0</span><small> / 19 ventes</small></div>
+          <div class="live-big"><span class="countup" data-stat="mois.n">0</span><small> / <span data-stat="mois.obj"></span> ventes</small></div>
           <div style="flex:1 1 260px; min-width:200px;">
             <div style="display:flex; justify-content:space-between; font-size:12px; color:var(--muted); margin-bottom:7px;">
-              <span>Objectif mensuel</span><span style="color:var(--ink);font-weight:700"><span class="countup" data-to="74" data-suffix=" %">0</span></span>
+              <span>Objectif mensuel</span><span style="color:var(--ink);font-weight:700"><span class="countup" data-stat="mois.pct" data-suffix=" %">0</span></span>
             </div>
             <div class="prog"><div class="fill" id="juinFill"></div></div>
           </div>
         </div>
-        <div class="wk stagger">
-          <div class="wbox"><div class="wn">W36</div><div class="wv">2</div></div>
-          <div class="wbox"><div class="wn">W37</div><div class="wv">5</div></div>
-          <div class="wbox"><div class="wn">W38</div><div class="wv">4</div></div>
-          <div class="wbox"><div class="wn">W39</div><div class="wv">3</div></div>
-        </div>
+        <div class="wk stagger" id="weekBoxes"></div>
         <div class="lstats stagger">
-          <div class="lstat"><div class="lk">Challenge Sept-Oct</div><div class="lv" style="color:var(--cyan)"><span class="countup" data-to="37" data-suffix=" %">0</span></div><div class="ls">14 / 38 · en cours</div></div>
-          <div class="lstat"><div class="lk">Cumul annuel (Janv-Sept)</div><div class="lv" style="color:var(--blue)"><span class="countup" data-to="95" data-suffix=" %">0</span></div><div class="ls">117 / 123</div></div>
+          <div class="lstat"><div class="lk">Challenge Sept-Oct</div><div class="lv" style="color:var(--cyan)"><span class="countup" data-stat="chal.pct" data-suffix=" %">0</span></div><div class="ls"><span data-stat="chal.n"></span> / <span data-stat="chal.obj"></span> · en cours</div></div>
+          <div class="lstat"><div class="lk">Cumul annuel (Janv-Sept)</div><div class="lv" style="color:var(--blue)"><span class="countup" data-stat="annee.pct" data-suffix=" %">0</span></div><div class="ls"><span data-stat="annee.n"></span> / <span data-stat="annee.obj"></span></div></div>
           <div class="lstat"><div class="lk">Ratio Ventes / R1</div><div class="lv" style="color:var(--purple)"><span class="countup" data-to="42" data-suffix=" %">0</span></div><div class="ls">cumul 2026 · validé manager</div></div>
         </div>
         <div class="pod-mini" style="margin-top:22px;">
-          <div class="r1r2-title">🖊️ Signatures — Septembre</div>
+          <div class="r1r2-title"><svg class="i"><use href="#i-pen"/></svg>Signatures — Septembre</div>
           <div id="r1r2Mois"></div>
         </div>
         <div class="pod-mini" style="margin-top:18px;">
-          <div class="r1r2-title">🏁 Rythme du mois — Septembre</div>
+          <div class="r1r2-title"><svg class="i"><use href="#i-flag"/></svg>Rythme du mois — Septembre</div>
           <div id="rythmeBox"></div>
         </div>
       </div>
 
       <!-- podium mois en cours (droite) -->
       <div class="pod card reveal" id="pod-month">
-        <div class="pod-t">📅 Podium du mois — Août (clos)</div>
+        <div class="pod-t"><svg class="i"><use href="#i-calendar"/></svg>Podium du mois — Août (clos)</div>
         <div class="pod-s">% objectif août · résultat final</div>
         <div class="pod-row">
           <div class="pcol"><div class="pname">Jean Louis<br>Amar</div><div class="pval" style="color:#cdd7e6"><span class="countup" data-to="113" data-suffix=" %">0</span></div><div class="pstep s2" style="height:104px">2</div></div>
@@ -501,7 +580,7 @@
 
   <!-- ============ COMMISSIONS / TRÉSOR ============ -->
   <section class="lane money reveal" id="money">
-    <div class="lane-h"><div class="ttl">💰 Mes commissions</div><div class="desc">cycle en cours · cumul des ventes</div></div>
+    <div class="lane-h"><div class="ttl">Mes commissions</div><div class="desc">cycle en cours · cumul des ventes</div></div>
     <div class="lane-body-wrap"><div class="lane-body-in">
     <div class="money-eyebrow">Gains cumulés</div>
     <div class="money-total"><span id="moneyTotal">0&nbsp;€</span></div>
@@ -532,7 +611,7 @@
   </section>
 
   <!-- ============ LANE 2 : CHALLENGES BI-MENSUELS ============ -->
-  <section class="lane l-chal">
+  <section class="lane l-chal" id="sec-chal">
     <div class="lane-h"><div class="num-step">2</div><div class="ttl">Challenges bi-mensuels 2026</div><div class="desc">objectif sur 2 mois glissants</div></div>
 
     <div class="lane-body-wrap"><div class="lane-body-in">
@@ -551,7 +630,7 @@
           <div class="prog"><div class="cfill" data-w="100" style="background:linear-gradient(90deg,#30d158,#d9b64f)"></div></div>
         </div>
         <div class="chal card live">
-          <div class="chal-h">Mai — Juin <span class="chal-badge b-green">DÉPASSÉ ✓</span></div>
+          <div class="chal-h">Mai — Juin <span class="chal-badge b-green">DÉPASSÉ<svg class="i"><use href="#i-check"/></svg></span></div>
           <div class="chal-pct" style="color:var(--cyan)"><span class="countup" data-to="131" data-suffix=" %">0</span></div>
           <div class="chal-sub">21 / 16 ventes · ratio V/R1 54 % · prime 200 €</div>
           <div class="prog"><div class="cfill" data-w="100" style="background:linear-gradient(90deg,#d9b64f,#8e6ce0)"></div></div>
@@ -564,25 +643,25 @@
         </div>
         <div class="chal card live">
           <div class="chal-h">Septembre — Octobre <span class="chal-badge b-cyan">EN COURS</span></div>
-          <div class="chal-pct" style="color:var(--cyan)"><span class="countup" data-to="37" data-suffix=" %">0</span></div>
-          <div class="chal-sub">14 / 38 ventes · en cours</div>
-          <div class="prog"><div class="cfill" data-w="37" style="background:linear-gradient(90deg,#d9b64f,#8e6ce0)"></div></div>
+          <div class="chal-pct" style="color:var(--cyan)"><span class="countup" data-stat="chal.pct" data-suffix=" %">0</span></div>
+          <div class="chal-sub"><span data-stat="chal.n"></span> / <span data-stat="chal.obj"></span> ventes · en cours</div>
+          <div class="prog"><div class="cfill" data-stat-w="chal.pct" style="background:linear-gradient(90deg,#d9b64f,#8e6ce0)"></div></div>
         </div>
       </div>
     </div>
 
     <div class="pod-mini reveal" style="margin-bottom:18px;">
-      <div class="r1r2-title">🖊️ Signatures — Challenge Septembre-Octobre (cumul)</div>
+      <div class="r1r2-title"><svg class="i"><use href="#i-pen"/></svg>Signatures — Challenge Septembre-Octobre (cumul)</div>
       <div id="r1r2Challenge"></div>
     </div>
 
     <div class="pod-mini reveal" style="margin-bottom:18px;">
-      <div class="r1r2-title">🏁 Rythme pour la prime — Challenge Septembre-Octobre</div>
+      <div class="r1r2-title"><svg class="i"><use href="#i-flag"/></svg>Rythme pour la prime — Challenge Septembre-Octobre</div>
       <div id="rythmeChalBox"></div>
     </div>
 
     <div class="pod card reveal" id="pod-chal">
-      <div class="pod-t">🔥 Podium — Challenge Juillet-Août (clos)</div>
+      <div class="pod-t"><svg class="i"><use href="#i-flame"/></svg>Podium — Challenge Juillet-Août (clos)</div>
       <div class="pod-s">% objectif · résultat final</div>
       <div class="pod-row" style="max-width:560px; margin:0 auto;">
         <div class="pcol"><div class="pname">Didier<br>Milson</div><div class="pval" style="color:#cdd7e6"><span class="countup" data-to="105" data-suffix=" %">0</span></div><div class="pstep s2" style="height:104px">2</div></div>
@@ -595,7 +674,7 @@
   </section>
 
   <!-- ============ LANE 3 : ANNÉE EN COURS ============ -->
-  <section class="lane l-year">
+  <section class="lane l-year" id="sec-annee">
     <div class="lane-h"><div class="num-step">3</div><div class="ttl">Vision année — 2026</div><div class="desc">cumul depuis janvier · septembre en cours</div></div>
 
     <div class="lane-body-wrap"><div class="lane-body-in">
@@ -625,30 +704,30 @@
     <!-- CHIPS -->
     <div class="panel card reveal" id="chips" style="padding:0;">
       <div class="chips stagger">
-        <div class="chip"><div class="ci" style="color:var(--blue)">🎯</div><div><div class="ck">Objectif cumulé</div><div class="cv" style="color:var(--blue)"><span class="countup" data-to="123">0</span></div></div></div>
-        <div class="chip"><div class="ci" style="color:var(--green)">📈</div><div><div class="ck">Ratio V/R1 (cumul)</div><div class="cv" style="color:var(--green)"><span class="countup" data-to="42" data-suffix=" %">0</span></div></div></div>
-        <div class="chip"><div class="ci" style="color:var(--purple)">🏆</div><div><div class="ck">Meilleur mois</div><div class="cv" style="color:var(--purple)">Mars · 120 %</div></div></div>
-        <div class="chip"><div class="ci" style="color:var(--green)">✅</div><div><div class="ck">Mois clos ≥ objectif</div><div class="cv" style="color:var(--green)">4 / 8</div></div></div>
-        <div class="chip"><div class="ci" style="color:var(--blue)">📅</div><div><div class="ck">Cumul Janv-Sept</div><div class="cv" style="color:var(--blue)"><span class="countup" data-to="117">0</span> / 123</div></div></div>
-        <div class="chip"><div class="ci" style="color:var(--purple)">🥧</div><div><div class="ck">Cumul atteint</div><div class="cv" style="color:var(--purple)"><span class="countup" data-to="95" data-suffix=" %">0</span></div></div></div>
+        <div class="chip"><div class="ci" style="color:var(--blue)"><svg class="i"><use href="#i-target"/></svg></div><div><div class="ck">Objectif cumulé</div><div class="cv" style="color:var(--blue)"><span class="countup" data-stat="annee.obj">0</span></div></div></div>
+        <div class="chip"><div class="ci" style="color:var(--green)"><svg class="i"><use href="#i-trend"/></svg></div><div><div class="ck">Ratio V/R1 (cumul)</div><div class="cv" style="color:var(--green)"><span class="countup" data-to="42" data-suffix=" %">0</span></div></div></div>
+        <div class="chip"><div class="ci" style="color:var(--purple)"><svg class="i"><use href="#i-trophy"/></svg></div><div><div class="ck">Meilleur mois</div><div class="cv" style="color:var(--purple)">Mars · 120 %</div></div></div>
+        <div class="chip"><div class="ci" style="color:var(--green)"><svg class="i"><use href="#i-check-circle"/></svg></div><div><div class="ck">Mois clos ≥ objectif</div><div class="cv" style="color:var(--green)">4 / 8</div></div></div>
+        <div class="chip"><div class="ci" style="color:var(--blue)"><svg class="i"><use href="#i-calendar"/></svg></div><div><div class="ck">Cumul Janv-Sept</div><div class="cv" style="color:var(--blue)"><span class="countup" data-stat="annee.n">0</span> / <span data-stat="annee.obj"></span></div></div></div>
+        <div class="chip"><div class="ci" style="color:var(--purple)"><svg class="i"><use href="#i-pie"/></svg></div><div><div class="ck">Cumul atteint</div><div class="cv" style="color:var(--purple)"><span class="countup" data-stat="annee.pct" data-suffix=" %">0</span></div></div></div>
       </div>
     </div>
 
     <!-- 2 PODIUMS ANNÉE -->
     <div class="podiums stagger" id="pod-year">
       <div class="pod card reveal">
-        <div class="pod-t">🛒 Podium année — Ventes</div>
+        <div class="pod-t"><svg class="i"><use href="#i-cart"/></svg>Podium année — Ventes</div>
         <div class="pod-s">Total des ventes 2026</div>
         <div class="pod-row">
           <div class="pcol"><div class="pname">Guillaume<br>Dubuisson</div><div class="pval" style="color:#cdd7e6"><span class="countup" data-to="126">0</span></div><div class="pstep s2" style="height:104px">2</div></div>
           <div class="pcol"><div class="pname">Didier<br>Milson</div><div class="pval" style="color:#ffd24a"><span class="countup" data-to="127">0</span></div><div class="pstep s1" style="height:140px">1</div></div>
           <div class="pcol"><div class="pname">Cyrille<br>Mongin</div><div class="pval" style="color:#e0915a"><span class="countup" data-to="124">0</span></div><div class="pstep s3" style="height:80px">3</div></div>
         </div>
-        <div class="pod-me">Mickael Chapotat : <b>5ᵉ</b> (117 ventes)</div>
+        <div class="pod-me">Mickael Chapotat : <b>5ᵉ</b> (<span data-stat="annee.n"></span> ventes)</div>
       </div>
 
       <div class="pod card reveal">
-        <div class="pod-t">📈 Podium année — Taux de transfo</div>
+        <div class="pod-t"><svg class="i"><use href="#i-trend"/></svg>Podium année — Taux de transfo</div>
         <div class="pod-s">Ratio Ventes/R1 2026</div>
         <div class="pod-row">
           <div class="pcol"><div class="pname">David<br>Puchois</div><div class="pval" style="color:#cdd7e6"><span class="countup" data-to="45" data-suffix=" %">0</span></div><div class="pstep s2" style="height:104px">2</div></div>
@@ -678,7 +757,7 @@
   </section>
 
   <!-- ============ LANE 4 : HISTORIQUE ============ -->
-  <section class="lane l-past">
+  <section class="lane l-past" id="sec-histo">
     <div class="lane-h"><div class="num-step">4</div><div class="ttl">Historique — années clôturées</div><div class="desc">2021 → 2025</div></div>
 
     <div class="lane-body-wrap"><div class="lane-body-in">
@@ -695,7 +774,7 @@
       <div class="panel card reveal" style="margin-bottom:0;">
         <div class="panel-h"><span class="dot" style="background:var(--purple);box-shadow:0 0 8px var(--purple)"></span><h3>Lecture rapide</h3></div>
         <ul class="read stagger">
-          <li>Cumul 2026 à <b>95 %</b> de l'objectif (117/123, septembre démarré) — objectif annuel élargi avec le mois de septembre.</li>
+          <li>Cumul 2026 à <b><span data-stat="annee.pct"></span> %</b> de l'objectif (<span data-stat="annee.n"></span>/<span data-stat="annee.obj"></span>, septembre démarré) — objectif annuel élargi avec le mois de septembre.</li>
           <li>Août clos : objectif mensuel atteint pile <b>100 % (14/14)</b> · 3ᵉ ex æquo du réseau ce mois-ci, avec un ratio V2O record à <b>47 %</b>.</li>
           <li>Challenge Juillet-Août terminé à <b>84 % (21/25)</b> · 6ᵉ place, non qualifié — seuls Cyrille Mongin (112 %) et Didier Milson (105 %) décrochent la prime.</li>
           <li>Challenge Mai-Juin terminé : <b>131 % — 2ᵉ du réseau</b> · prime 200 €.</li>
@@ -708,7 +787,7 @@
     </div></div>
   </section>
 
-  <p class="note">OTOLIFT Monte-Escaliers · Données reporting commercial 2021 → août 2026 · Tableau de bord interne</p>
+  <p class="note">OTOLIFT Monte-Escaliers · Données reporting commercial 2021 → septembre 2026 · Tableau de bord interne · V.10</p>
 </div>
 
 <script>
@@ -725,9 +804,9 @@ const m2026=[
   {m:"Juillet",v:7,o:11,p:64,r:28},{m:"Août",v:14,o:14,p:100,r:47},
 ];
 /* progression cumul YTD %, juin en cours */
-const heroPts=[{m:"Janv.",y:88},{m:"Févr.",y:94},{m:"Mars",y:92},{m:"Avril",y:97},{m:"Mai",y:106},{m:"Juin",y:104},{m:"Juil.",y:99},{m:"Août",y:99},{m:"Sept.",y:95,live:true}];
+const heroPts=[{m:"Janv.",y:88},{m:"Févr.",y:94},{m:"Mars",y:92},{m:"Avril",y:97},{m:"Mai",y:106},{m:"Juin",y:104},{m:"Juil.",y:99},{m:"Août",y:99},{m:"Sept.",y:0,live:true}]; /* Sept. : calculé automatiquement (STATS) */
 /* ventes par mois (footer) */
-const ventesMois=[{m:"Janv.",v:14},{m:"Févr.",v:12},{m:"Mars",v:18},{m:"Avril",v:17},{m:"Mai",v:10},{m:"Juin",v:11},{m:"Juil.",v:7},{m:"Août",v:14},{m:"Sept.",v:14,live:true}];
+const ventesMois=[{m:"Janv.",v:14},{m:"Févr.",v:12},{m:"Mars",v:18},{m:"Avril",v:17},{m:"Mai",v:10},{m:"Juin",v:11},{m:"Juil.",v:7},{m:"Août",v:14},{m:"Sept.",v:0,live:true}]; /* Sept. : calculé automatiquement (STATS) */
 /* === COMMISSIONS ===
    Chaque entrée = nombre d'étages de la vente (1, 2 ou 3). La POSITION dans le tableau
    (1er, 2e, …) détermine le palier : 1-5 → 100€, 6-10 → 200€, 11-40 → 300€.
@@ -778,6 +857,50 @@ const salesSept=[
 ]; /* ventes du mois en cours (Septembre) — cycle commission actif */
 const salesOct=[]; /* ventes d'octobre — pas encore commencé */
 const challengeSalesSO=salesSept.concat(salesOct); /* challenge Septembre-Octobre — objectif 38 (19+19) */
+
+/* ===== V.10 : tous les compteurs du mois / challenge / année sont calculés ici =====
+   Pour ajouter une vente : une seule ligne dans salesSept. Rien d'autre à mettre à jour. */
+const MOIS={label:"Septembre", annee:2026, index:8, jours:30, objectif:19, ventes:salesSept};
+const CHALLENGE={label:"Sept.-Oct.", objectif:38, ventes:challengeSalesSO};
+const pctOf=(a,b)=>b?Math.round(a/b*100):0;
+const STATS=(()=>{
+  const moisN=MOIS.ventes.length, chalN=CHALLENGE.ventes.length;
+  const anneeN=m2026.reduce((s,m)=>s+m.v,0)+moisN;
+  const anneeObj=m2026.reduce((s,m)=>s+m.o,0)+MOIS.objectif;
+  return {
+    mois:{label:MOIS.label, n:moisN, obj:MOIS.objectif, pct:pctOf(moisN,MOIS.objectif)},
+    chal:{label:CHALLENGE.label, n:chalN, obj:CHALLENGE.objectif, pct:pctOf(chalN,CHALLENGE.objectif)},
+    annee:{n:anneeN, obj:anneeObj, pct:pctOf(anneeN,anneeObj)}
+  };
+})();
+ventesMois[ventesMois.length-1].v=STATS.mois.n;
+heroPts[heroPts.length-1].y=STATS.annee.pct;
+(function bindStats(){
+  const get=k=>k.split(".").reduce((o,p)=>o[p],STATS);
+  document.querySelectorAll("[data-stat]").forEach(n=>{
+    const v=get(n.dataset.stat);
+    if(n.classList.contains("countup")) n.dataset.to=v; else n.textContent=v;
+  });
+  document.querySelectorAll("[data-stat-w]").forEach(n=>{ n.dataset.w=Math.min(100,get(n.dataset.statW)); });
+})();
+/* Semaines ISO du mois, remplies à partir des dates de vente */
+(function renderWeeks(){
+  const box=document.getElementById("weekBoxes"), info=document.getElementById("weekInfo");
+  if(!box) return;
+  const isoWeek=d=>{const t=new Date(Date.UTC(d.getFullYear(),d.getMonth(),d.getDate()));const wd=t.getUTCDay()||7;t.setUTCDate(t.getUTCDate()+4-wd);const y0=new Date(Date.UTC(t.getUTCFullYear(),0,1));return Math.ceil(((t-y0)/864e5+1)/7);};
+  const weeks=[];
+  for(let day=1; day<=MOIS.jours; day++){ const w=isoWeek(new Date(MOIS.annee,MOIS.index,day)); if(!weeks.includes(w)) weeks.push(w); }
+  const counts={}; weeks.forEach(w=>counts[w]=0);
+  MOIS.ventes.forEach(s=>{ if(!s.date) return; const [y,m,d]=s.date.split("-").map(Number); const w=isoWeek(new Date(y,m-1,d)); if(w in counts) counts[w]++; });
+  const today=new Date();
+  const inMonth=today.getFullYear()===MOIS.annee && today.getMonth()===MOIS.index;
+  const curW=inMonth ? isoWeek(today) : (today<new Date(MOIS.annee,MOIS.index,1) ? -1 : Infinity);
+  box.innerHTML=weeks.map(w=>`<div class="wbox${w>curW?' future':''}"><div class="wn">W${w}</div><div class="wv">${counts[w]}</div></div>`).join("");
+  if(info){
+    const idx=weeks.indexOf(curW);
+    info.textContent = idx>=0 ? `Semaine ${idx+1} sur ${weeks.length} · W${weeks[0]}–W${weeks[weeks.length-1]}` : `W${weeks[0]}–W${weeks[weeks.length-1]}`;
+  }
+})();
 
 const cls=p=>p>=100?"pg":(p>=80?"pa":"pp");
 const NS="http://www.w3.org/2000/svg";
@@ -935,7 +1058,7 @@ function renderRythme(){
   const box=document.getElementById("rythmeBox");
   if(!box) return;
   /* Config du mois en cours (Septembre 2026) */
-  const totalJours=22, objectif=19;
+  const totalJours=22, objectif=MOIS.objectif;
   const monthStart=new Date(2026,8,1), monthLastDay=new Date(2026,8,30);
   const vacances=[]; /* pas de congés connus en septembre */
   const today=new Date(); today.setHours(0,0,0,0);
@@ -965,7 +1088,7 @@ function renderRythme(){
   const rRequis= joursRestants>0 ? ventesRestantes/joursRestants : 0;
   const fmt=n=>n.toFixed(2).replace(".",",");
   let statut, statutColor;
-  if(ventesRestantes<=0){ statut="Objectif déjà atteint 🎉"; statutColor="var(--green)"; }
+  if(ventesRestantes<=0){ statut="Objectif déjà atteint"; statutColor="var(--green)"; }
   else if(rRequis<=rBase*1.1){ statut="Rythme tenable, dans tes standards"; statutColor="var(--green)"; }
   else if(rRequis<=rBase*1.4){ statut="Rythme à intensifier légèrement"; statutColor="var(--amber)"; }
   else{ statut="Rythme élevé requis — objectif tendu"; statutColor="var(--red)"; }
@@ -979,7 +1102,7 @@ function renderRythme(){
     <div class="rythme-note" style="color:${statutColor}">${statut}</div>`;
 }
 
-function fillJuin(){ const f=document.getElementById("juinFill"); if(f) f.style.width=(salesSept.length/19*100)+"%"; renderR1R2("r1r2Mois","septembre", salesSept); renderRythme(); }
+function fillJuin(){ const f=document.getElementById("juinFill"); if(f) f.style.width=Math.min(100,STATS.mois.pct)+"%"; renderR1R2("r1r2Mois","septembre", salesSept); renderRythme(); }
 /* Modes de paiement 2026 — cumule chaque mois suivi en détail (étendre paymentAll à chaque nouveau mois archivé) */
 const paymentAll=salesJuillet.concat(salesAout).concat(salesSept);
 function renderPayments(){
@@ -1017,7 +1140,7 @@ function renderRythmeChallenge(){
   const box=document.getElementById("rythmeChalBox");
   if(!box) return;
   /* Challenge Septembre-Octobre en cours — objectif cumulé 38 (19 sept. + 19 oct., pas de congé prévu) */
-  const objectifChallenge=38;
+  const objectifChallenge=CHALLENGE.objectif;
   const monthLastDay=new Date(2026,9,31);
   const vacances=[];
   const today=new Date(); today.setHours(0,0,0,0);
@@ -1036,7 +1159,7 @@ function renderRythmeChallenge(){
   const rRequis= joursRestants>0 ? ventesRestantes/joursRestants : 0;
   const fmt=n=>n.toFixed(2).replace(".",",");
   let statut, statutColor;
-  if(ventesRestantes<=0){ statut="Prime déjà en poche 🎉"; statutColor="var(--green)"; }
+  if(ventesRestantes<=0){ statut="Prime déjà en poche"; statutColor="var(--green)"; }
   else if(rRequis<=1.0){ statut="Objectif prime atteignable, à ton rythme habituel"; statutColor="var(--green)"; }
   else if(rRequis<=1.5){ statut="Rythme soutenu requis pour décrocher la prime"; statutColor="var(--amber)"; }
   else{ statut="Prime difficile à ce stade — priorité au mensuel"; statutColor="var(--red)"; }
@@ -1509,10 +1632,85 @@ let commissionCurvePlay=()=>{};
 })();
 (function(){ const prev=moneyPlay; moneyPlay=()=>{ prev(); commissionCurvePlay(); }; })();
 
+/* Anneaux de progression : mois (extérieur), challenge, année (intérieur) */
+let ringsPlay=()=>{};
+(function(){
+  const svg=document.getElementById("ringsSvg");
+  if(!svg) return;
+  const SW=22, fills=[];
+  [{r:104,v:STATS.mois.pct,c:"--ring-mois"},{r:78,v:STATS.chal.pct,c:"--ring-chal"},{r:52,v:STATS.annee.pct,c:"--ring-annee"}].forEach(g=>{
+    const C=2*Math.PI*g.r, p=Math.max(0,Math.min(1,g.v/100));
+    const track=el("circle",{cx:120,cy:120,r:g.r,fill:"none","stroke-width":SW});
+    track.style.stroke=`var(${g.c})`; track.style.opacity=".18";
+    const f=el("circle",{cx:120,cy:120,r:g.r,fill:"none","stroke-width":SW,"stroke-linecap":"round",class:"ring-fill",transform:"rotate(-90 120 120)","stroke-dasharray":C});
+    f.style.stroke=`var(${g.c})`;
+    f.style.strokeDashoffset=RM ? C*(1-p) : C;
+    if(p===0) f.style.visibility="hidden";
+    svg.append(track,f);
+    /* extrémité avec ombre portée (comme sur l'Apple Watch) : donne du relief quand l'anneau se referme */
+    let cap=null;
+    if(p>0 && C*(1-p)<SW*1.4){ /* seulement quand l'extrémité rejoint le début de l'anneau */
+      const a=(-90+360*p)*Math.PI/180, tx=-Math.sin(a)*2, ty=Math.cos(a)*2;
+      cap=el("circle",{cx:120+g.r*Math.cos(a),cy:120+g.r*Math.sin(a),r:SW/2});
+      cap.style.fill=`var(${g.c})`;
+      cap.style.filter=`drop-shadow(${tx.toFixed(2)}px ${ty.toFixed(2)}px 3px rgba(0,0,0,.6))`;
+      cap.style.opacity=RM?1:0;
+      cap.style.transition="opacity .35s ease 1.35s";
+      svg.append(cap);
+    }
+    fills.push([f,C*(1-p),cap]);
+  });
+  ringsPlay=()=>requestAnimationFrame(()=>fills.forEach(([f,off,cap])=>{ f.style.strokeDashoffset=off; if(cap) cap.style.opacity=1; }));
+})();
+
+/* Barre de navigation : défilement fluide, section active, ouverture d'une section repliée */
+(function(){
+  const bar=document.getElementById("tnLinks");
+  if(!bar) return;
+  const links=[...bar.querySelectorAll("a")];
+  const target=a=>document.querySelector(a.getAttribute("href"));
+  /* Des blocs au-dessus se remplissent pendant le défilement et décalent la cible :
+     on réaligne une fois le défilement stabilisé (3 corrections max). */
+  const go=(t)=>{
+    const beh=RM?"auto":"smooth";
+    t.scrollIntoView({behavior:beh, block:"start"});
+    const margin=()=>parseFloat(getComputedStyle(t).scrollMarginTop)||0;
+    let last=-1, still=0, fixes=0, frames=0;
+    (function watch(){
+      if(++frames>600) return;
+      const y=window.scrollY;
+      still=Math.abs(y-last)<1 ? still+1 : 0; last=y;
+      if(still<8) return requestAnimationFrame(watch);
+      const off=t.getBoundingClientRect().top-margin();
+      if(Math.abs(off)>4 && fixes<3){ fixes++; still=0; window.scrollBy({top:off, behavior:beh}); requestAnimationFrame(watch); }
+    })();
+  };
+  links.forEach(a=>a.addEventListener("click",e=>{
+    const t=target(a); if(!t) return;
+    e.preventDefault();
+    const h=t.querySelector(":scope > .lane-h");
+    if(h && h.classList.contains("collapsed")) h.click();
+    go(t);
+  }));
+  const brand=document.querySelector(".tn-brand");
+  if(brand) brand.addEventListener("click",e=>{ e.preventDefault(); window.scrollTo({top:0, behavior:RM?"auto":"smooth"}); });
+  const setActive=id=>links.forEach(a=>{
+    const on=a.getAttribute("href")==="#"+id;
+    a.classList.toggle("active",on);
+    if(on) bar.scrollTo({left:a.offsetLeft-bar.clientWidth/2+a.offsetWidth/2, behavior:"smooth"});
+  });
+  const spy=new IntersectionObserver(entries=>{
+    entries.forEach(en=>{ if(en.isIntersecting) setActive(en.target.id); });
+  },{rootMargin:"-40% 0px -55% 0px"});
+  links.map(target).filter(Boolean).forEach(s=>spy.observe(s));
+  window.addEventListener("scroll",()=>{ if(window.scrollY<160) links.forEach(a=>a.classList.remove("active")); },{passive:true});
+})();
+
 const io=new IntersectionObserver((entries)=>{
   entries.forEach(e=>{
     if(!e.isIntersecting) return;
     const t=e.target; t.classList.add("in");
+    if(t.id==="rings"){ playCounts(t); ringsPlay(); }
     if(t.id==="kpis"||t.id==="chips") playCounts(t);
     if(t.id==="money") moneyPlay();
     if(t.id==="current"){ playCounts(t); fillJuin(); }
