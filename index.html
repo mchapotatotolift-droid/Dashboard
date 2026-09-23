@@ -502,11 +502,12 @@
   <!-- ============ COMMISSIONS / TRÉSOR ============ -->
   <section class="lane money reveal" id="money">
     <div class="lane-h"><div class="ttl">💰 Mes commissions</div><div class="desc">cycle en cours · cumul des ventes</div></div>
+    <div class="lane-body-wrap"><div class="lane-body-in">
     <div class="money-eyebrow">Gains cumulés</div>
     <div class="money-total"><span id="moneyTotal">0&nbsp;€</span></div>
     <div class="money-sub"><span id="moneyCount">0</span> ventes enregistrées · le trésor grossit à chaque vente</div>
     <div class="money-curve-wrap">
-      <svg id="commissionCurve" viewBox="0 0 900 260" role="img" aria-label="Évolution des commissions cumulées"></svg>
+      <svg id="commissionCurve" viewBox="0 0 900 320" role="img" aria-label="Évolution des commissions cumulées"></svg>
     </div>
     <div class="money-grid">
       <svg id="moneyViz" viewBox="0 0 520 300" role="img" aria-label="Trésor des commissions"></svg>
@@ -527,6 +528,7 @@
       </div>
     </div>
     <div class="money-break" id="moneyBreak"></div>
+    </div></div>
   </section>
 
   <!-- ============ LANE 2 : CHALLENGES BI-MENSUELS ============ -->
@@ -1414,7 +1416,7 @@ let commissionCurvePlay=()=>{};
   if(!svg) return;
   const sales=salesSept;
   const n=sales.length;
-  const W=900,H=260,L=64,R=24,T=28,B=44,iw=W-L-R,ih=H-T-B;
+  const W=900,H=320,L=64,R=24,T=26,B=60,iw=W-L-R,ih=H-T-B;
   const dayX=day=>L+(day-1)/(CURVE_MONTH_DAYS-1)*iw;
 
   if(n===0){
@@ -1427,18 +1429,24 @@ let commissionCurvePlay=()=>{};
   const niceMax=Math.max(300, Math.ceil((maxVal+1)/100)*100);
   const py=v=>T+ih-(v/niceMax)*ih;
 
+  /* pas de grille adaptatif : viser ~5-6 lignes, jamais un mur de chiffres */
+  const gridStep=(()=>{
+    for(const c of [50,100,200,250,500,1000,2000,2500,5000,10000]) if(niceMax/c<=6) return c;
+    return 10000;
+  })();
+
   const defs=el("defs");
   defs.innerHTML=`<linearGradient id="commLine" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#ffe487"/><stop offset="1" stop-color="#e0a32e"/></linearGradient>`;
   svg.appendChild(defs);
 
-  for(let g=0; g<=niceMax; g+=100){
+  for(let g=0; g<=niceMax; g+=gridStep){
     const y=py(g);
     svg.appendChild(el("line",{x1:L,y1:y,x2:W-R,y2:y,stroke:THEME.grid()}));
     svg.appendChild(el("text",{x:L-10,y:y+4,"text-anchor":"end","font-size":11,fill:THEME.muted()},fmtEUR(g)+" €"));
   }
-  /* repères 1er et dernier jour du mois */
-  svg.appendChild(el("text",{x:dayX(1),y:H-14,"text-anchor":"start","font-size":11,fill:THEME.muted()},"01/"+String(CURVE_MONTH_START.getMonth()+1).padStart(2,"0")));
-  svg.appendChild(el("text",{x:dayX(CURVE_MONTH_DAYS),y:H-14,"text-anchor":"end","font-size":11,fill:THEME.muted()},CURVE_MONTH_DAYS+"/"+String(CURVE_MONTH_START.getMonth()+1).padStart(2,"0")));
+  /* repères 1er et dernier jour du mois, sur leur propre ligne tout en bas */
+  svg.appendChild(el("text",{x:dayX(1),y:H-6,"text-anchor":"start","font-size":10,fill:THEME.muted()},"01/"+String(CURVE_MONTH_START.getMonth()+1).padStart(2,"0")));
+  svg.appendChild(el("text",{x:dayX(CURVE_MONTH_DAYS),y:H-6,"text-anchor":"end","font-size":10,fill:THEME.muted()},CURVE_MONTH_DAYS+"/"+String(CURVE_MONTH_START.getMonth()+1).padStart(2,"0")));
 
   const today=new Date();
   const sameMonth=today.getFullYear()===CURVE_MONTH_START.getFullYear() && today.getMonth()===CURVE_MONTH_START.getMonth();
@@ -1463,13 +1471,32 @@ let commissionCurvePlay=()=>{};
   path.style.strokeDashoffset=RM?0:len;
   path.style.transition="stroke-dashoffset 1.5s cubic-bezier(.22,1,.36,1)";
 
-  const markers=[];
+  /* Un seul repère par jour (regroupe les ventes du même jour) pour ne jamais superposer
+     deux étiquettes au même endroit ; le tracé lui-même reste fidèle à chaque vente. */
+  const dayGroups=[];
   sales.forEach((s,i)=>{
     const day=s.date ? Math.min(CURVE_MONTH_DAYS, Math.max(1, parseInt(s.date.slice(8,10),10))) : todayDay;
-    const x=dayX(day), y=py(cum[i]);
+    const last=dayGroups[dayGroups.length-1];
+    if(last && last.day===day){ last.val=cum[i]; }
+    else dayGroups.push({day, val:cum[i], dateLabel:fmtDateFR(s.date)});
+  });
+  /* alterne 2 rangées pour les étiquettes trop proches horizontalement */
+  const minGap=44;
+  let prevX=-Infinity, prevLane=1;
+  dayGroups.forEach(g=>{
+    g.x=dayX(g.day);
+    g.lane=(g.x-prevX<minGap) ? (prevLane===0?1:0) : 0;
+    prevX=g.x; prevLane=g.lane;
+  });
+
+  const markers=[];
+  dayGroups.forEach(g=>{
+    const x=g.x, y=py(g.val);
+    const valY = y - (g.lane===0 ? 14 : 32);
+    const dateY = H-30 + (g.lane===0 ? 16 : 0);
     const c=el("circle",{cx:x,cy:y,r:5.5,fill:THEME.node(),stroke:"#e0a32e","stroke-width":2.4});
-    const lab=el("text",{x,y:y-13,"text-anchor":"middle","font-size":12,"font-weight":700,fill:THEME.ink()},fmtEUR(cum[i])+" €");
-    const dl=el("text",{x,y:H-28,"text-anchor":"middle","font-size":10.5,fill:THEME.muted()},fmtDateFR(s.date));
+    const lab=el("text",{x,y:valY,"text-anchor":"middle","font-size":12,"font-weight":700,fill:THEME.ink()},fmtEUR(g.val)+" €");
+    const dl=el("text",{x,y:dateY,"text-anchor":"middle","font-size":10.5,fill:THEME.muted()},g.dateLabel);
     [c,lab,dl].forEach(node=>{ node.style.opacity=RM?1:0; node.style.transition="opacity .5s ease"; svg.appendChild(node); });
     markers.push(c,lab,dl);
   });
@@ -1520,9 +1547,8 @@ io.observe(document.getElementById("detail").closest(".panel"));
   });
 })();
 
-/* Accordéon sur les 4 lanes numérotées (01-04) */
+/* Accordéon sur les 4 lanes numérotées (01-04) + Mes commissions */
 document.querySelectorAll(".lane-h").forEach(h=>{
-  if(!h.querySelector(".num-step")) return;
   const wrap=h.nextElementSibling;
   if(!wrap || !wrap.classList.contains("lane-body-wrap")) return;
   h.setAttribute("data-acc","");
