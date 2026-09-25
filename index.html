@@ -445,7 +445,8 @@
   .px-col.smart .px-name{color:var(--cyan);} .px-col.line .px-name{color:var(--purple);}
   .px-val{font-size:30px; font-weight:800; letter-spacing:-.02em; color:var(--ink); margin-top:6px; white-space:nowrap;}
   .px-val::after{content:" HT"; font-size:12px; font-weight:600; color:var(--muted); letter-spacing:0;}
-  .px-sub{font-size:11.5px; color:var(--muted); margin-top:3px;}
+  .px-ttc{font-size:14px; font-weight:700; color:var(--ink-soft); margin-top:2px; white-space:nowrap;}
+  .px-sub{font-size:11.5px; color:var(--muted); margin-top:6px;}
   .px-split{display:flex; height:8px; border-radius:4px; overflow:hidden; gap:2px;}
   .px-split i{display:block; height:100%;} .px-split .smart{background:var(--cyan);} .px-split .line{background:var(--purple);}
   .px-leg{display:flex; justify-content:space-between; font-size:11.5px; color:var(--muted); margin:6px 0 12px;}
@@ -686,7 +687,7 @@
           <div id="remiseBox"></div>
       </div>
       <div class="pod-mini tile w3 reveal">
-          <div class="r1r2-title"><svg class="i"><use href="#i-cart"/></svg>Prix moyen HT par modèle — Septembre</div>
+          <div class="r1r2-title"><svg class="i"><use href="#i-cart"/></svg>Prix moyen par modèle — Septembre</div>
           <div id="prixBox"></div>
       </div>
     </div>
@@ -1403,17 +1404,18 @@ function renderPrix(){
   const withHT=salesSept.filter(s=>s.ht && s.modele);
   const grp=m=>{ const l=withHT.filter(s=>s.modele===m); const sum=l.reduce((a,s)=>a+s.ht,0);
     return {n:l.length, avg:l.length?sum/l.length:0, sum, min:l.length?Math.min(...l.map(s=>s.ht)):0, max:l.length?Math.max(...l.map(s=>s.ht)):0}; };
-  const S=grp("smart"), L=grp("line"), tot=S.sum+L.sum, n=S.n+L.n;
+  const S=grp("smart"), L=grp("line"), tot=S.sum+L.sum, n=S.n+L.n, TVA=1.055; /* TVA 5,5 % */
   const col=(g,name,cls)=>`<div class="px-col ${cls}">
       <div class="px-name">${name}</div>
       <div class="px-val">${g.n?`<span data-anim="${Math.round(g.avg)}" data-suffix=" €">0 €</span>`:"—"}</div>
-      <div class="px-sub">${g.n} vente${g.n>1?"s":""}${g.n>1?`<br>${fmtEUR(Math.round(g.min))} → ${fmtEUR(Math.round(g.max))} €`:""}</div>
+      ${g.n?`<div class="px-ttc"><span data-anim="${Math.round(g.avg*TVA)}" data-suffix=" €">0 €</span> TTC</div>`:""}
+      <div class="px-sub">${g.n} vente${g.n>1?"s":""}${g.n>1?`<br>${fmtEUR(Math.round(g.min))} → ${fmtEUR(Math.round(g.max))} € HT`:""}</div>
     </div>`;
   box.innerHTML=
     `<div class="px-grid">${col(S,"Modul-Air Smart","smart")}${col(L,"Line","line")}</div>
     <div class="px-split"><i class="smart" style="width:${n?S.n/n*100:0}%"></i><i class="line" style="width:${n?L.n/n*100:0}%"></i></div>
     <div class="px-leg"><span><b class="smart"></b>Smart ${n?Math.round(S.n/n*100):0} %</span><span><b class="line"></b>Line ${n?Math.round(L.n/n*100):0} %</span></div>
-    <div class="rythme-compare">Toutes ventes : <b>${fmtEUR(Math.round(n?tot/n:0))} € HT</b> en moyenne · CA HT signé : <b>${fmtEUR(Math.round(tot))} €</b></div>`;
+    <div class="rythme-compare">Toutes ventes : <b>${fmtEUR(Math.round(n?tot/n:0))} € HT</b> (${fmtEUR(Math.round(n?tot/n*TVA:0))} € TTC) en moyenne · CA HT signé : <b>${fmtEUR(Math.round(tot))} €</b></div>`;
   playOnView(box);
 }
 function fillJuin(){ const f=document.getElementById("juinFill"); if(f) f.style.width=Math.min(100,STATS.mois.pct)+"%"; renderR1R2("r1r2Mois","septembre", salesSept); renderRythme(); }
