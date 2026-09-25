@@ -434,7 +434,7 @@
   .rm-zone{position:absolute; left:0; top:0; bottom:0; border-radius:13px 0 0 13px; background:linear-gradient(90deg,rgba(50,215,75,.35),rgba(50,215,75,.12)); border-right:2px dashed rgba(50,215,75,.7);}
   .rm-axis .rm-zl{font-size:10px; font-weight:700; color:var(--green); text-transform:uppercase; letter-spacing:.06em;}
   .rm-dot{position:absolute; top:50%; width:10px; height:10px; margin:-5px 0 0 -5px; border-radius:50%; background:var(--amber); box-shadow:0 0 0 2px var(--tile); opacity:0; transform:scale(.3); transition:opacity .4s ease, transform .5s cubic-bezier(.3,1.6,.5,1);}
-  .rm-dot.ok{background:var(--green);}
+  .rm-dot.ok{background:var(--green);} .rm-dot.over{background:var(--red);} /* au-delà de l'échelle : posé au bord */
   .rm-avg{position:absolute; top:-6px; bottom:-6px; width:3px; margin-left:-1.5px; border-radius:2px; background:var(--ink); opacity:0; transition:opacity .5s ease .6s;}
   #remiseBox.in .rm-dot{opacity:.9; transform:scale(1);} #remiseBox.in .rm-avg{opacity:1;}
   .rm-axis{position:relative; height:16px; margin:6px 4px 12px; font-size:10.5px; color:var(--muted);}
@@ -966,7 +966,7 @@ const salesSept=[
   /* V.11 : modele "smart" (Modul-Air Smart) ou "line" · ht = prix final HT · remise = % exact (remises TTC / prix TTC catalogue) */
   {client:"Wattebled", floors:1, r1:false, payment:"direct", remise:11.90, modele:"smart", ht:8436.02, date:"2026-09-03"},
   {client:"Boutin", floors:1, r1:false, payment:"subvention", remise:11.73, modele:"smart", ht:7962.09, date:"2026-09-04"},
-  {client:"Massiot", floors:1, r1:true, payment:"direct", remise:null, modele:"smart", ht:3317.54, date:"2026-09-07"}, /* remise non connue (au-delà du seuil, 0 € de bonus) */
+  {client:"Massiot", floors:1, r1:true, payment:"direct", remise:38.62, modele:"smart", ht:3317.54, date:"2026-09-07"},
   {client:"Jean & Louisette Agi", floors:1, r1:true, payment:"direct", remise:10.27, modele:"smart", ht:9004.74, date:"2026-09-09"},
   {client:"Jean Chauveau", floors:1, r1:false, payment:"direct", remise:9.61, modele:"line", ht:4407.58, date:"2026-09-09"},
   {client:"Oberlechner", floors:1, r1:true, payment:"direct", remise:11.99, modele:"smart", ht:8056.87, date:"2026-09-10"},
@@ -1382,7 +1382,7 @@ function renderRemise(){
   const inBonus=known.filter(s=>Math.round(s.remise)<8);
   const MAX=15, pos=v=>Math.min(100,Math.max(0,v/MAX*100));
   const unknown=salesSept.length-known.length;
-  const dots=known.map(s=>`<i class="rm-dot${Math.round(s.remise)<8?" ok":""}" style="left:${pos(s.remise)}%" title="${s.client} · ${fmtDec(s.remise,2)} %"></i>`).join("");
+  const dots=known.map(s=>`<i class="rm-dot${Math.round(s.remise)<8?" ok":""}${s.remise>MAX?" over":""}" style="left:${pos(s.remise)}%" title="${s.client} · ${fmtDec(s.remise,2)} %"></i>`).join("");
   box.innerHTML=
     `<div class="rm-top">
       <div class="rm-big"><span data-anim="${avg.toFixed(2)}" data-dec="1" data-suffix=" %">0 %</span></div>
