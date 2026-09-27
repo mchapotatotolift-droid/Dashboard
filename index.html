@@ -1112,87 +1112,136 @@ const SFX=(()=>{
   }
   const rnd=(a,b)=>a+Math.random()*(b-a);
 
-  /* ===== Musique de fond : deep house mélodique originale (esprit Elderbrook), 120 BPM =====
-     La mineur — Lam9 · Fa maj9 · Do maj7 · Sol6, 1 accord par mesure. Cycle de 32 mesures :
-     intro planante (nappes + arpège), entrée kick/basse, clap, pont sans kick, retour. */
+  /* ===== Musique de fond : « Lumière intérieure » — melodic house originale, 118 BPM =====
+     Composition maison (aucun extrait) : La majeur aux couleurs mélancoliques,
+     Fa#m9 · Ré maj7 · La add9 · Mi6sus, 1 accord par mesure. Cycle de 48 mesures :
+     intro chœurs filtrés (0-7) → montée : kick, filtre qui s'ouvre, riser (8-15)
+     → drop : basse, clap, voix hachées (16-31) → pause chœurs + riser (32-39) → second drop (40-47). */
   const MUSIC=(()=>{
-    const BPM=120, S16=60/BPM/4, VOL=.3;
+    const BPM=118, S16=60/BPM/4, VOL=.3, BARS=48;
     const hz=m=>440*Math.pow(2,(m-69)/12);
     const CH=[
-      {root:45, pad:[57,60,64,67,71], arp:[69,72,76,79,83,76]},   /* Lam9   */
-      {root:41, pad:[53,57,60,64,67], arp:[65,69,72,76,79,72]},   /* Fa maj9 */
-      {root:48, pad:[55,60,64,71],    arp:[67,72,76,79,83,76]},   /* Do maj7 */
-      {root:43, pad:[55,59,62,64],    arp:[67,71,74,76,79,74]}    /* Sol6   */
+      {root:42, pad:[54,57,61,64,68], arp:[57,61,64,68,69,64]},   /* Fa#m9   */
+      {root:38, pad:[54,57,61,64,69], arp:[54,57,61,64,69,61]},   /* Ré maj7  */
+      {root:33, pad:[57,59,61,64,69], arp:[57,61,64,71,69,64]},   /* La add9  */
+      {root:40, pad:[56,59,61,64,69], arp:[56,59,64,61,69,64]}    /* Mi6sus   */
     ];
-    const ARP=[[0,2,1,3,2,4,1,3,0,2,1,3,2,5,3,4],[0,1,2,3,4,3,2,1,0,1,2,3,5,4,3,2],[0,3,1,4,2,5,3,1,0,3,1,4,2,5,4,2]];
-    let bus=null, duck=null, verb=null, delay=null, hatBuf=null, timer=null, next=0, step=0, playing=false;
+    /* motif des voix hachées (pas de double-croche : note MIDI), phrase de 4 mesures */
+    const MEL=[
+      {0:73,3:71,6:69,8:76,10:73,13:71},
+      {0:69,3:71,6:73,10:76,12:78,14:76},
+      {0:73,3:76,6:73,8:71,10:69,12:71,14:73},
+      {0:71,2:69,6:68,8:69,11:71,14:64}
+    ];
+    const VOW={a:[[730,1,7],[1150,.55,9],[2650,.22,12]], o:[[520,1,7],[900,.5,9],[2450,.15,12]]};
+    let bus=null, duck=null, mf=null, verb=null, delay=null, lfo=null, nBuf=null, timer=null, next=0, step=0, playing=false;
     function graph(){
       if(bus) return;
       const comp=ctx.createDynamicsCompressor(); comp.threshold.value=-12; comp.ratio.value=3; comp.connect(ctx.destination);
       bus=ctx.createGain(); bus.gain.value=0.0001; bus.connect(comp);
-      duck=ctx.createGain(); duck.gain.value=1; duck.connect(bus);
+      mf=ctx.createBiquadFilter(); mf.type="lowpass"; mf.frequency.value=1100; mf.Q.value=.9; mf.connect(bus);   /* filtre général (montées) */
+      duck=ctx.createGain(); duck.gain.value=1; duck.connect(mf);
       verb=ctx.createConvolver(); verb.buffer=impulse(ctx,1.8);
-      const vg=ctx.createGain(); vg.gain.value=.35; verb.connect(vg); vg.connect(bus);
+      const vg=ctx.createGain(); vg.gain.value=.42; verb.connect(vg); vg.connect(mf);
       delay=ctx.createDelay(1); delay.delayTime.value=S16*3;               /* écho à la croche pointée */
-      const fb=ctx.createGain(); fb.gain.value=.38; const dl=ctx.createBiquadFilter(); dl.type="lowpass"; dl.frequency.value=2600;
-      delay.connect(dl); dl.connect(fb); fb.connect(delay); dl.connect(duck);
-      const n=Math.floor(ctx.sampleRate*.12); hatBuf=ctx.createBuffer(1,n,ctx.sampleRate);
-      const d=hatBuf.getChannelData(0); for(let i=0;i<n;i++) d[i]=Math.random()*2-1;
+      const fb=ctx.createGain(); fb.gain.value=.36; const dl=ctx.createBiquadFilter(); dl.type="lowpass"; dl.frequency.value=2800;
+      delay.connect(dl); dl.connect(fb); fb.connect(delay); dl.connect(duck); dl.connect(verb);
+      lfo=ctx.createOscillator(); lfo.frequency.value=4.8; const lg=ctx.createGain(); lg.gain.value=9; lfo.connect(lg); lfo.start(); lfo=lg;   /* vibrato des chœurs */
+      const n=ctx.sampleRate; nBuf=ctx.createBuffer(1,n,n);
+      const d=nBuf.getChannelData(0); for(let i=0;i<n;i++) d[i]=Math.random()*2-1;
     }
     const env=(g,t,peak,att,dur)=>{ g.gain.setValueAtTime(0.0001,t); g.gain.exponentialRampToValueAtTime(peak,t+att); g.gain.exponentialRampToValueAtTime(0.0001,t+dur); };
+    /* banc de formants : transforme des dents de scie en « voix » (a / o) */
+    function formants(vowel,dest){
+      const inp=ctx.createGain(), sum=ctx.createGain(); sum.connect(dest);
+      VOW[vowel].forEach(([f,g,q])=>{ const b=ctx.createBiquadFilter(); b.type="bandpass"; b.frequency.value=f; b.Q.value=q; const bg=ctx.createGain(); bg.gain.value=g*3.2; inp.connect(b); b.connect(bg); bg.connect(sum); });
+      return [inp,sum];
+    }
+    function noiseSrc(t,dur){ const s=ctx.createBufferSource(); s.buffer=nBuf; s.loop=true; s.start(t,Math.random()*.5); s.stop(t+dur); return s; }
     function kick(t){
       const o=ctx.createOscillator(), g=ctx.createGain();
-      o.frequency.setValueAtTime(150,t); o.frequency.exponentialRampToValueAtTime(46,t+.12);
-      env(g,t,.62,.004,.38); o.connect(g); g.connect(bus); o.start(t); o.stop(t+.42);
-      duck.gain.cancelScheduledValues(t); duck.gain.setValueAtTime(.32,t); duck.gain.linearRampToValueAtTime(1,t+.3);   /* "pompe" */
+      o.frequency.setValueAtTime(140,t); o.frequency.exponentialRampToValueAtTime(48,t+.11);
+      env(g,t,.6,.004,.36); o.connect(g); g.connect(bus); o.start(t); o.stop(t+.4);
+      duck.gain.cancelScheduledValues(t); duck.gain.setValueAtTime(.3,t); duck.gain.linearRampToValueAtTime(1,t+.32);   /* « pompe » */
     }
-    function hat(t,gain){
-      const s=ctx.createBufferSource(); s.buffer=hatBuf;
-      const f=ctx.createBiquadFilter(); f.type="highpass"; f.frequency.value=8200;
-      const g=ctx.createGain(); env(g,t,gain,.002,.05);
-      s.connect(f); f.connect(g); g.connect(bus); s.start(t); s.stop(t+.08);
+    function hat(t,gain,open){
+      const f=ctx.createBiquadFilter(); f.type="highpass"; f.frequency.value=open?7000:8500;
+      const g=ctx.createGain(); env(g,t,gain,.002,open?.22:.045);
+      const s=noiseSrc(t,open?.26:.07); s.connect(f); f.connect(g); g.connect(bus);
+    }
+    function shaker(t,gain){
+      const f=ctx.createBiquadFilter(); f.type="bandpass"; f.frequency.value=6500; f.Q.value=1.2;
+      const g=ctx.createGain(); env(g,t,gain,.012,.07);
+      const s=noiseSrc(t,.09); s.connect(f); f.connect(g); g.connect(duck);
     }
     function clap(t){
-      const s=ctx.createBufferSource(); s.buffer=hatBuf;
-      const f=ctx.createBiquadFilter(); f.type="bandpass"; f.frequency.value=1500; f.Q.value=.8;
-      const g=ctx.createGain(); env(g,t,.16,.004,.11);
-      s.connect(f); f.connect(g); g.connect(bus); g.connect(verb); s.start(t); s.stop(t+.14);
+      const f=ctx.createBiquadFilter(); f.type="bandpass"; f.frequency.value=1400; f.Q.value=.9;
+      const g=ctx.createGain(); g.gain.setValueAtTime(0.0001,t);
+      [0,.011,.022].forEach(o=>{ g.gain.exponentialRampToValueAtTime(.15,t+o+.002); g.gain.exponentialRampToValueAtTime(.03,t+o+.009); });
+      g.gain.exponentialRampToValueAtTime(0.0001,t+.16);
+      const s=noiseSrc(t,.2); s.connect(f); f.connect(g); g.connect(bus); g.connect(verb);
+    }
+    function crash(t){
+      const f=ctx.createBiquadFilter(); f.type="highpass"; f.frequency.value=4500;
+      const g=ctx.createGain(); env(g,t,.07,.005,1.8);
+      const s=noiseSrc(t,1.9); s.connect(f); f.connect(g); g.connect(bus); g.connect(verb);
+    }
+    function riser(t,dur){
+      const f=ctx.createBiquadFilter(); f.type="bandpass"; f.Q.value=2.5;
+      f.frequency.setValueAtTime(300,t); f.frequency.exponentialRampToValueAtTime(6000,t+dur);
+      const g=ctx.createGain(); g.gain.setValueAtTime(0.0001,t); g.gain.exponentialRampToValueAtTime(.06,t+dur); g.gain.linearRampToValueAtTime(0.0001,t+dur+.05);
+      const s=noiseSrc(t,dur+.1); s.connect(f); f.connect(g); g.connect(bus); g.connect(verb);
     }
     function bass(m,t,dur){
-      const f=ctx.createBiquadFilter(); f.type="lowpass"; f.frequency.value=320; f.Q.value=4;
-      const g=ctx.createGain(); env(g,t,.3,.012,dur);
-      [["sine",1],["sawtooth",.5]].forEach(([ty,k])=>{ const o=ctx.createOscillator(), og=ctx.createGain(); o.type=ty; o.frequency.value=hz(m); og.gain.value=k; o.connect(og); og.connect(f); o.start(t); o.stop(t+dur+.05); });
+      const f=ctx.createBiquadFilter(); f.type="lowpass"; f.frequency.value=380; f.Q.value=3;
+      const g=ctx.createGain(); env(g,t,.3,.01,dur);
+      [["sine",1],["triangle",.6]].forEach(([ty,k])=>{ const o=ctx.createOscillator(), og=ctx.createGain(); o.type=ty; o.frequency.value=hz(m); og.gain.value=k; o.connect(og); og.connect(f); o.start(t); o.stop(t+dur+.05); });
       f.connect(g); g.connect(duck);
     }
-    function pad(notes,t,dur){
-      const f=ctx.createBiquadFilter(); f.type="lowpass"; f.Q.value=.7;
-      f.frequency.setValueAtTime(650,t); f.frequency.linearRampToValueAtTime(1500,t+dur*.55); f.frequency.linearRampToValueAtTime(800,t+dur);
-      const g=ctx.createGain(); g.gain.setValueAtTime(0.0001,t); g.gain.linearRampToValueAtTime(.05,t+1.1); g.gain.setValueAtTime(.05,t+dur-.5); g.gain.linearRampToValueAtTime(0.0001,t+dur+.6);
-      notes.forEach(m=>[-8,8].forEach(c=>{ const o=ctx.createOscillator(); o.type="sawtooth"; o.frequency.value=hz(m); o.detune.value=c; o.connect(f); o.start(t); o.stop(t+dur+.7); }));
-      f.connect(g); g.connect(duck); g.connect(verb);
+    /* chœur : 3 dents de scie désaccordées par note + vibrato, passées dans les formants « a » */
+    function choir(notes,t,dur,level){
+      const g=ctx.createGain(); g.gain.setValueAtTime(0.0001,t); g.gain.linearRampToValueAtTime(level,t+1.4); g.gain.setValueAtTime(level,t+dur-.4); g.gain.linearRampToValueAtTime(0.0001,t+dur+.9);
+      const lp=ctx.createBiquadFilter(); lp.type="lowpass"; lp.frequency.value=3200; lp.connect(g);
+      const [inp]=formants("a",lp);
+      notes.forEach(m=>[-11,0,11].forEach(c=>{ const o=ctx.createOscillator(); o.type="sawtooth"; o.frequency.value=hz(m); o.detune.value=c; lfo.connect(o.detune); o.connect(inp); o.start(t); o.stop(t+dur+1); }));
+      g.connect(duck); g.connect(verb);
     }
-    function pluck(m,t,cut,gain){
-      const f=ctx.createBiquadFilter(); f.type="lowpass"; f.Q.value=3;
-      f.frequency.setValueAtTime(cut*2.2,t); f.frequency.exponentialRampToValueAtTime(cut*.6,t+.18);
-      const g=ctx.createGain(); env(g,t,gain,.004,.3);
-      [["triangle",1],["square",.25]].forEach(([ty,k])=>{ const o=ctx.createOscillator(), og=ctx.createGain(); o.type=ty; o.frequency.value=hz(m); og.gain.value=k; o.connect(og); og.connect(f); o.start(t); o.stop(t+.34); });
-      f.connect(g); g.connect(duck); g.connect(delay); g.connect(verb);
+    /* voix hachée : petite montée de hauteur à l'attaque (« scoop ») comme une voix chantée */
+    function chop(m,t,dur,vowel,level){
+      const g=ctx.createGain(); env(g,t,level,.012,dur);
+      const [inp]=formants(vowel,g);
+      [["sawtooth",1],["square",.3]].forEach(([ty,k])=>{ const o=ctx.createOscillator(), og=ctx.createGain(); o.type=ty; o.frequency.setValueAtTime(hz(m)*.965,t); o.frequency.exponentialRampToValueAtTime(hz(m),t+.05); og.gain.value=k; o.connect(og); og.connect(inp); o.start(t); o.stop(t+dur+.05); });
+      g.connect(duck); g.connect(delay); g.connect(verb);
     }
+    function pluck(m,t,gain){
+      const f=ctx.createBiquadFilter(); f.type="lowpass"; f.Q.value=2; f.frequency.setValueAtTime(3200,t); f.frequency.exponentialRampToValueAtTime(900,t+.2);
+      const g=ctx.createGain(); env(g,t,gain,.004,.32);
+      const o=ctx.createOscillator(); o.type="triangle"; o.frequency.value=hz(m); o.connect(f); f.connect(g); g.connect(duck); g.connect(delay); o.start(t); o.stop(t+.36);
+    }
+    const cut=sec=> sec<8 ? 1100 : sec<16 ? 1100*Math.pow(16,(sec-8)/7) : sec<32 ? 18000 : sec<36 ? 1500 : sec<40 ? 1500*Math.pow(12,(sec-35)/4) : 18000;
     function play(s,t){
-      const bar=Math.floor(s/16), pos=s%16, sec=bar%32, ch=CH[bar%4];
-      const groove= sec>=8 && !(sec>=24 && sec<28);          /* kick + basse, sauf intro et pont */
-      if(pos===0) pad(ch.pad,t,16*S16);
-      if(groove && pos%4===0) kick(t);
-      if(pos%4===2) hat(t+S16*.08, sec>=4?.06:.035);          /* charleston en contretemps (léger swing) */
-      if(sec>=16 && groove && pos%2===1) hat(t+S16*.1,.02);
-      if(groove && sec>=12 && (pos===4||pos===12)) clap(t);
-      if(groove && pos%4===2) bass(ch.root,t,S16*1.7);
-      if(groove && pos===15 && bar%2===1) bass(ch.root+12,t,S16*.9);
-      const arpOn = sec>=4 ? true : pos%2===0;               /* intro : arpège à la croche */
-      if(arpOn){
-        const cut=700+Math.min(1,(sec%16)/15)*2600;          /* le filtre s'ouvre sur 16 mesures */
-        const pat=ARP[Math.floor(bar/8)%ARP.length];
-        pluck(ch.arp[pat[pos]%ch.arp.length], t, cut, sec>=24&&sec<28 ? .05 : .075);
+      const bar=Math.floor(s/16), pos=s%16, sec=bar%BARS, ch=CH[bar%4];
+      const drop=(sec>=16&&sec<32)||sec>=40, build=sec>=8&&sec<16, brk=sec>=32&&sec<40;
+      if(pos===0){
+        mf.frequency.setTargetAtTime(Math.min(18000,cut(sec)),t,S16*5);
+        choir(ch.pad,t,16*S16, drop?.035:.06);
+        if(sec===16||sec===40) crash(t);
+      }
+      if((sec===14||sec===38) && pos===0) riser(t,32*S16);
+      if((drop||build) && pos%4===0) kick(t);
+      if(sec>=4 && !brk) shaker(t+(pos%2?S16*.12:0), [.02,.008,.03,.01][pos%4]);
+      if((drop||build) && pos%4===2) hat(t+S16*.06, drop?.06:.04, drop);
+      if(sec>=40 && pos%2===1) hat(t+S16*.1,.018,false);
+      if(drop && (pos===4||pos===12)) clap(t);
+      if(drop || (build&&sec>=12)){
+        if(pos%4===2) bass(ch.root,t,S16*1.6);
+        if(pos===7||pos===15&&bar%2===1) bass(ch.root+12,t,S16*.8);
+      }
+      if(!drop && pos%2===0) pluck(ch.arp[(pos/2+bar)%ch.arp.length]+12, t, brk?.035:.05);   /* arpège doux hors drops */
+      const ph=MEL[bar%4];
+      if((drop||brk||sec>=12&&build) && ph[pos]!==undefined){
+        let nx=pos+1; while(nx<16 && ph[nx]===undefined) nx++;
+        chop(ph[pos], t, Math.min(nx-pos,3)*S16*.95, (pos/2|0)%2?"o":"a", brk?.05:drop?.075:.04);
       }
     }
     function tick(){ while(next<ctx.currentTime+.15){ play(step,next); next+=S16; step++; } }
@@ -1200,7 +1249,7 @@ const SFX=(()=>{
       start(){
         if(playing || !ctx) return;
         graph(); playing=true;
-        next=Math.max(ctx.currentTime+.08,next); 
+        next=Math.max(ctx.currentTime+.08,next);
         bus.gain.cancelScheduledValues(ctx.currentTime);
         bus.gain.setValueAtTime(Math.max(bus.gain.value,.0001),ctx.currentTime);
         bus.gain.exponentialRampToValueAtTime(VOL,ctx.currentTime+3);      /* fondu d'entrée */
@@ -1212,6 +1261,7 @@ const SFX=(()=>{
         bus.gain.cancelScheduledValues(t); bus.gain.setValueAtTime(Math.max(bus.gain.value,.0001),t); bus.gain.exponentialRampToValueAtTime(.0001,t+.6);
         clearInterval(timer); timer=null;
       },
+      seek(bar){ step=bar*16; },   /* tests : aller directement à une mesure */
       get playing(){ return playing; }
     };
   })();
