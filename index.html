@@ -662,9 +662,9 @@
         <div class="pod-row">
           <div class="pcol"><div class="pname">David<br>Puchois</div><div class="pval" style="color:#cdd7e6"><span class="countup" data-to="100" data-suffix=" %">0</span></div><div class="pstep s2" style="height:104px">2</div></div>
           <div class="pcol"><div class="pname">Guillaume<br>Dubuisson</div><div class="pval" style="color:#ffd24a"><span class="countup" data-to="126" data-suffix=" %">0</span></div><div class="pstep s1" style="height:140px">1</div></div>
-          <div class="pcol me"><div class="pname">Mickael Chapotat <small style="font-weight:600;opacity:.7">+1</small></div><div class="pval" style="color:#e0915a"><span class="countup" data-stat="mois.pct" data-suffix=" %">0</span></div><div class="pstep s3" style="height:80px">3</div></div>
+          <div class="pcol me"><div class="pname">Mickael<br>Chapotat</div><div class="pval" style="color:#e0915a"><span class="countup" data-stat="mois.pct" data-suffix=" %">0</span></div><div class="pstep s3" style="height:80px">3</div></div>
         </div>
-        <div class="pod-me">Mickael Chapotat : <b>3ᵉ ex æquo</b> (<span data-stat="mois.pct"></span> % · <span data-stat="mois.n"></span>/<span data-stat="mois.obj"></span> · avec Simon Pagnoni, Coudun incluse)</div>
+        <div class="pod-me">Mickael Chapotat : <b>3ᵉ</b> (<span data-stat="mois.pct"></span> % · <span data-stat="mois.n"></span>/<span data-stat="mois.obj"></span> · Coudun et Bellion inclus)</div>
       </div>
 
         <div class="lstats stagger">
@@ -980,6 +980,8 @@ const salesSept=[
   {client:"Kopiejwski", floors:1, r1:false, payment:"direct", remise:8.39, modele:"smart", ht:9289.10, date:"2026-09-22"},
   {client:"Porte", floors:1, r1:true, payment:"direct", remise:12.87, modele:"smart", ht:8246.45, date:"2026-09-23"},
   {client:"Coudun", floors:1, r1:true, payment:"subvention", remise:12.45, modele:"smart", ht:8312.80, date:"2026-09-25"},
+  {client:"Bellion (Line)", floors:1, r1:false, payment:"direct", remise:null, modele:"line", ht:null, date:"2026-09-27"}, /* VOF-288016 — prix et remise à compléter */
+  {client:"Bellion (Modul-Air Smart)", floors:1, r1:false, payment:"direct", remise:null, modele:"smart", ht:null, date:"2026-09-27"}, /* VOF-287783 — prix et remise à compléter */
 ]; /* ventes du mois en cours (Septembre) — cycle commission actif */
 const salesOct=[]; /* ventes d'octobre — pas encore commencé */
 const challengeSalesSO=salesSept.concat(salesOct); /* challenge Septembre-Octobre — objectif 38 (19+19) */
@@ -1395,7 +1397,7 @@ function renderRemise(){
       <div class="rm-avg" style="left:${pos(avg)}%"></div>
     </div>
     <div class="rm-axis"><span>0 %</span><span class="rm-zl" style="left:${pos(7.5)/2}%">zone bonus</span><span style="left:${pos(7.5)}%">8 %</span><span style="left:100%">15 %</span></div>
-    <div class="rythme-compare">${known.length} ventes · de <b>${fmtDec(Math.min(...known.map(s=>s.remise)))} %</b> à <b>${fmtDec(Math.max(...known.map(s=>s.remise)))} %</b>${unknown?` · ${unknown} remise non renseignée`:""}</div>
+    <div class="rythme-compare">${known.length} ventes · de <b>${fmtDec(Math.min(...known.map(s=>s.remise)))} %</b> à <b>${fmtDec(Math.max(...known.map(s=>s.remise)))} %</b>${unknown?` · ${unknown} remise${unknown>1?"s":""} non renseignée${unknown>1?"s":""}`:""}</div>
     <div class="rythme-note" style="color:${inBonus.length?"var(--green)":"var(--amber)"}">${inBonus.length} vente${inBonus.length>1?"s":""} sous 8 % → bonus remise touché${inBonus.length?` (${inBonus.map(s=>s.client).join(", ")})`:""}</div>`;
   playOnView(box);
 }
