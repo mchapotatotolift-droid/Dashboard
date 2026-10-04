@@ -989,6 +989,7 @@ const salesOct=[
   /* même format qu'en septembre : {client, floors, r1, payment, remise, modele, ht, date:"2026-10-JJ"} */
   {client:"Bottazzi", floors:1, r1:true, payment:"credit", remise:10.91, modele:"smart", ht:8530.81, date:"2026-10-01"}, /* VOF-288205 — devis et signature le 01/10 · crédit Franfinance 36 mois */
   {client:"Geoffray", floors:1, r1:false, payment:"subvention", remise:12.99, modele:"smart", ht:7961.61, date:"2026-10-01"}, /* VOF-269140 (devis du 23/09) — subvention, fonds avancés avant notification · remise effective (le devis affiche un « Prix TTC » de 9 150 € sans la TVA ; vrai TTC catalogue 9 653,25 €) */
+  {client:"Cham", floors:1, r1:false, payment:"subvention", remise:7.05, modele:"smart", ht:8151.66, date:"2026-10-02"}, /* VOF-277678 (devis du 08/04) — MaPrimeAdapt' accordée · acompte 30 % par virement */
 ]; /* ventes du mois en cours (Octobre) — cycle commission actif */
 const challengeSalesSO=salesSept.concat(salesOct); /* challenge Septembre-Octobre — objectif 38 (19+19) */
 
