@@ -662,9 +662,9 @@
         <div class="pod-row">
           <div class="pcol"><div class="pname">David<br>Puchois</div><div class="pval" style="color:#cdd7e6"><span class="countup" data-to="100" data-suffix=" %">0</span></div><div class="pstep s2" style="height:104px">2</div></div>
           <div class="pcol"><div class="pname">Guillaume<br>Dubuisson</div><div class="pval" style="color:#ffd24a"><span class="countup" data-to="126" data-suffix=" %">0</span></div><div class="pstep s1" style="height:140px">1</div></div>
-          <div class="pcol me"><div class="pname">Mickael<br>Chapotat</div><div class="pval" style="color:#e0915a"><span class="countup" data-to="89" data-suffix=" %">0</span></div><div class="pstep s3" style="height:80px">3</div></div>
+          <div class="pcol me"><div class="pname">Mickael<br>Chapotat</div><div class="pval" style="color:#e0915a"><span class="countup" data-to="79" data-suffix=" %">0</span></div><div class="pstep s3" style="height:80px">3</div></div>
         </div>
-        <div class="pod-me">Mickael Chapotat : <b>3ᵉ</b> (89 % · 17/19) — en attente du tableau réseau final</div>
+        <div class="pod-me">Mickael Chapotat : <b>3ᵉ ex æquo</b> (79 % · 15/19, avec Simon Pagnoni) — en attente du tableau réseau final</div>
       </div>
 
         <div class="lstats stagger">
@@ -899,7 +899,7 @@
         <div class="panel-h"><span class="dot" style="background:var(--purple);box-shadow:0 0 8px var(--purple)"></span><h3>Lecture rapide</h3></div>
         <ul class="read stagger">
           <li>Cumul 2026 à <b><span data-stat="annee.pct"></span> %</b> de l'objectif (<span data-stat="annee.n"></span>/<span data-stat="annee.obj"></span>, octobre démarré) — objectif annuel élargi avec le mois d'octobre.</li>
-          <li>Septembre clos à <b>89 % (17/19)</b> · <b>3 695 €</b> de commissions · 3ᵉ du podium du mois (tableau réseau au 25/09) · remise moyenne 12,3 % · 117 479 € HT signés.</li>
+          <li>Septembre clos à <b>79 % (15/19)</b> après l'annulation des 2 commandes Bellion · <b>3 095 €</b> de commissions · 3ᵉ ex æquo du podium du mois (tableau réseau au 25/09) · remise moyenne 12,5 % · 104 995 € HT signés.</li>
           <li>Août clos : objectif mensuel atteint pile <b>100 % (14/14)</b> · 3ᵉ ex æquo du réseau ce mois-ci, avec un ratio V2O record à <b>47 %</b>.</li>
           <li>Challenge Juillet-Août terminé à <b>84 % (21/25)</b> · 6ᵉ place, non qualifié — seuls Cyrille Mongin (112 %) et Didier Milson (105 %) décrochent la prime.</li>
           <li>Challenge Mai-Juin terminé : <b>131 % — 2ᵉ du réseau</b> · prime 200 €.</li>
@@ -927,12 +927,12 @@ const m2026=[
   {m:"Mars",v:18,o:15,p:120,r:47},{m:"Avril",v:17,o:15,p:113,r:57},
   {m:"Mai",v:10,o:4,p:250,r:67},{m:"Juin",v:11,o:12,p:92,r:46},
   {m:"Juillet",v:7,o:11,p:64,r:28},{m:"Août",v:14,o:14,p:100,r:47},
-  {m:"Septembre",v:17,o:19,p:89,r:45},   /* clos le 30/09 — ratio V/R1 provisoire (tableau réseau au 25/09) */
+  {m:"Septembre",v:15,o:19,p:79,r:45},   /* clos le 30/09 (2 annulations Bellion déduites) — ratio V/R1 provisoire (tableau réseau au 25/09) */
 ];
 /* progression cumul YTD %, juin en cours */
-const heroPts=[{m:"Janv.",y:88},{m:"Févr.",y:94},{m:"Mars",y:92},{m:"Avril",y:97},{m:"Mai",y:106},{m:"Juin",y:104},{m:"Juil.",y:99},{m:"Août",y:99},{m:"Sept.",y:98},{m:"Oct.",y:0,live:true}]; /* Oct. : calculé automatiquement (STATS) */
+const heroPts=[{m:"Janv.",y:88},{m:"Févr.",y:94},{m:"Mars",y:92},{m:"Avril",y:97},{m:"Mai",y:106},{m:"Juin",y:104},{m:"Juil.",y:99},{m:"Août",y:99},{m:"Sept.",y:96},{m:"Oct.",y:0,live:true}]; /* Oct. : calculé automatiquement (STATS) */
 /* ventes par mois (footer) */
-const ventesMois=[{m:"Janv.",v:14},{m:"Févr.",v:12},{m:"Mars",v:18},{m:"Avril",v:17},{m:"Mai",v:10},{m:"Juin",v:11},{m:"Juil.",v:7},{m:"Août",v:14},{m:"Sept.",v:17},{m:"Oct.",v:0,live:true}]; /* Oct. : calculé automatiquement (STATS) */
+const ventesMois=[{m:"Janv.",v:14},{m:"Févr.",v:12},{m:"Mars",v:18},{m:"Avril",v:17},{m:"Mai",v:10},{m:"Juin",v:11},{m:"Juil.",v:7},{m:"Août",v:14},{m:"Sept.",v:15},{m:"Oct.",v:0,live:true}]; /* Oct. : calculé automatiquement (STATS) */
 /* === COMMISSIONS ===
    Chaque entrée = nombre d'étages de la vente (1, 2 ou 3). La POSITION dans le tableau
    (1er, 2e, …) détermine le palier : 1-5 → 100€, 6-10 → 200€, 11-40 → 300€.
@@ -982,9 +982,8 @@ const salesSept=[
   {client:"Kopiejwski", floors:1, r1:false, payment:"direct", remise:8.39, modele:"smart", ht:9289.10, date:"2026-09-22"},
   {client:"Porte", floors:1, r1:true, payment:"direct", remise:12.87, modele:"smart", ht:8246.45, date:"2026-09-23"},
   {client:"Coudun", floors:1, r1:true, payment:"subvention", remise:12.45, modele:"smart", ht:8312.80, date:"2026-09-25"},
-  {client:"Bellion (Line)", floors:1, r1:false, payment:"direct", remise:10.05, modele:"line", ht:3981.04, date:"2026-09-27"}, /* VOF-288016 */
-  {client:"Bellion (Modul-Air Smart)", floors:1, r1:false, payment:"direct", remise:11.20, modele:"smart", ht:8502.37, date:"2026-09-27"}, /* VOF-287783 */
-]; /* SEPTEMBRE CLOS (archivé le 01/10) : 17/19 ventes (89 %) · 3 695 € de commissions · remise moy. 12,3 % · CA HT 117 479 € */
+  /* Bellion (Line VOF-288016 + Modul-Air Smart VOF-287783, signées le 27/09) : ANNULÉES le 08/10 — client hospitalisé */
+]; /* SEPTEMBRE CLOS (archivé le 01/10, corrigé le 08/10) : 15/19 ventes (79 %) · 3 095 € de commissions · remise moy. 12,5 % · CA HT 104 995 € */
 const salesOct=[
   /* même format qu'en septembre : {client, floors, r1, payment, remise, modele, ht, date:"2026-10-JJ"} */
   {client:"Bottazzi", floors:1, r1:true, payment:"credit", remise:10.91, modele:"smart", ht:8530.81, date:"2026-10-01"}, /* VOF-288205 — devis et signature le 01/10 · crédit Franfinance 36 mois */
