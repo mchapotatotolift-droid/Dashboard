@@ -883,7 +883,7 @@
         <div class="panel-h"><span class="dot" style="background:var(--purple);box-shadow:0 0 8px var(--purple)"></span><h3>Lecture rapide</h3></div>
         <ul class="read stagger">
           <li>Cumul 2026 à <b><span data-stat="annee.pct"></span> %</b> de l'objectif (<span data-stat="annee.n"></span>/<span data-stat="annee.obj"></span>, octobre démarré) — objectif annuel élargi avec le mois d'octobre.</li>
-          <li>Septembre clos à <b>79 % (15/19)</b> après l'annulation des 2 commandes Bellion · <b>3 095 €</b> de commissions · 3ᵉ ex æquo du podium du mois (tableau réseau au 25/09) · remise moyenne 12,5 % · 104 995 € HT signés.</li>
+          <li>Septembre clos à <b>79 % (15/19)</b> après l'annulation des 2 commandes Bellion · <b>3 240 €</b> de commissions · 3ᵉ ex æquo du podium du mois (tableau réseau au 25/09) · remise moyenne 8,1 % (hors remise pour mesures) · 104 995 € HT signés.</li>
           <li>Août clos : objectif mensuel atteint pile <b>100 % (14/14)</b> · 3ᵉ ex æquo du réseau ce mois-ci, avec un ratio V2O record à <b>47 %</b>.</li>
           <li>Challenge Juillet-Août terminé à <b>84 % (21/25)</b> · 6ᵉ place, non qualifié — seuls Cyrille Mongin (112 %) et Didier Milson (105 %) décrochent la prime.</li>
           <li>Challenge Mai-Juin terminé : <b>131 % — 2ᵉ du réseau</b> · prime 200 €.</li>
@@ -950,34 +950,35 @@ const salesAout=[
 ]; /* ventes du mois en cours (Août) — cycle commission actif — OBJECTIF MENSUEL ATTEINT (14/14) — système complet (base×étages + bonus remise + bonus direct) validé le 01/09 */
 const challengeSales=salesJuillet.concat(salesAout);
 const salesSept=[
-  /* V.11 : modele "smart" (Modul-Air Smart) ou "line" · ht = prix final HT · remise = % exact (remises TTC / prix TTC catalogue) */
-  {client:"Wattebled", floors:1, r1:false, payment:"direct", remise:11.90, modele:"smart", ht:8436.02, date:"2026-09-03"},
-  {client:"Boutin", floors:1, r1:false, payment:"subvention", remise:11.73, modele:"smart", ht:7962.09, date:"2026-09-04"},
-  {client:"Massiot", floors:1, r1:true, payment:"direct", remise:38.62, modele:"smart", ht:3317.54, date:"2026-09-07"},
-  {client:"Jean & Louisette Agi", floors:1, r1:true, payment:"direct", remise:10.27, modele:"smart", ht:9004.74, date:"2026-09-09"},
-  {client:"Jean Chauveau", floors:1, r1:false, payment:"direct", remise:9.61, modele:"line", ht:4407.58, date:"2026-09-09"},
-  {client:"Oberlechner", floors:1, r1:true, payment:"direct", remise:11.99, modele:"smart", ht:8056.87, date:"2026-09-10"},
-  {client:"Allemand", floors:1, r1:false, payment:"direct", remise:10.24, modele:"line", ht:3744.08, date:"2026-09-10"},
-  {client:"Ferreira Correia", floors:1, r1:false, payment:"direct", remise:13.32, modele:"smart", ht:6208.53, date:"2026-09-15"},
-  {client:"Lavialle", floors:1, r1:true, payment:"credit", remise:11.64, modele:"smart", ht:8530.81, date:"2026-09-18"},
-  {client:"Da Conceição Alves Oliveira", floors:1, r1:false, payment:"subvention", remise:9.87, modele:"smart", ht:8246.45, date:"2026-09-18"},
-  {client:"Mongodin", floors:1, r1:false, payment:"direct", remise:11.80, modele:"smart", ht:8056.87, date:"2026-09-20"},
-  {client:"Baldé", floors:1, r1:false, payment:"direct", remise:2.90, modele:"line", ht:3175.21, date:"2026-09-21"},
-  {client:"Kopiejwski", floors:1, r1:false, payment:"direct", remise:8.39, modele:"smart", ht:9289.10, date:"2026-09-22"},
-  {client:"Porte", floors:1, r1:true, payment:"direct", remise:12.87, modele:"smart", ht:8246.45, date:"2026-09-23"},
-  {client:"Coudun", floors:1, r1:true, payment:"subvention", remise:12.45, modele:"smart", ht:8312.80, date:"2026-09-25"},
+  /* V.11 : modele "smart" (Modul-Air Smart) ou "line" · ht = prix final HT
+     remise = % exact = REMISE SUPPLÉMENTAIRE TTC / prix TTC catalogue (la « remise pour mesures » ne compte pas — règle confirmée le 12/10) */
+  {client:"Wattebled", floors:1, r1:false, payment:"direct", remise:7.44, modele:"smart", ht:8436.02, date:"2026-09-03"},
+  {client:"Boutin", floors:1, r1:false, payment:"subvention", remise:7.00, modele:"smart", ht:7962.09, date:"2026-09-04"},
+  {client:"Massiot", floors:1, r1:true, payment:"direct", remise:30.73, modele:"smart", ht:3317.54, date:"2026-09-07"},
+  {client:"Jean & Louisette Agi", floors:1, r1:true, payment:"direct", remise:6.02, modele:"smart", ht:9004.74, date:"2026-09-09"},
+  {client:"Jean Chauveau", floors:1, r1:false, payment:"direct", remise:7.66, modele:"line", ht:4407.58, date:"2026-09-09"},
+  {client:"Oberlechner", floors:1, r1:true, payment:"direct", remise:7.34, modele:"smart", ht:8056.87, date:"2026-09-10"},
+  {client:"Allemand", floors:1, r1:false, payment:"direct", remise:7.96, modele:"line", ht:3744.08, date:"2026-09-10"},
+  {client:"Ferreira Correia", floors:1, r1:false, payment:"direct", remise:7.36, modele:"smart", ht:6208.53, date:"2026-09-15"},
+  {client:"Lavialle", floors:1, r1:true, payment:"credit", remise:7.23, modele:"smart", ht:8530.81, date:"2026-09-18"},
+  {client:"Da Conceição Alves Oliveira", floors:1, r1:false, payment:"subvention", remise:5.21, modele:"smart", ht:8246.45, date:"2026-09-18"},
+  {client:"Mongodin", floors:1, r1:false, payment:"direct", remise:7.13, modele:"smart", ht:8056.87, date:"2026-09-20"},
+  {client:"Baldé", floors:1, r1:false, payment:"direct", remise:0.00, modele:"line", ht:3175.21, date:"2026-09-21"},
+  {client:"Kopiejwski", floors:1, r1:false, payment:"direct", remise:4.19, modele:"smart", ht:9289.10, date:"2026-09-22"},
+  {client:"Porte", floors:1, r1:true, payment:"direct", remise:8.37, modele:"smart", ht:8246.45, date:"2026-09-23"},
+  {client:"Coudun", floors:1, r1:true, payment:"subvention", remise:7.96, modele:"smart", ht:8312.80, date:"2026-09-25"},
   /* Bellion (Line VOF-288016 + Modul-Air Smart VOF-287783, signées le 27/09) : ANNULÉES le 08/10 — client hospitalisé */
-]; /* SEPTEMBRE CLOS (archivé le 01/10, corrigé le 08/10) : 15/19 ventes (79 %) · 3 095 € de commissions · remise moy. 12,5 % · CA HT 104 995 € */
+]; /* SEPTEMBRE CLOS (archivé le 01/10, corrigé le 08/10) : 15/19 ventes (79 %) · 3 240 € de commissions · remise moy. 8,1 % (hors remise pour mesures) · CA HT 104 995 € */
 const salesOct=[
   /* même format qu'en septembre : {client, floors, r1, payment, remise, modele, ht, date:"2026-10-JJ"} */
-  {client:"Bottazzi", floors:1, r1:true, payment:"credit", remise:10.91, modele:"smart", ht:8530.81, date:"2026-10-01"}, /* VOF-288205 — devis et signature le 01/10 · crédit Franfinance 36 mois */
-  {client:"Geoffray", floors:1, r1:false, payment:"subvention", remise:12.99, modele:"smart", ht:7961.61, date:"2026-10-01"}, /* VOF-269140 (devis du 23/09) — subvention, fonds avancés avant notification · remise effective (le devis affiche un « Prix TTC » de 9 150 € sans la TVA ; vrai TTC catalogue 9 653,25 €) */
-  {client:"Cham", floors:1, r1:false, payment:"subvention", remise:7.05, modele:"smart", ht:8151.66, date:"2026-10-02"}, /* VOF-277678 (devis du 08/04) — MaPrimeAdapt' accordée · acompte 30 % par virement */
-  {client:"Barbedienne", floors:1, r1:true, payment:"credit", remise:12.08, modele:"smart", ht:9099.53, date:"2026-10-07"}, /* VOF-288813 — devis et signature le 07/10 · crédit Franfinance 36 mois */
-  {client:"Godefroy (Modul-Air Smart)", floors:1, r1:true, payment:"direct", remise:13.78, modele:"smart", ht:7962.09, date:"2026-10-08"}, /* VOF-288564 — RDC → 1er · chèque à l'installation */
-  {client:"Godefroy (Line)", floors:1, r1:true, payment:"direct", remise:17.39, modele:"line", ht:3222.75, date:"2026-10-08"}, /* VOF-288563 — sous-sol → RDC · chèque à l'installation */
-  {client:"Kabla", floors:1, r1:false, payment:"direct", remise:7.39, modele:"line", ht:4075.83, date:"2026-10-12"}, /* VOF-288058 — R2 · prélèvement 3 mensualités */
-  {client:"Dubuis", floors:1, r1:true, payment:"direct", remise:4.33, modele:"smart", ht:9428.46, date:"2026-10-12"}, /* VOF-289131 — devis et signature le 12/10 · acompte 30 % par chèque · seule la remise pour mesures (450 €) */
+  {client:"Bottazzi", floors:1, r1:true, payment:"credit", remise:6.45, modele:"smart", ht:8530.81, date:"2026-10-01"}, /* VOF-288205 — devis et signature le 01/10 · crédit Franfinance 36 mois */
+  {client:"Geoffray", floors:1, r1:false, payment:"subvention", remise:8.33, modele:"smart", ht:7961.61, date:"2026-10-01"}, /* VOF-269140 (devis du 23/09) — subvention, fonds avancés avant notification · remise supplémentaire effective 803,75 € sur le vrai TTC catalogue 9 653,25 € (le devis affiche un « Prix TTC » de 9 150 € sans la TVA et une remise supplémentaire de 300,50 €) */
+  {client:"Cham", floors:1, r1:false, payment:"subvention", remise:2.19, modele:"smart", ht:8151.66, date:"2026-10-02"}, /* VOF-277678 (devis du 08/04) — MaPrimeAdapt' accordée · acompte 30 % par virement */
+  {client:"Barbedienne", floors:1, r1:true, payment:"credit", remise:7.96, modele:"smart", ht:9099.53, date:"2026-10-07"}, /* VOF-288813 — devis et signature le 07/10 · crédit Franfinance 36 mois */
+  {client:"Godefroy (Modul-Air Smart)", floors:1, r1:true, payment:"direct", remise:9.16, modele:"smart", ht:7962.09, date:"2026-10-08"}, /* VOF-288564 — RDC → 1er · chèque à l'installation */
+  {client:"Godefroy (Line)", floors:1, r1:true, payment:"direct", remise:14.96, modele:"line", ht:3222.75, date:"2026-10-08"}, /* VOF-288563 — sous-sol → RDC · chèque à l'installation */
+  {client:"Kabla", floors:1, r1:false, payment:"direct", remise:5.23, modele:"line", ht:4075.83, date:"2026-10-12"}, /* VOF-288058 — R2 · prélèvement 3 mensualités */
+  {client:"Dubuis", floors:1, r1:true, payment:"direct", remise:0.00, modele:"smart", ht:9428.46, date:"2026-10-12"}, /* VOF-289131 — devis et signature le 12/10 · acompte 30 % par chèque · aucune remise supplémentaire (seule la remise pour mesures de 450 €) */
 ]; /* ventes du mois en cours (Octobre) — cycle commission actif */
 const challengeSalesSO=salesSept.concat(salesOct); /* challenge Septembre-Octobre — objectif 38 (19+19) */
 
