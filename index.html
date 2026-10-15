@@ -888,7 +888,7 @@
           <li>Challenge Juillet-Août terminé à <b>84 % (21/25)</b> · 6ᵉ place, non qualifié — seuls Cyrille Mongin (112 %) et Didier Milson (105 %) décrochent la prime.</li>
           <li>Challenge Mai-Juin terminé : <b>131 % — 2ᵉ du réseau</b> · prime 200 €.</li>
           <li>Juillet clos à <b>64 % (7/11)</b> — solide rattrapage post-congés (5 ventes sur la dernière semaine).</li>
-          <li>Ratio V2O : <b>28 %</b> en juillet, net rebond à <b>47 %</b> en août (meilleur mois de l'année) — le cumul 2026 remonte à <b>43 %</b> (5ᵉ ex æquo du réseau avec Romain Manci au 08/10), porté par un mois de septembre à <b>45 %</b>.</li>
+          <li>Ratio V2O : <b>28 %</b> en juillet, net rebond à <b>47 %</b> en août (meilleur mois de l'année) — le cumul 2026 remonte à <b>43 %</b> (6ᵉ du réseau au 15/10), porté par un mois de septembre à <b>45 %</b>.</li>
           <li>2024 reste le point bas (76 %) ; reprise confirmée depuis 2025 (99 %).</li>
         </ul>
       </div>
@@ -1013,18 +1013,18 @@ heroPts[heroPts.length-1].y=STATS.annee.pct;
 })();
 /* ===== Podiums réseau : données des autres commerciaux (tableau réseau) + MES compteurs à moi =====
    Mettre à jour RESEAU à chaque nouveau tableau (ma propre ligne est ignorée : ce sont mes compteurs qui comptent). */
-const RESEAU={date:"08/10", ratioMoi:43, reps:[
+const RESEAU={date:"15/10", ratioMoi:43, reps:[
   /* nom, octobre [ventes,obj], challenge sept-oct [ventes,obj], année [ventes,obj], ratio V/R1 cumul % */
-  ["Franck Abgrall",[0,19],[11,33],[111,148],41], ["Pascal Clivio",[3,19],[10,29],[95,159],33],
-  ["Cyrille Mongin",[5,15],[24,34],[140,151],41], ["Didier Milson",[1,18],[18,37],[139,155],40],
-  ["Fabrice Leroy",[4,19],[16,38],[97,155],42], ["Vincent Bergey",[2,19],[14,38],[107,162],45],
-  ["Jean Louis Amar",[1,19],[11,34],[80,150],31], ["Patrice Arnal",[5,18],[11,36],[89,164],30],
-  ["Valérie Bauge",[0,17],[5,36],[69,146],28], ["David Puchois",[0,17],[20,36],[137,150],45],
-  ["Safia Mehaya",[2,19],[10,38],[50,123],29], ["Elizabeth Bonnot",[1,19],[16,37],[93,153],32],
-  ["Guillaume Dubuisson",[5,19],[34,38],[150,150],50], ["Yoann Granger",[1,19],[13,35],[91,156],33],
-  ["Simon Pagnoni",[2,15],[20,34],[91,156],35], ["Jerome Gatien",[0,19],[8,34],[72,148],35],
-  ["Romain Manci",[3,18],[14,37],[91,153],43], ["Bakhti Rouahi",[3,19],[13,34],[111,150],44],
-  ["Julien Legay",[4,19],[11,36],[71,162],25]
+  ["Franck Abgrall",[3,19],[14,33],[114,148],41], ["Pascal Clivio",[3,19],[10,29],[95,159],32],
+  ["Cyrille Mongin",[7,15],[26,34],[142,151],41], ["Didier Milson",[6,18],[23,37],[144,155],40],
+  ["Fabrice Leroy",[4,19],[16,38],[97,155],40], ["Vincent Bergey",[5,19],[17,38],[110,162],44],
+  ["Jean Louis Amar",[9,19],[19,34],[88,150],33], ["Patrice Arnal",[7,18],[13,36],[91,164],30],
+  ["Valérie Bauge",[1,17],[6,36],[70,146],27], ["David Puchois",[4,17],[24,36],[141,150],45],
+  ["Safia Mehaya",[6,19],[14,38],[54,123],30], ["Elizabeth Bonnot",[4,19],[19,37],[96,153],32],
+  ["Guillaume Dubuisson",[10,19],[39,38],[155,150],50], ["Yoann Granger",[5,19],[17,35],[95,156],33],
+  ["Simon Pagnoni",[2,15],[20,34],[91,156],35], ["Jerome Gatien",[0,19],[8,34],[72,148],34],
+  ["Romain Manci",[7,18],[18,37],[95,153],44], ["Bakhti Rouahi",[9,19],[19,34],[117,150],45],
+  ["Julien Legay",[7,19],[14,36],[74,162],26]
 ]};
 (function renderPodiums(){
   document.querySelectorAll(".res-date").forEach(n=>n.textContent=RESEAU.date);
