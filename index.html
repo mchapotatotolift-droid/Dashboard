@@ -666,7 +666,7 @@
         <div class="lstats stagger">
           <div class="lstat"><div class="lk">Challenge Sept-Oct</div><div class="lv" style="color:var(--ring-chal)"><span class="countup" data-stat="chal.pct" data-suffix=" %">0</span></div><div class="ls"><span data-stat="chal.n"></span> / <span data-stat="chal.obj"></span> · en cours</div></div>
           <div class="lstat"><div class="lk">Cumul annuel (Janv-Oct)</div><div class="lv" style="color:var(--ring-annee)"><span class="countup" data-stat="annee.pct" data-suffix=" %">0</span></div><div class="ls"><span data-stat="annee.n"></span> / <span data-stat="annee.obj"></span></div></div>
-          <div class="lstat"><div class="lk">Ratio Ventes / R1</div><div class="lv" style="color:var(--purple)"><span class="countup" data-to="43" data-suffix=" %">0</span></div><div class="ls">cumul 2026 · validé manager</div></div>
+          <div class="lstat"><div class="lk">Ratio Ventes / R1</div><div class="lv" style="color:var(--purple)"><span class="countup" data-to="42" data-suffix=" %">0</span></div><div class="ls">cumul 2026 · validé manager</div></div>
         </div>
 
       <div class="pod-mini tile w3 reveal">
@@ -820,7 +820,7 @@
     <div class="panel card reveal w3" id="chips" style="padding:0;">
       <div class="chips stagger">
         <div class="chip"><div class="ci" style="color:var(--blue)"><svg class="i"><use href="#i-target"/></svg></div><div><div class="ck">Objectif cumulé</div><div class="cv" style="color:var(--blue)"><span class="countup" data-stat="annee.obj">0</span></div></div></div>
-        <div class="chip"><div class="ci" style="color:var(--green)"><svg class="i"><use href="#i-trend"/></svg></div><div><div class="ck">Ratio V/R1 (cumul)</div><div class="cv" style="color:var(--green)"><span class="countup" data-to="43" data-suffix=" %">0</span></div></div></div>
+        <div class="chip"><div class="ci" style="color:var(--green)"><svg class="i"><use href="#i-trend"/></svg></div><div><div class="ck">Ratio V/R1 (cumul)</div><div class="cv" style="color:var(--green)"><span class="countup" data-to="42" data-suffix=" %">0</span></div></div></div>
         <div class="chip"><div class="ci" style="color:var(--purple)"><svg class="i"><use href="#i-trophy"/></svg></div><div><div class="ck">Meilleur mois</div><div class="cv" style="color:var(--purple)">Mars · 120 %</div></div></div>
         <div class="chip"><div class="ci" style="color:var(--green)"><svg class="i"><use href="#i-check-circle"/></svg></div><div><div class="ck">Mois clos ≥ objectif</div><div class="cv" style="color:var(--green)">4 / 9</div></div></div>
         <div class="chip"><div class="ci" style="color:var(--blue)"><svg class="i"><use href="#i-calendar"/></svg></div><div><div class="ck">Cumul Janv-Oct</div><div class="cv" style="color:var(--blue)"><span class="countup" data-stat="annee.n">0</span> / <span data-stat="annee.obj"></span></div></div></div>
@@ -888,7 +888,7 @@
           <li>Challenge Juillet-Août terminé à <b>84 % (21/25)</b> · 6ᵉ place, non qualifié — seuls Cyrille Mongin (112 %) et Didier Milson (105 %) décrochent la prime.</li>
           <li>Challenge Mai-Juin terminé : <b>131 % — 2ᵉ du réseau</b> · prime 200 €.</li>
           <li>Juillet clos à <b>64 % (7/11)</b> — solide rattrapage post-congés (5 ventes sur la dernière semaine).</li>
-          <li>Ratio V2O : <b>28 %</b> en juillet, net rebond à <b>47 %</b> en août (meilleur mois de l'année) — le cumul 2026 remonte à <b>43 %</b> (6ᵉ du réseau au 15/10), porté par un mois de septembre à <b>45 %</b>.</li>
+          <li>Ratio V2O : <b>28 %</b> en juillet, net rebond à <b>47 %</b> en août (meilleur mois de l'année) — le cumul 2026 est à <b>42 %</b> au 23/10 (5ᵉ du réseau).</li>
           <li>2024 reste le point bas (76 %) ; reprise confirmée depuis 2025 (99 %).</li>
         </ul>
       </div>
@@ -1017,18 +1017,18 @@ heroPts[heroPts.length-1].y=STATS.annee.pct;
 })();
 /* ===== Podiums réseau : données des autres commerciaux (tableau réseau) + MES compteurs à moi =====
    Mettre à jour RESEAU à chaque nouveau tableau (ma propre ligne est ignorée : ce sont mes compteurs qui comptent). */
-const RESEAU={date:"15/10", ratioMoi:43, reps:[
+const RESEAU={date:"23/10", ratioMoi:42, reps:[
   /* nom, octobre [ventes,obj], challenge sept-oct [ventes,obj], année [ventes,obj], ratio V/R1 cumul % */
-  ["Franck Abgrall",[3,19],[14,33],[114,148],41], ["Pascal Clivio",[3,19],[10,29],[95,159],32],
-  ["Cyrille Mongin",[7,15],[26,34],[142,151],41], ["Didier Milson",[6,18],[23,37],[144,155],40],
-  ["Fabrice Leroy",[4,19],[16,38],[97,155],40], ["Vincent Bergey",[5,19],[17,38],[110,162],44],
-  ["Jean Louis Amar",[9,19],[19,34],[88,150],33], ["Patrice Arnal",[7,18],[13,36],[91,164],30],
-  ["Valérie Bauge",[1,17],[6,36],[70,146],27], ["David Puchois",[4,17],[24,36],[141,150],45],
-  ["Safia Mehaya",[6,19],[14,38],[54,123],30], ["Elizabeth Bonnot",[4,19],[19,37],[96,153],32],
-  ["Guillaume Dubuisson",[10,19],[39,38],[155,150],50], ["Yoann Granger",[5,19],[17,35],[95,156],33],
-  ["Simon Pagnoni",[2,15],[20,34],[91,156],35], ["Jerome Gatien",[0,19],[8,34],[72,148],34],
-  ["Romain Manci",[7,18],[18,37],[95,153],44], ["Bakhti Rouahi",[9,19],[19,34],[117,150],45],
-  ["Julien Legay",[7,19],[14,36],[74,162],26]
+  ["Franck Abgrall",[5,19],[16,33],[109,148],38], ["Pascal Clivio",[8,19],[15,29],[99,159],32],
+  ["Cyrille Mongin",[9,15],[28,34],[144,151],41], ["Didier Milson",[15,18],[32,37],[152,155],41],
+  ["Fabrice Leroy",[7,19],[19,38],[99,155],39], ["Vincent Bergey",[7,19],[19,38],[111,162],43],
+  ["Jean Louis Amar",[11,19],[21,34],[87,150],32], ["Patrice Arnal",[8,17],[14,35],[89,163],29],
+  ["Valérie Bauge",[4,17],[9,36],[73,146],28], ["David Puchois",[8,17],[28,36],[145,150],45],
+  ["Safia Mehaya",[9,19],[17,38],[58,123],31], ["Elizabeth Bonnot",[9,19],[24,37],[97,153],31],
+  ["Guillaume Dubuisson",[15,17],[43,36],[157,148],49], ["Yoann Granger",[10,19],[22,35],[97,156],32],
+  ["Simon Pagnoni",[5,15],[23,34],[93,156],34], ["Jerome Gatien",[0,19],[8,34],[71,148],33],
+  ["Romain Manci",[8,18],[17,37],[89,153],41], ["Bakhti Rouahi",[16,19],[26,34],[122,150],46],
+  ["Julien Legay",[10,19],[17,36],[74,162],25]
 ]};
 (function renderPodiums(){
   document.querySelectorAll(".res-date").forEach(n=>n.textContent=RESEAU.date);
