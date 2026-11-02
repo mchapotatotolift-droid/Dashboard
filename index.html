@@ -754,8 +754,8 @@
         </div>
         <div class="chal card live">
           <div class="chal-h">Juillet — Août <span class="chal-badge b-red">NON ATTEINT</span></div>
-          <div class="chal-pct" style="color:#ff7a84"><span class="countup" data-to="84" data-suffix=" %">0</span></div>
-          <div class="chal-sub">21 / 25 ventes · ratio V2O 38 % · prime 0 € (non qualifié)</div>
+          <div class="chal-pct" style="color:#ff7a84"><span class="countup" data-to="80" data-suffix=" %">0</span></div>
+          <div class="chal-sub">20 / 25 ventes · ratio V2O 38 % · prime 0 € (non qualifié)</div>
           <div class="prog"><div class="cfill" data-w="84" style="background:linear-gradient(90deg,#ff6470,#ffa07a)"></div></div>
         </div>
         <div class="chal card live now">
@@ -822,7 +822,7 @@
         <div class="chip"><div class="ci" style="color:var(--blue)"><svg class="i"><use href="#i-target"/></svg></div><div><div class="ck">Objectif cumulé</div><div class="cv" style="color:var(--blue)"><span class="countup" data-stat="annee.obj">0</span></div></div></div>
         <div class="chip"><div class="ci" style="color:var(--green)"><svg class="i"><use href="#i-trend"/></svg></div><div><div class="ck">Ratio V/R1 (cumul)</div><div class="cv" style="color:var(--green)"><span class="countup" data-to="43" data-suffix=" %">0</span></div></div></div>
         <div class="chip"><div class="ci" style="color:var(--purple)"><svg class="i"><use href="#i-trophy"/></svg></div><div><div class="ck">Meilleur mois</div><div class="cv" style="color:var(--purple)">Mars · 120 %</div></div></div>
-        <div class="chip"><div class="ci" style="color:var(--green)"><svg class="i"><use href="#i-check-circle"/></svg></div><div><div class="ck">Mois clos ≥ objectif</div><div class="cv" style="color:var(--green)">4 / 9</div></div></div>
+        <div class="chip"><div class="ci" style="color:var(--green)"><svg class="i"><use href="#i-check-circle"/></svg></div><div><div class="ck">Mois clos ≥ objectif</div><div class="cv" style="color:var(--green)">3 / 9</div></div></div>
         <div class="chip"><div class="ci" style="color:var(--blue)"><svg class="i"><use href="#i-calendar"/></svg></div><div><div class="ck">Cumul Janv-Oct</div><div class="cv" style="color:var(--blue)"><span class="countup" data-stat="annee.n">0</span> / <span data-stat="annee.obj"></span></div></div></div>
         <div class="chip"><div class="ci" style="color:var(--purple)"><svg class="i"><use href="#i-pie"/></svg></div><div><div class="ck">Cumul atteint</div><div class="cv" style="color:var(--purple)"><span class="countup" data-stat="annee.pct" data-suffix=" %">0</span></div></div></div>
       </div>
@@ -884,8 +884,8 @@
         <ul class="read stagger">
           <li>Cumul 2026 à <b><span data-stat="annee.pct"></span> %</b> de l'objectif (<span data-stat="annee.n"></span>/<span data-stat="annee.obj"></span>, octobre démarré) — objectif annuel élargi avec le mois d'octobre.</li>
           <li>Septembre clos à <b>79 % (15/19)</b> après l'annulation des 2 commandes Bellion · <b>3 240 €</b> de commissions · 3ᵉ ex æquo du podium du mois (tableau réseau au 25/09) · remise moyenne 8,1 % (hors remise pour mesures) · 104 995 € HT signés.</li>
-          <li>Août clos : objectif mensuel atteint pile <b>100 % (14/14)</b> · 3ᵉ ex æquo du réseau ce mois-ci, avec un ratio V2O record à <b>47 %</b>.</li>
-          <li>Challenge Juillet-Août terminé à <b>84 % (21/25)</b> · 6ᵉ place, non qualifié — seuls Cyrille Mongin (112 %) et Didier Milson (105 %) décrochent la prime.</li>
+          <li>Août clos à <b>93 % (13/14)</b> après le retrait de la vente Chattou (identifiée le 02/11 avec le directeur) · ratio V2O record à <b>47 %</b>.</li>
+          <li>Challenge Juillet-Août terminé à <b>80 % (20/25)</b> · 6ᵉ place, non qualifié — seuls Cyrille Mongin (112 %) et Didier Milson (105 %) décrochent la prime.</li>
           <li>Challenge Mai-Juin terminé : <b>131 % — 2ᵉ du réseau</b> · prime 200 €.</li>
           <li>Juillet clos à <b>64 % (7/11)</b> — solide rattrapage post-congés (5 ventes sur la dernière semaine).</li>
           <li>Ratio V2O : <b>28 %</b> en juillet, net rebond à <b>47 %</b> en août (meilleur mois de l'année) — le cumul 2026 est à <b>43 %</b> au 30/10 (4ᵉ du réseau).</li>
@@ -910,13 +910,13 @@ const m2026=[
   {m:"Janvier",v:14,o:16,p:88,r:35},{m:"Février",v:12,o:17,p:71,r:29},
   {m:"Mars",v:18,o:15,p:120,r:47},{m:"Avril",v:17,o:15,p:113,r:57},
   {m:"Mai",v:10,o:4,p:250,r:67},{m:"Juin",v:11,o:12,p:92,r:46},
-  {m:"Juillet",v:7,o:11,p:64,r:28},{m:"Août",v:14,o:14,p:100,r:47},
+  {m:"Juillet",v:7,o:11,p:64,r:28},{m:"Août",v:13,o:14,p:93,r:47},   /* 14 → 13 : Chattou retirée le 02/11 */
   {m:"Septembre",v:15,o:19,p:79,r:45},   /* clos le 30/09 (2 annulations Bellion déduites) — ratio V/R1 provisoire (tableau réseau au 25/09) */
 ];
 /* progression cumul YTD %, juin en cours */
-const heroPts=[{m:"Janv.",y:88},{m:"Févr.",y:94},{m:"Mars",y:92},{m:"Avril",y:97},{m:"Mai",y:106},{m:"Juin",y:104},{m:"Juil.",y:99},{m:"Août",y:99},{m:"Sept.",y:96},{m:"Oct.",y:0,live:true}]; /* Oct. : calculé automatiquement (STATS) */
+const heroPts=[{m:"Janv.",y:88},{m:"Févr.",y:94},{m:"Mars",y:92},{m:"Avril",y:97},{m:"Mai",y:106},{m:"Juin",y:104},{m:"Juil.",y:99},{m:"Août",y:98},{m:"Sept.",y:95},{m:"Oct.",y:0,live:true}]; /* Oct. : calculé automatiquement (STATS) */
 /* ventes par mois (footer) */
-const ventesMois=[{m:"Janv.",v:14},{m:"Févr.",v:12},{m:"Mars",v:18},{m:"Avril",v:17},{m:"Mai",v:10},{m:"Juin",v:11},{m:"Juil.",v:7},{m:"Août",v:14},{m:"Sept.",v:15},{m:"Oct.",v:0,live:true}]; /* Oct. : calculé automatiquement (STATS) */
+const ventesMois=[{m:"Janv.",v:14},{m:"Févr.",v:12},{m:"Mars",v:18},{m:"Avril",v:17},{m:"Mai",v:10},{m:"Juin",v:11},{m:"Juil.",v:7},{m:"Août",v:13},{m:"Sept.",v:15},{m:"Oct.",v:0,live:true}]; /* Oct. : calculé automatiquement (STATS) */
 /* === COMMISSIONS ===
    Chaque entrée = nombre d'étages de la vente (1, 2 ou 3). La POSITION dans le tableau
    (1er, 2e, …) détermine le palier : 1-5 → 100€, 6-10 → 200€, 11-40 → 300€.
@@ -939,7 +939,7 @@ const salesAout=[
   {client:"Winkler Gérard", floors:1, r1:false, payment:"direct", remise:7},
   {client:"Dos Santos", floors:1, r1:true, payment:"direct", remise:6},
   {client:"Vandendriessche", floors:2, r1:false, payment:"direct", remise:0},
-  {client:"Chattou (Éragny)", floors:1, r1:false, payment:"direct", remise:11},
+  /* Chattou (Éragny) : vente RETIRÉE le 02/11 (identifiée avec le directeur comme la vente manquante du tableau réseau) */
   {client:"Petitbois Joëlle", floors:1, r1:false, payment:"direct", remise:12},
   {client:"Jacquet Lionelle", floors:1, r1:false, payment:"direct", remise:13},
   {client:"Rocchia", floors:2, r1:false, payment:"direct", remise:4},
@@ -947,7 +947,7 @@ const salesAout=[
   {client:"Barbier Christiane", floors:1, r1:false, payment:"direct", remise:6},
   {client:"Chirol Yvan", floors:1, r1:false, payment:"direct", remise:9},
   {client:"Bardugogni M.", floors:1, r1:false, payment:"subvention", remise:11},
-]; /* ventes du mois en cours (Août) — cycle commission actif — OBJECTIF MENSUEL ATTEINT (14/14) — système complet (base×étages + bonus remise + bonus direct) validé le 01/09 */
+]; /* ventes du mois en cours (Août) — cycle commission actif — 13/14 après retrait de Chattou (02/11) — système complet (base×étages + bonus remise + bonus direct) validé le 01/09 */
 const challengeSales=salesJuillet.concat(salesAout);
 const salesSept=[
   /* V.11 : modele "smart" (Modul-Air Smart) ou "line" · ht = prix final HT
