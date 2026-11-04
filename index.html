@@ -1035,7 +1035,7 @@ const challengeSalesND=salesNov; /* challenge Novembre-Décembre — ajouter sal
    objectif de ventes 12 (12,3 arrondi), ratio V/R1 cible 44 %. Le 1er (dimanche) appartient à octobre → le mois démarre le 2.
    11/11 férié. Congés : ajouter les dates dans "conges" (["2026-11-JJ","2026-11-JJ"] = du … au …) dès qu'elles sont connues. */
 const MOIS={label:"Novembre", annee:2026, index:10, jours:30, premierJour:2, objectif:12, joursTravailles:14, objectifVisites:28, ratioCible:44,
-  feries:["2026-11-11"], conges:[], ventes:salesNov};
+  feries:["2026-11-11"], conges:["2026-11-19","2026-11-26"], ventes:salesNov};   /* congés du jeudi 19 au jeudi 26 novembre (6 jours ouvrés) */
 const MOIS_PREC={label:"octobre", ventes:salesOct};   /* mois précédent (comparaisons) */
 /* Challenge Novembre-Décembre : objectif de décembre pas encore communiqué → objectif PROVISOIRE = novembre seul (12). */
 const CHALLENGE={label:"Nov.-Déc.", objectif:12, provisoire:true, debut:"2026-11-02", fin:"2026-12-31", ventes:challengeSalesND};
@@ -1494,7 +1494,7 @@ function renderRythme(){
       <div class="rythme-col"><div class="rythme-val">${ventesRestantes}</div><div class="rythme-lbl">ventes<br>restantes</div></div>
       <div class="rythme-col"><div class="rythme-val" style="color:var(--cyan)">${fmt(rRequis)}</div><div class="rythme-lbl">ventes/jour<br>nécessaires</div></div>
     </div>
-    <div class="rythme-compare">Rythme de base : <b>${fmt(rBase)}</b>/j (obj. ${objectif}/${totalJours}j) · Rythme actuel : <b>${fmt(rActuel)}</b>/j (${elapsed} j écoulé${elapsed>1?"s":""}, ${ventesFaites} vente${ventesFaites>1?"s":""})${MOIS.objectifVisites?`<br>Objectif rendez-vous : <b>${MOIS.objectifVisites}</b> (2/jour) · ratio V/R1 cible <b>${MOIS.ratioCible} %</b>`:""}${(MOIS.joursTravailles && !(MOIS.conges||[]).length && ouvres>MOIS.joursTravailles)?`<br><span style="opacity:.75">${ouvres-MOIS.joursTravailles} jours de congés prévus, dates non renseignées</span>`:""}</div>
+    <div class="rythme-compare">Rythme de base : <b>${fmt(rBase)}</b>/j (obj. ${objectif}/${totalJours}j) · Rythme actuel : <b>${fmt(rActuel)}</b>/j (${elapsed} j écoulé${elapsed>1?"s":""}, ${ventesFaites} vente${ventesFaites>1?"s":""})${MOIS.objectifVisites?`<br>Objectif rendez-vous : <b>${MOIS.objectifVisites}</b> (2/jour) · ratio V/R1 cible <b>${MOIS.ratioCible} %</b>`:""}${(MOIS.joursTravailles && !(MOIS.conges||[]).length && ouvres>MOIS.joursTravailles)?`<br><span style="opacity:.75">${ouvres-MOIS.joursTravailles} jours de congés prévus, dates non renseignées</span>`:""}${(MOIS.conges||[]).length?`<br><span style="opacity:.75">Congés du ${MOIS.conges[0].slice(8,10)}/${MOIS.conges[0].slice(5,7)} au ${MOIS.conges[1].slice(8,10)}/${MOIS.conges[1].slice(5,7)} déduits</span>`:""}</div>
     <div class="rythme-note" style="color:${statutColor}">${statut}</div>`;
 }
 
