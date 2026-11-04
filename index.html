@@ -447,6 +447,12 @@
   .px-val::after{content:" HT"; font-size:12px; font-weight:600; color:var(--muted); letter-spacing:0;}
   .px-ttc{font-size:14px; font-weight:700; color:var(--ink-soft); margin-top:2px; white-space:nowrap;}
   .px-sub{font-size:11.5px; color:var(--muted); margin-top:6px;}
+  .px-vs{font-size:11.5px; font-weight:700; margin-top:4px;} .px-vs.ok{color:var(--green);} .px-vs.ko{color:var(--amber);}
+  .px-ref{width:100%; border-collapse:collapse; font-size:12px; margin:2px 0 12px; font-variant-numeric:tabular-nums;}
+  .px-ref th,.px-ref td{padding:6px 4px; text-align:right; border-bottom:1px solid var(--hairline); white-space:nowrap;}
+  .px-ref thead th{font-size:10.5px; font-weight:600; color:var(--muted); text-transform:uppercase; letter-spacing:.03em;}
+  .px-ref tbody th{text-align:left; font-weight:700; color:var(--ink);}
+  .px-ref td.ok{color:var(--green); font-weight:700;} .px-ref td.ko{color:var(--amber); font-weight:700;}
   .px-split{display:flex; height:8px; border-radius:4px; overflow:hidden; gap:2px;}
   .px-split i{display:block; height:100%;} .px-split .smart{background:var(--cyan);} .px-split .line{background:var(--purple);}
   .px-leg{display:flex; justify-content:space-between; font-size:11.5px; color:var(--muted); margin:6px 0 12px;}
@@ -477,7 +483,7 @@
   .bento .wk{margin:0;}
   .pod.tile, .podiums > .pod{display:flex; flex-direction:column; justify-content:space-between;}
   .chal-grid{grid-template-columns:repeat(3,minmax(0,1fr)); gap:16px; margin:0;}
-  .chal-grid > .chal.now{order:-1; grid-column:span 2;}
+  .chal-grid > .chal.now{order:-1; grid-column:span 3;}
   .chal-pct{margin:14px 0 6px;} .chal-sub{margin-bottom:16px;}
   .chips{grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px; padding:0; border:0;}
   .chips > .chip{justify-content:flex-start;}
@@ -599,7 +605,7 @@
       <div class="titles">
         <h1>Bilan Commercial</h1>
         <h2>Mickael Chapotat</h2>
-        <p>Suivi des performances — <b>Mois en cours : Octobre 2026 · Historique 2021-2025</b></p>
+        <p>Suivi des performances — <b>Mois en cours : Novembre 2026 · Historique 2021-2025</b></p>
       </div>
     </div>
   </header>
@@ -632,14 +638,14 @@
 
   <!-- ============ LANE 1 : MOIS EN COURS ============ -->
   <section class="lane l-month" id="sec-mois">
-    <div class="lane-h"><div class="num-step">1</div><div class="ttl">Où j'en suis ce mois-ci</div><div class="desc">Octobre 2026 · actualisé chaque semaine</div></div>
+    <div class="lane-h"><div class="num-step">1</div><div class="ttl">Où j'en suis ce mois-ci</div><div class="desc">Novembre 2026 · actualisé chaque semaine</div></div>
 
     <div class="lane-body-wrap"><div class="lane-body-in">
     <div class="bento">
       <!-- ventes du mois -->
       <div class="tile w4 reveal" id="current">
         <div class="panel-h">
-          <span class="dot"></span><h3>Mois en cours — Octobre</h3>
+          <span class="dot"></span><h3>Mois en cours — Novembre</h3>
           <span class="live-badge">● EN COURS</span>
           <span class="end" id="weekInfo"></span>
         </div>
@@ -657,33 +663,33 @@
 
       <!-- podium du mois -->
       <div class="pod card reveal tile w2" id="pod-month">
-        <div class="pod-t"><svg class="i"><use href="#i-calendar"/></svg>Podium du mois — Octobre (en cours)</div>
-        <div class="pod-s">% objectif octobre · réseau au <span class="res-date"></span> · ta place suit ton compteur</div>
+        <div class="pod-t"><svg class="i"><use href="#i-calendar"/></svg>Podium du mois — Octobre (clos)</div>
+        <div class="pod-s">% objectif octobre · résultat final (tableau réseau du <span class="res-date"></span>)</div>
         <div class="pod-row" data-podium="mois"></div>
         <div class="pod-me"></div>
       </div>
 
         <div class="lstats stagger">
-          <div class="lstat"><div class="lk">Challenge Sept-Oct</div><div class="lv" style="color:var(--ring-chal)"><span class="countup" data-stat="chal.pct" data-suffix=" %">0</span></div><div class="ls"><span data-stat="chal.n"></span> / <span data-stat="chal.obj"></span> · en cours</div></div>
-          <div class="lstat"><div class="lk">Cumul annuel (Janv-Oct)</div><div class="lv" style="color:var(--ring-annee)"><span class="countup" data-stat="annee.pct" data-suffix=" %">0</span></div><div class="ls"><span data-stat="annee.n"></span> / <span data-stat="annee.obj"></span></div></div>
-          <div class="lstat"><div class="lk">Ratio Ventes / R1</div><div class="lv" style="color:var(--purple)"><span class="countup" data-to="43" data-suffix=" %">0</span></div><div class="ls">cumul 2026 · validé manager</div></div>
+          <div class="lstat"><div class="lk">Challenge Nov-Déc</div><div class="lv" style="color:var(--ring-chal)"><span class="countup" data-stat="chal.pct" data-suffix=" %">0</span></div><div class="ls"><span data-stat="chal.n"></span> / <span data-stat="chal.obj"></span> · en cours</div></div>
+          <div class="lstat"><div class="lk">Cumul annuel (Janv-Nov)</div><div class="lv" style="color:var(--ring-annee)"><span class="countup" data-stat="annee.pct" data-suffix=" %">0</span></div><div class="ls"><span data-stat="annee.n"></span> / <span data-stat="annee.obj"></span></div></div>
+          <div class="lstat"><div class="lk">Ratio Ventes / R1</div><div class="lv" style="color:var(--purple)"><span class="countup" data-to="44" data-suffix=" %">0</span></div><div class="ls">cumul 2026 · objectif 44 %</div></div>
         </div>
 
       <div class="pod-mini tile w3 reveal">
-          <div class="r1r2-title"><svg class="i"><use href="#i-pen"/></svg>Signatures — Octobre</div>
+          <div class="r1r2-title"><svg class="i"><use href="#i-pen"/></svg>Signatures — Novembre</div>
           <div id="r1r2Mois"></div>
       </div>
       <div class="pod-mini tile w3 reveal">
-          <div class="r1r2-title"><svg class="i"><use href="#i-flag"/></svg>Rythme du mois — Octobre</div>
+          <div class="r1r2-title"><svg class="i"><use href="#i-flag"/></svg>Rythme du mois — Novembre</div>
           <div id="rythmeBox"></div>
       </div>
       <!-- V.11 : remise moyenne + prix moyen HT par modèle -->
       <div class="pod-mini tile w3 reveal">
-          <div class="r1r2-title"><svg class="i"><use href="#i-pie"/></svg>Taux de remise moyen — Octobre</div>
+          <div class="r1r2-title"><svg class="i"><use href="#i-pie"/></svg>Taux de remise moyen — Novembre</div>
           <div id="remiseBox"></div>
       </div>
       <div class="pod-mini tile w3 reveal">
-          <div class="r1r2-title"><svg class="i"><use href="#i-cart"/></svg>Prix moyen par modèle — Octobre</div>
+          <div class="r1r2-title"><svg class="i"><use href="#i-cart"/></svg>Prix moyen par modèle — Novembre</div>
           <div id="prixBox"></div>
       </div>
     </div>
@@ -758,28 +764,40 @@
           <div class="chal-sub">20 / 25 ventes · ratio V2O 38 % · prime 0 € (non qualifié)</div>
           <div class="prog"><div class="cfill" data-w="84" style="background:linear-gradient(90deg,#ff6470,#ffa07a)"></div></div>
         </div>
+        <div class="chal card live">
+          <div class="chal-h">Septembre — Octobre <span class="chal-badge b-green">DÉPASSÉ<svg class="i"><use href="#i-check"/></svg></span></div>
+          <div class="chal-pct" style="color:var(--green)"><span class="countup" data-to="105" data-suffix=" %">0</span></div>
+          <div class="chal-sub">40 / 38 ventes · ratio V/R1 51 % · prime 1&nbsp;100&nbsp;€ (V2O 2ᵉ 400&nbsp;€ · volume 4ᵉ 200&nbsp;€ · ventes directes 1ᵉʳ 500&nbsp;€)</div>
+          <div class="prog"><div class="cfill" data-w="100" style="background:linear-gradient(90deg,#30d158,#d9b64f)"></div></div>
+        </div>
+        <div class="chal card">
+          <div class="chal-h">Primes 2026 <span class="chal-badge b-green">3 / 5 PRIMÉS</span></div>
+          <div class="chal-pct" style="color:var(--cyan)">2&nbsp;400&nbsp;€</div>
+          <div class="chal-sub">Mars-Avril 1&nbsp;100&nbsp;€ · Mai-Juin 200&nbsp;€ · Sept.-Oct. 1&nbsp;100&nbsp;€</div>
+          <div class="prog"><div class="cfill" data-w="60" style="background:linear-gradient(90deg,#d9b64f,#ffd24a)"></div></div>
+        </div>
         <div class="chal card live now">
-          <div class="chal-h">Septembre — Octobre <span class="chal-badge b-cyan">EN COURS</span></div>
+          <div class="chal-h">Novembre — Décembre <span class="chal-badge b-cyan">EN COURS</span></div>
           <div class="chal-pct" style="color:var(--cyan)"><span class="countup" data-stat="chal.pct" data-suffix=" %">0</span></div>
-          <div class="chal-sub"><span data-stat="chal.n"></span> / <span data-stat="chal.obj"></span> ventes · en cours</div>
+          <div class="chal-sub"><span data-stat="chal.n"></span> / <span data-stat="chal.obj"></span> ventes · objectif provisoire (novembre seul, décembre à venir)</div>
           <div class="prog"><div class="cfill" data-stat-w="chal.pct" style="background:linear-gradient(90deg,#d9b64f,#8e6ce0)"></div></div>
         </div>
       </div>
     </div>
 
     <div class="pod-mini tile w3 reveal">
-      <div class="r1r2-title"><svg class="i"><use href="#i-pen"/></svg>Signatures — Challenge Septembre-Octobre (cumul)</div>
+      <div class="r1r2-title"><svg class="i"><use href="#i-pen"/></svg>Signatures — Challenge Novembre-Décembre (cumul)</div>
       <div id="r1r2Challenge"></div>
     </div>
 
     <div class="pod-mini tile w3 reveal">
-      <div class="r1r2-title"><svg class="i"><use href="#i-flag"/></svg>Rythme pour la prime — Challenge Septembre-Octobre</div>
+      <div class="r1r2-title"><svg class="i"><use href="#i-flag"/></svg>Rythme pour la prime — Challenge Novembre-Décembre</div>
       <div id="rythmeChalBox"></div>
     </div>
 
     <div class="pod card reveal tile" id="pod-chal">
-      <div class="pod-t"><svg class="i"><use href="#i-flame"/></svg>Podium — Challenge Septembre-Octobre (en cours)</div>
-      <div class="pod-s">% objectif du challenge · réseau au <span class="res-date"></span> · ta place suit ton compteur</div>
+      <div class="pod-t"><svg class="i"><use href="#i-flame"/></svg>Podium — Challenge Septembre-Octobre (clos)</div>
+      <div class="pod-s">% objectif du challenge · résultat final · prime 1 100 € pour toi</div>
       <div class="pod-row" data-podium="chal" style="max-width:560px; margin:0 auto;"></div>
       <div class="pod-me"></div>
     </div>
@@ -789,19 +807,19 @@
 
   <!-- ============ LANE 3 : ANNÉE EN COURS ============ -->
   <section class="lane l-year" id="sec-annee">
-    <div class="lane-h"><div class="num-step">3</div><div class="ttl">Vision année — 2026</div><div class="desc">cumul depuis janvier · octobre en cours</div></div>
+    <div class="lane-h"><div class="num-step">3</div><div class="ttl">Vision année — 2026</div><div class="desc">cumul depuis janvier · novembre en cours</div></div>
 
     <div class="lane-body-wrap"><div class="lane-body-in">
     <div class="bento">
     <!-- HERO -->
     <div class="panel card reveal tile">
-      <div class="panel-h"><span class="dot"></span><h3>Progression 2026 — cumul de l'objectif annuel</h3><span class="end">% atteint · octobre en cours (pointillés)</span></div>
+      <div class="panel-h"><span class="dot"></span><h3>Progression 2026 — cumul de l'objectif annuel</h3><span class="end">% atteint · novembre en cours (pointillés)</span></div>
       <svg id="hero" viewBox="0 0 1000 380" role="img" aria-label="Progression cumulée 2026"></svg>
     </div>
 
     <!-- HERO VENTES (nombre brut) -->
     <div class="panel card reveal tile">
-      <div class="panel-h"><span class="dot"></span><h3>Ventes réalisées par mois — 2026</h3><span class="end">nombre de ventes · octobre en cours (pointillés)</span></div>
+      <div class="panel-h"><span class="dot"></span><h3>Ventes réalisées par mois — 2026</h3><span class="end">nombre de ventes · novembre en cours (pointillés)</span></div>
       <svg id="heroVentes" viewBox="0 0 1000 380" role="img" aria-label="Nombre de ventes par mois"></svg>
     </div>
 
@@ -820,10 +838,10 @@
     <div class="panel card reveal w3" id="chips" style="padding:0;">
       <div class="chips stagger">
         <div class="chip"><div class="ci" style="color:var(--blue)"><svg class="i"><use href="#i-target"/></svg></div><div><div class="ck">Objectif cumulé</div><div class="cv" style="color:var(--blue)"><span class="countup" data-stat="annee.obj">0</span></div></div></div>
-        <div class="chip"><div class="ci" style="color:var(--green)"><svg class="i"><use href="#i-trend"/></svg></div><div><div class="ck">Ratio V/R1 (cumul)</div><div class="cv" style="color:var(--green)"><span class="countup" data-to="43" data-suffix=" %">0</span></div></div></div>
-        <div class="chip"><div class="ci" style="color:var(--purple)"><svg class="i"><use href="#i-trophy"/></svg></div><div><div class="ck">Meilleur mois</div><div class="cv" style="color:var(--purple)">Mars · 120 %</div></div></div>
-        <div class="chip"><div class="ci" style="color:var(--green)"><svg class="i"><use href="#i-check-circle"/></svg></div><div><div class="ck">Mois clos ≥ objectif</div><div class="cv" style="color:var(--green)">3 / 9</div></div></div>
-        <div class="chip"><div class="ci" style="color:var(--blue)"><svg class="i"><use href="#i-calendar"/></svg></div><div><div class="ck">Cumul Janv-Oct</div><div class="cv" style="color:var(--blue)"><span class="countup" data-stat="annee.n">0</span> / <span data-stat="annee.obj"></span></div></div></div>
+        <div class="chip"><div class="ci" style="color:var(--green)"><svg class="i"><use href="#i-trend"/></svg></div><div><div class="ck">Ratio V/R1 (cumul)</div><div class="cv" style="color:var(--green)"><span class="countup" data-to="44" data-suffix=" %">0</span></div></div></div>
+        <div class="chip"><div class="ci" style="color:var(--purple)"><svg class="i"><use href="#i-trophy"/></svg></div><div><div class="ck">Meilleur mois</div><div class="cv" style="color:var(--purple)">Octobre · 132 %</div></div></div>
+        <div class="chip"><div class="ci" style="color:var(--green)"><svg class="i"><use href="#i-check-circle"/></svg></div><div><div class="ck">Mois clos ≥ objectif</div><div class="cv" style="color:var(--green)">4 / 10</div></div></div>
+        <div class="chip"><div class="ci" style="color:var(--blue)"><svg class="i"><use href="#i-calendar"/></svg></div><div><div class="ck">Cumul Janv-Nov</div><div class="cv" style="color:var(--blue)"><span class="countup" data-stat="annee.n">0</span> / <span data-stat="annee.obj"></span></div></div></div>
         <div class="chip"><div class="ci" style="color:var(--purple)"><svg class="i"><use href="#i-pie"/></svg></div><div><div class="ck">Cumul atteint</div><div class="cv" style="color:var(--purple)"><span class="countup" data-stat="annee.pct" data-suffix=" %">0</span></div></div></div>
       </div>
     </div>
@@ -882,13 +900,16 @@
       <div class="panel card reveal" style="margin-bottom:0;">
         <div class="panel-h"><span class="dot" style="background:var(--purple);box-shadow:0 0 8px var(--purple)"></span><h3>Lecture rapide</h3></div>
         <ul class="read stagger">
-          <li>Cumul 2026 à <b><span data-stat="annee.pct"></span> %</b> de l'objectif (<span data-stat="annee.n"></span>/<span data-stat="annee.obj"></span>, octobre démarré) — objectif annuel élargi avec le mois d'octobre.</li>
+          <li>Cumul 2026 à <b><span data-stat="annee.pct"></span> %</b> de l'objectif (<span data-stat="annee.n"></span>/<span data-stat="annee.obj"></span>, novembre démarré) — objectif annuel élargi avec le mois de novembre (objectif 12 sur 14 jours travaillés).</li>
+          <li>Octobre clos à <b>132 % (25/19)</b> · <b>1ᵉʳ du réseau</b> · ratio V/R1 <b>63 %</b> · <b>6 750 €</b> de commissions · meilleur mois de l'année.</li>
+          <li>Challenge Septembre-Octobre terminé à <b>105 % (40/38)</b> · qualifié avec Dubuisson, Mongin et Milson · <b>prime 1 100 €</b> (2ᵉ montant du réseau) : V2O 2ᵉ (51 %) 400 € · volume courant 4ᵉ 200 € · ventes directes 1ᵉʳ (17) 500 €.</li>
+          <li>Prix moyens d'octobre : Smart <b>8 507 € HT</b> (réseau 8 660 €, objectif 8 613 €) · Line <b>3 656 € HT</b> (réseau 3 865 €, objectif 3 914 €) — les deux sous l'objectif, écart plus marqué sur le Line.</li>
           <li>Septembre clos à <b>79 % (15/19)</b> après l'annulation des 2 commandes Bellion · <b>3 240 €</b> de commissions · 3ᵉ ex æquo du podium du mois (tableau réseau au 25/09) · remise moyenne 8,1 % (hors remise pour mesures) · 104 995 € HT signés.</li>
           <li>Août clos à <b>93 % (13/14)</b> après le retrait de la vente Chattou (identifiée le 02/11 avec le directeur) · ratio V2O record à <b>47 %</b>.</li>
           <li>Challenge Juillet-Août terminé à <b>80 % (20/25)</b> · 6ᵉ place, non qualifié — seuls Cyrille Mongin (112 %) et Didier Milson (105 %) décrochent la prime.</li>
           <li>Challenge Mai-Juin terminé : <b>131 % — 2ᵉ du réseau</b> · prime 200 €.</li>
           <li>Juillet clos à <b>64 % (7/11)</b> — solide rattrapage post-congés (5 ventes sur la dernière semaine).</li>
-          <li>Ratio V2O : <b>28 %</b> en juillet, net rebond à <b>47 %</b> en août (meilleur mois de l'année) — le cumul 2026 est à <b>43 %</b> au 30/10 (4ᵉ du réseau).</li>
+          <li>Ratio V2O : <b>28 %</b> en juillet, net rebond à <b>47 %</b> en août (meilleur mois de l'année) — le cumul 2026 est à <b>44 %</b> au 31/10 (4ᵉ du réseau), au niveau de la cible 44 %.</li>
           <li>2024 reste le point bas (76 %) ; reprise confirmée depuis 2025 (99 %).</li>
         </ul>
       </div>
@@ -896,7 +917,7 @@
     </div></div>
   </section>
 
-  <p class="note">OTOLIFT Monte-Escaliers · Données reporting commercial 2021 → octobre 2026 · Tableau de bord interne · V.11</p>
+  <p class="note">OTOLIFT Monte-Escaliers · Données reporting commercial 2021 → novembre 2026 · Tableau de bord interne · V.11</p>
 </div>
 
 <script>
@@ -911,12 +932,13 @@ const m2026=[
   {m:"Mars",v:18,o:15,p:120,r:47},{m:"Avril",v:17,o:15,p:113,r:57},
   {m:"Mai",v:10,o:4,p:250,r:67},{m:"Juin",v:11,o:12,p:92,r:46},
   {m:"Juillet",v:7,o:11,p:64,r:28},{m:"Août",v:13,o:14,p:93,r:47},   /* 14 → 13 : Chattou retirée le 02/11 */
-  {m:"Septembre",v:15,o:19,p:79,r:45},   /* clos le 30/09 (2 annulations Bellion déduites) — ratio V/R1 provisoire (tableau réseau au 25/09) */
+  {m:"Septembre",v:15,o:19,p:79,r:39},   /* clos le 30/09 (2 annulations Bellion déduites) — ratio V/R1 déduit du tableau final : challenge 51 % (40 ventes) et octobre 63 % (25 ventes) */
+  {m:"Octobre",v:25,o:19,p:132,r:63},   /* clos le 31/10 — tableau réseau final : 25/19, ratio V/R1 63 % */
 ];
 /* progression cumul YTD %, juin en cours */
-const heroPts=[{m:"Janv.",y:88},{m:"Févr.",y:94},{m:"Mars",y:92},{m:"Avril",y:97},{m:"Mai",y:106},{m:"Juin",y:104},{m:"Juil.",y:99},{m:"Août",y:98},{m:"Sept.",y:95},{m:"Oct.",y:0,live:true}]; /* Oct. : calculé automatiquement (STATS) */
+const heroPts=[{m:"Janv.",y:88},{m:"Févr.",y:94},{m:"Mars",y:92},{m:"Avril",y:97},{m:"Mai",y:106},{m:"Juin",y:104},{m:"Juil.",y:99},{m:"Août",y:98},{m:"Sept.",y:95},{m:"Oct.",y:100},{m:"Nov.",y:0,live:true}]; /* Nov. : calculé automatiquement (STATS) */
 /* ventes par mois (footer) */
-const ventesMois=[{m:"Janv.",v:14},{m:"Févr.",v:12},{m:"Mars",v:18},{m:"Avril",v:17},{m:"Mai",v:10},{m:"Juin",v:11},{m:"Juil.",v:7},{m:"Août",v:13},{m:"Sept.",v:15},{m:"Oct.",v:0,live:true}]; /* Oct. : calculé automatiquement (STATS) */
+const ventesMois=[{m:"Janv.",v:14},{m:"Févr.",v:12},{m:"Mars",v:18},{m:"Avril",v:17},{m:"Mai",v:10},{m:"Juin",v:11},{m:"Juil.",v:7},{m:"Août",v:13},{m:"Sept.",v:15},{m:"Oct.",v:25},{m:"Nov.",v:0,live:true}]; /* Nov. : calculé automatiquement (STATS) */
 /* === COMMISSIONS ===
    Chaque entrée = nombre d'étages de la vente (1, 2 ou 3). La POSITION dans le tableau
    (1er, 2e, …) détermine le palier : 1-5 → 100€, 6-10 → 200€, 11-40 → 300€.
@@ -996,18 +1018,34 @@ const salesOct=[
   {client:"Zoller", floors:1, r1:false, payment:"direct", remise:7.85, modele:"smart", ht:8530.81, date:"2026-10-30"}, /* VOF-268585 — confirmation du 30/10 · 2e → 3e étage (Paris 16e) · acompte 30 % par chèque · R2 */
   {client:"Lacémon", floors:1, r1:false, payment:"subvention", remise:5.60, modele:"smart", ht:8246.45, date:"2026-10-30"}, /* VOF-276439 (devis du 24/03, validité échue le 24/09) — R2 · MaPrimeAdapt' anticipée : reste à charge 4 576,77 € par chèque, aide 4 123,23 € après versement (dossier Anah 1439185) */
   {client:"Laigle", floors:1, r1:false, payment:"direct", remise:7.82, modele:"smart", ht:8606.64, date:"2026-10-31"}, /* VOF-290295 — R2 · BDC signé le 31/10 · prélèvement 3 mensualités (mandat SEPA signé) à l'installation */
-]; /* ventes du mois en cours (Octobre) — cycle commission actif */
-const challengeSalesSO=salesSept.concat(salesOct); /* challenge Septembre-Octobre — objectif 38 (19+19) */
+]; /* OCTOBRE CLOS (archivé le 04/11) : 25/19 ventes (132 %) · 6 750 € de commissions · remise moy. 6,4 % · CA HT 183 570 € · Smart 8 507 € / Line 3 656 € HT */
+const challengeSalesSO=salesSept.concat(salesOct); /* challenge Septembre-Octobre CLOS : 40/38 (105 %) · qualifié · prime 1 100 € */
+const salesNov=[
+  /* même format : {client, floors, r1, payment, remise, modele, ht, date:"2026-11-JJ"} */
+]; /* ventes du mois en cours (Novembre) — cycle commission actif */
+const challengeSalesND=salesNov; /* challenge Novembre-Décembre — ajouter salesDec en décembre */
 
 /* ===== V.10 : tous les compteurs du mois / challenge / année sont calculés ici =====
-   Pour ajouter une vente : une seule ligne dans salesOct. Rien d'autre à mettre à jour. */
+   Pour ajouter une vente : une seule ligne dans salesNov. Rien d'autre à mettre à jour. */
 /* RÈGLE DE RATTACHEMENT (consigne de Mickael, 31/10/2026) :
    quand le 1er du mois tombe un samedi ou un dimanche, toutes les ventes reçues pendant ce week-end
    sont enregistrées sur le MOIS PRÉCÉDENT (les saisir avec la date du dernier jour du mois précédent).
    Ex. : 1er novembre 2026 = dimanche → ventes des 31/10 et 01/11 comptées en octobre. */
-const MOIS={label:"Octobre", annee:2026, index:9, jours:31, objectif:19, ventes:salesOct};
-const MOIS_PREC={label:"septembre", ventes:salesSept};   /* mois précédent (comparaisons) */
-const CHALLENGE={label:"Sept.-Oct.", objectif:38, ventes:challengeSalesSO};
+/* Novembre 2026 (tableau des objectifs du directeur) : 14 jours travaillés, objectif 28 rendez-vous (2/jour),
+   objectif de ventes 12 (12,3 arrondi), ratio V/R1 cible 44 %. Le 1er (dimanche) appartient à octobre → le mois démarre le 2.
+   11/11 férié. Congés : ajouter les dates dans "conges" (["2026-11-JJ","2026-11-JJ"] = du … au …) dès qu'elles sont connues. */
+const MOIS={label:"Novembre", annee:2026, index:10, jours:30, premierJour:2, objectif:12, joursTravailles:14, objectifVisites:28, ratioCible:44,
+  feries:["2026-11-11"], conges:[], ventes:salesNov};
+const MOIS_PREC={label:"octobre", ventes:salesOct};   /* mois précédent (comparaisons) */
+/* Challenge Novembre-Décembre : objectif de décembre pas encore communiqué → objectif PROVISOIRE = novembre seul (12). */
+const CHALLENGE={label:"Nov.-Déc.", objectif:12, provisoire:true, debut:"2026-11-02", fin:"2026-12-31", ventes:challengeSalesND};
+/* Jours ouvrés : lun-ven, hors fériés et congés déclarés */
+const ISO=d=>d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
+const FERIES_2026=["2026-11-11","2026-12-25"];
+const isWorkday=(d,conges=[])=>{ const wd=d.getDay(), k=ISO(d);
+  if(wd===0||wd===6||FERIES_2026.includes(k)) return false;
+  for(let i=0;i<conges.length;i+=2){ if(k>=conges[i] && k<=(conges[i+1]||conges[i])) return false; }
+  return true; };
 const pctOf=(a,b)=>b?Math.round(a/b*100):0;
 const STATS=(()=>{
   const moisN=MOIS.ventes.length, chalN=CHALLENGE.ventes.length;
@@ -1031,25 +1069,28 @@ heroPts[heroPts.length-1].y=STATS.annee.pct;
 })();
 /* ===== Podiums réseau : données des autres commerciaux (tableau réseau) + MES compteurs à moi =====
    Mettre à jour RESEAU à chaque nouveau tableau (ma propre ligne est ignorée : ce sont mes compteurs qui comptent). */
-const RESEAU={date:"30/10", ratioMoi:43, reps:[
-  /* nom, octobre [ventes,obj], challenge sept-oct [ventes,obj], année [ventes,obj], ratio V/R1 cumul % */
+const RESEAU={date:"31/10", final:true, ratioMoi:44,
+  me:{mois:[25,19], chal:[40,38]},   /* octobre et challenge Sept.-Oct. CLOS : résultats figés (identiques au tableau officiel) */
+  subvMois:{label:"octobre", ventes:salesOct, reseau:26.5},
+  reps:[
+  /* TABLEAU FINAL D'OCTOBRE — nom, octobre [ventes,obj], challenge sept-oct [ventes,obj], année [ventes,obj], ratio V/R1 cumul % */
   ["Franck Abgrall",[6,19],[17,33],[110,148],37], ["Pascal Clivio",[14,19],[21,29],[105,159],33],
-  ["Cyrille Mongin",[14,15],[33,34],[149,151],41], ["Didier Milson",[20,18],[37,37],[157,155],42],
-  ["Fabrice Leroy",[12,19],[24,38],[104,155],40], ["Vincent Bergey",[8,19],[20,38],[112,162],42],
-  ["Jean Louis Amar",[12,19],[22,34],[88,150],31], ["Patrice Arnal",[12,17],[18,35],[93,163],29],
-  ["Valérie Bauge",[5,17],[10,36],[74,146],28], ["David Puchois",[13,17],[33,36],[150,150],46],
-  ["Safia Mehaya",[14,19],[22,38],[63,123],33], ["Elizabeth Bonnot",[10,19],[25,37],[98,153],31],
-  ["Guillaume Dubuisson",[17,17],[45,36],[159,148],49], ["Yoann Granger",[11,19],[23,35],[98,156],32],
-  ["Simon Pagnoni",[7,15],[25,34],[95,156],34], ["Jerome Gatien",[3,19],[11,34],[74,148],34],
-  ["Romain Manci",[12,18],[21,37],[93,153],41], ["Bakhti Rouahi",[19,19],[29,34],[125,150],45],
+  ["Cyrille Mongin",[18,15],[37,34],[153,151],42], ["Didier Milson",[20,18],[37,37],[157,155],42],
+  ["Fabrice Leroy",[13,19],[25,38],[105,155],41], ["Vincent Bergey",[9,19],[21,38],[113,162],42],
+  ["Jean Louis Amar",[12,19],[22,34],[88,150],31], ["Patrice Arnal",[13,17],[19,35],[94,163],30],
+  ["Valérie Bauge",[7,17],[12,36],[76,146],28], ["David Puchois",[13,17],[33,36],[150,150],45],
+  ["Safia Mehaya",[14,19],[22,38],[63,123],32], ["Elizabeth Bonnot",[10,19],[25,37],[98,153],31],
+  ["Guillaume Dubuisson",[17,17],[45,36],[159,148],49], ["Yoann Granger",[12,19],[24,35],[99,156],32],
+  ["Simon Pagnoni",[7,15],[25,34],[95,156],34], ["Jerome Gatien",[2,19],[10,34],[73,148],33],
+  ["Romain Manci",[14,18],[23,37],[95,153],42], ["Bakhti Rouahi",[21,19],[31,34],[127,150],45],
   ["Julien Legay",[12,19],[19,36],[76,162],25]
 ]};
 (function renderPodiums(){
   document.querySelectorAll(".res-date").forEach(n=>n.textContent=RESEAU.date);
   const ME="Mickael Chapotat";
   const cfg={
-    mois:{suf:" %", others:RESEAU.reps.map(r=>({n:r[0],x:r[1][0]/r[1][1]})), me:STATS.mois.n/STATS.mois.obj, show:x=>Math.round(x*100), det:`${STATS.mois.n}/${STATS.mois.obj}`},
-    chal:{suf:" %", others:RESEAU.reps.map(r=>({n:r[0],x:r[2][0]/r[2][1]})), me:STATS.chal.n/STATS.chal.obj, show:x=>Math.round(x*100), det:`${STATS.chal.n}/${STATS.chal.obj}`},
+    mois:(()=>{ const m=RESEAU.final?RESEAU.me.mois:[STATS.mois.n,STATS.mois.obj]; return {suf:" %", others:RESEAU.reps.map(r=>({n:r[0],x:r[1][0]/r[1][1]})), me:m[0]/m[1], show:x=>Math.round(x*100), det:`${m[0]}/${m[1]}`}; })(),
+    chal:(()=>{ const m=RESEAU.final?RESEAU.me.chal:[STATS.chal.n,STATS.chal.obj]; return {suf:" %", others:RESEAU.reps.map(r=>({n:r[0],x:r[2][0]/r[2][1]})), me:m[0]/m[1], show:x=>Math.round(x*100), det:`${m[0]}/${m[1]}`}; })(),
     anV:{suf:"", others:RESEAU.reps.map(r=>({n:r[0],x:r[3][0]})), me:STATS.annee.n, show:x=>x, det:"ventes"},
     anR:{suf:" %", others:RESEAU.reps.map(r=>({n:r[0],x:r[4]})), me:RESEAU.ratioMoi, show:x=>x, det:"ratio V/R1"}
   };
@@ -1073,7 +1114,7 @@ const RESEAU={date:"30/10", ratioMoi:43, reps:[
   if(!box) return;
   const isoWeek=d=>{const t=new Date(Date.UTC(d.getFullYear(),d.getMonth(),d.getDate()));const wd=t.getUTCDay()||7;t.setUTCDate(t.getUTCDate()+4-wd);const y0=new Date(Date.UTC(t.getUTCFullYear(),0,1));return Math.ceil(((t-y0)/864e5+1)/7);};
   const weeks=[];
-  for(let day=1; day<=MOIS.jours; day++){ const w=isoWeek(new Date(MOIS.annee,MOIS.index,day)); if(!weeks.includes(w)) weeks.push(w); }
+  for(let day=(MOIS.premierJour||1); day<=MOIS.jours; day++){ const w=isoWeek(new Date(MOIS.annee,MOIS.index,day)); if(!weeks.includes(w)) weeks.push(w); }
   const counts={}; weeks.forEach(w=>counts[w]=0);
   MOIS.ventes.forEach(s=>{ if(!s.date) return; const [y,m,d]=s.date.split("-").map(Number); const w=isoWeek(new Date(y,m-1,d)); if(w in counts) counts[w]++; });
   const today=new Date();
@@ -1417,34 +1458,25 @@ function countUp(node,to,dur,suffix){
 function playCounts(scope){
   scope.querySelectorAll(".countup").forEach(n=>{ if(n.dataset.done) return; n.dataset.done="1"; countUp(n,+n.dataset.to,1700,n.dataset.suffix||""); });
 }
+/* Jours du mois en cours : jours ouvrés hors fériés/congés, plafonnés aux jours travaillés prévus (MOIS.joursTravailles) */
+function calcJoursMois(){
+  const conges=MOIS.conges||[];
+  const monthStart=new Date(MOIS.annee,MOIS.index,MOIS.premierJour||1), monthLastDay=new Date(MOIS.annee,MOIS.index,MOIS.jours);
+  const today=new Date(); today.setHours(0,0,0,0);
+  let ouvres=0, elapsed=0, calRest=0;
+  for(let x=new Date(monthStart); x<=monthLastDay; x=new Date(x.getFullYear(),x.getMonth(),x.getDate()+1)){
+    if(!isWorkday(x,conges)) continue;
+    ouvres++; if(x<=today) elapsed++; else calRest++;
+  }
+  const totalJours=MOIS.joursTravailles||ouvres;
+  elapsed=Math.min(elapsed,totalJours);
+  return {ouvres,totalJours,elapsed,joursRestants:Math.max(0,Math.min(calRest,totalJours-elapsed)),monthLastDay};
+}
 function renderRythme(){
   const box=document.getElementById("rythmeBox");
   if(!box) return;
-  /* Config du mois en cours (MOIS) */
   const objectif=MOIS.objectif;
-  const monthStart=new Date(MOIS.annee,MOIS.index,1), monthLastDay=new Date(MOIS.annee,MOIS.index,MOIS.jours);
-  const vacances=[]; /* pas de congés connus en octobre */
-  let totalJours=0; for(let x=new Date(monthStart); x<=monthLastDay; x=new Date(x.getFullYear(),x.getMonth(),x.getDate()+1)){ const wd=x.getDay(); if(wd!==0&&wd!==6) totalJours++; }
-  const today=new Date(); today.setHours(0,0,0,0);
-  const cap = today<monthLastDay ? today : monthLastDay;
-  let d=new Date(monthStart), elapsed=0;
-  while(d<=cap){
-    const wd=d.getDay();
-    const inVac=vacances.some(([s,e])=> d>=s && d<=e);
-    if(wd!==0 && wd!==6 && !inVac) elapsed++;
-    d=new Date(d.getFullYear(), d.getMonth(), d.getDate()+1);
-  }
-  elapsed=Math.max(0, elapsed);
-  /* jours restants : comptage calendaire direct (cohérent avec le widget challenge) */
-  let d2=new Date(monthStart), joursRestants=0;
-  while(d2<=monthLastDay){
-    if(d2>cap){
-      const wd=d2.getDay();
-      const inVac=vacances.some(([s,e])=> d2>=s && d2<=e);
-      if(wd!==0 && wd!==6 && !inVac) joursRestants++;
-    }
-    d2=new Date(d2.getFullYear(), d2.getMonth(), d2.getDate()+1);
-  }
+  const {ouvres,totalJours,elapsed,joursRestants}=calcJoursMois();
   const ventesFaites=MOIS.ventes.length;
   const ventesRestantes=Math.max(0, objectif-ventesFaites);
   const rBase=objectif/totalJours;
@@ -1462,7 +1494,7 @@ function renderRythme(){
       <div class="rythme-col"><div class="rythme-val">${ventesRestantes}</div><div class="rythme-lbl">ventes<br>restantes</div></div>
       <div class="rythme-col"><div class="rythme-val" style="color:var(--cyan)">${fmt(rRequis)}</div><div class="rythme-lbl">ventes/jour<br>nécessaires</div></div>
     </div>
-    <div class="rythme-compare">Rythme de base : <b>${fmt(rBase)}</b>/j (obj. ${objectif}/${totalJours}j) · Rythme actuel : <b>${fmt(rActuel)}</b>/j (${elapsed} j écoulé${elapsed>1?"s":""}, ${ventesFaites} vente${ventesFaites>1?"s":""})</div>
+    <div class="rythme-compare">Rythme de base : <b>${fmt(rBase)}</b>/j (obj. ${objectif}/${totalJours}j) · Rythme actuel : <b>${fmt(rActuel)}</b>/j (${elapsed} j écoulé${elapsed>1?"s":""}, ${ventesFaites} vente${ventesFaites>1?"s":""})${MOIS.objectifVisites?`<br>Objectif rendez-vous : <b>${MOIS.objectifVisites}</b> (2/jour) · ratio V/R1 cible <b>${MOIS.ratioCible} %</b>`:""}${(MOIS.joursTravailles && !(MOIS.conges||[]).length && ouvres>MOIS.joursTravailles)?`<br><span style="opacity:.75">${ouvres-MOIS.joursTravailles} jours de congés prévus, dates non renseignées</span>`:""}</div>
     <div class="rythme-note" style="color:${statutColor}">${statut}</div>`;
 }
 
@@ -1513,6 +1545,8 @@ function renderRemise(){
     <div class="rythme-note" style="color:${inBonus.length?"var(--green)":"var(--amber)"}">${inBonus.length} vente${inBonus.length>1?"s":""} sous 8 % → bonus remise touché${inBonus.length?` (${inBonus.map(s=>s.client).join(", ")})`:""}</div>`;
   playOnView(box);
 }
+/* Prix moyens HT de référence (mail du directeur, bilan d'octobre 2026) */
+const PRIX_REF={objectif:{smart:8613,line:3914}, reseau:{label:"oct.", smart:8660, line:3865}};
 function renderPrix(){
   const box=document.getElementById("prixBox"); if(!box) return;
   const grpOf=list=>m=>{ const l=list.filter(s=>s.ht && s.modele===m); const sum=l.reduce((a,s)=>a+s.ht,0); return l.length?sum/l.length:0; };
@@ -1525,18 +1559,25 @@ function renderPrix(){
       <div class="px-name">${name}</div>
       <div class="px-val">${g.n?`<span data-anim="${Math.round(g.avg)}" data-suffix=" €">0 €</span>`:"—"}</div>
       ${g.n?`<div class="px-ttc"><span data-anim="${Math.round(g.avg*TVA)}" data-suffix=" €">0 €</span> TTC</div>`:""}
+      ${g.n?(()=>{ const o=PRIX_REF.objectif[cls], dlt=Math.round(g.avg-o); return `<div class="px-vs ${dlt>=0?"ok":"ko"}">${dlt>=0?"▲ +":"▼ −"}${fmtEUR(Math.abs(dlt))} € vs objectif</div>`; })():""}
       <div class="px-sub">${g.n} vente${g.n>1?"s":""}${g.n>1?`<br>${fmtEUR(Math.round(g.min))} → ${fmtEUR(Math.round(g.max))} € HT`:""}</div>
     </div>`;
+  /* Repères : mes prix du mois précédent, moyenne réseau (mail du directeur) et objectif société */
+  const cell=(v,o)=>`<td class="${v>=o?"ok":"ko"}">${fmtEUR(Math.round(v))} €</td>`;
+  const refTable=`<table class="px-ref"><thead><tr><th></th><th>Toi ${PRIX_REF.reseau.label}</th><th>Réseau ${PRIX_REF.reseau.label}</th><th>Objectif</th></tr></thead><tbody>
+    ${[["smart","Smart"],["line","Line"]].map(([k,lb])=>`<tr><th>${lb}</th>${cell(prevAvg(k),PRIX_REF.objectif[k])}${cell(PRIX_REF.reseau[k],PRIX_REF.objectif[k])}<td>${fmtEUR(PRIX_REF.objectif[k])} €</td></tr>`).join("")}
+    </tbody></table>`;
   box.innerHTML=
     `<div class="px-grid">${col(S,"Modul-Air Smart","smart")}${col(L,"Line","line")}</div>
     <div class="px-split"><i class="smart" style="width:${n?S.n/n*100:0}%"></i><i class="line" style="width:${n?L.n/n*100:0}%"></i></div>
     <div class="px-leg"><span><b class="smart"></b>Smart ${n?Math.round(S.n/n*100):0} %</span><span><b class="line"></b>Line ${n?Math.round(L.n/n*100):0} %</span></div>
-    <div class="rythme-compare">${n?`Toutes ventes : <b>${fmtEUR(Math.round(tot/n))} € HT</b> (${fmtEUR(Math.round(tot/n*TVA))} € TTC) en moyenne · CA HT signé : <b>${fmtEUR(Math.round(tot))} €</b>`:`Aucun prix renseigné en ${MOIS.label.toLowerCase()} pour l'instant`}<br><span style="opacity:.75">Repère ${MOIS_PREC.label} : Smart ${fmtEUR(Math.round(prevAvg("smart")))} € HT · Line ${fmtEUR(Math.round(prevAvg("line")))} € HT</span></div>`;
+    ${refTable}
+    <div class="rythme-compare">${n?`Toutes ventes : <b>${fmtEUR(Math.round(tot/n))} € HT</b> (${fmtEUR(Math.round(tot/n*TVA))} € TTC) en moyenne · CA HT signé : <b>${fmtEUR(Math.round(tot))} €</b>`:`Aucun prix renseigné en ${MOIS.label.toLowerCase()} pour l'instant`}</div>`;
   playOnView(box);
 }
 function fillJuin(){ const f=document.getElementById("juinFill"); if(f) f.style.width=Math.min(100,STATS.mois.pct)+"%"; renderR1R2("r1r2Mois",MOIS.label.toLowerCase(), MOIS.ventes); renderRythme(); }
 /* Modes de paiement 2026 — cumule chaque mois suivi en détail (étendre paymentAll à chaque nouveau mois archivé) */
-const paymentAll=salesJuillet.concat(salesAout).concat(salesSept).concat(salesOct);
+const paymentAll=salesJuillet.concat(salesAout).concat(salesSept).concat(salesOct).concat(salesNov);
 function renderPayments(){
   const donut=document.getElementById("payDonut");
   const legend=document.getElementById("payLegend");
@@ -1565,28 +1606,23 @@ function renderPayments(){
     const n=counts[i]; if(!n) return "";
     const pct=Math.round(n/total*100);
     return `<div class="pay-row"><span class="pay-dot" style="background:${c.solid}"></span><span><b>${n}</b> — ${c.label}</span><span class="pay-pct">${pct}%</span></div>`;
-  }).join("");
+  }).join("")+(()=>{ const L=RESEAU.subvMois.ventes, k=L.filter(x=>x.payment==="subvention").length, me=L.length?Math.round(k/L.length*1000)/10:0;
+    return `<div class="rythme-compare" style="margin-top:10px">Part des subventions en ${RESEAU.subvMois.label} : <b>${fmtDec(me)} %</b> (${k}/${L.length}) · réseau <b>${fmtDec(RESEAU.subvMois.reseau)} %</b></div>`; })();
 }
 
 function renderRythmeChallenge(){
   const box=document.getElementById("rythmeChalBox");
   if(!box) return;
-  /* Challenge Septembre-Octobre en cours — objectif cumulé 38 (19 sept. + 19 oct., pas de congé prévu) */
+  /* Challenge en cours : jours restants du mois (même calcul que le rythme mensuel) + jours ouvrés des mois suivants.
+     Tant que l'objectif est provisoire (mois en cours seul), on s'arrête à la fin du mois. */
   const objectifChallenge=CHALLENGE.objectif;
-  const monthLastDay=new Date(2026,9,31);
-  const vacances=[];
-  const today=new Date(); today.setHours(0,0,0,0);
-  const cap = today<monthLastDay ? today : monthLastDay;
-  let d=new Date(2026,8,1), joursRestants=0;
-  while(d<=monthLastDay){
-    if(d>cap){
-      const wd=d.getDay();
-      const inVac=vacances.some(([s,e])=> d>=s && d<=e);
-      if(wd!==0 && wd!==6 && !inVac) joursRestants++;
-    }
-    d=new Date(d.getFullYear(), d.getMonth(), d.getDate()+1);
+  const jm=calcJoursMois();
+  let joursRestants=jm.joursRestants;
+  if(!CHALLENGE.provisoire){
+    const fin=new Date(CHALLENGE.fin+"T00:00:00");
+    for(let d=new Date(jm.monthLastDay.getFullYear(),jm.monthLastDay.getMonth(),jm.monthLastDay.getDate()+1); d<=fin; d=new Date(d.getFullYear(),d.getMonth(),d.getDate()+1)){ if(isWorkday(d)) joursRestants++; }
   }
-  const ventesChallenge=challengeSalesSO.length;
+  const ventesChallenge=CHALLENGE.ventes.length;
   const ventesRestantes=Math.max(0, objectifChallenge-ventesChallenge);
   const rRequis= joursRestants>0 ? ventesRestantes/joursRestants : 0;
   const fmt=n=>n.toFixed(2).replace(".",",");
@@ -1601,12 +1637,12 @@ function renderRythmeChallenge(){
       <div class="rythme-col"><div class="rythme-val">${ventesRestantes}</div><div class="rythme-lbl">ventes restantes<br>(challenge)</div></div>
       <div class="rythme-col"><div class="rythme-val" style="color:var(--purple)">${fmt(rRequis)}</div><div class="rythme-lbl">ventes/jour<br>pour la prime</div></div>
     </div>
-    <div class="rythme-compare">Cumul challenge à date : <b>${ventesChallenge} / ${objectifChallenge}</b> · septembre + octobre, sans congé prévu.</div>
+    <div class="rythme-compare">Cumul challenge à date : <b>${ventesChallenge} / ${objectifChallenge}</b> · novembre + décembre${CHALLENGE.provisoire?" · objectif provisoire (novembre seul, décembre à venir)":""}.</div>
     <div class="rythme-note" style="color:${statutColor}">${statut}</div>
     <div class="rythme-compare" style="opacity:.75; margin-top:6px;">Repère indicatif pour la prime de challenge — n'affecte pas ton objectif mensuel.</div>`;
 }
 
-function fillChallenges(){ document.querySelectorAll("#challenges .cfill").forEach(f=>f.style.width=f.dataset.w+"%"); renderR1R2("r1r2Challenge","cumul sept.-oct.", challengeSalesSO); renderRythmeChallenge(); }
+function fillChallenges(){ document.querySelectorAll("#challenges .cfill").forEach(f=>f.style.width=f.dataset.w+"%"); renderR1R2("r1r2Challenge","cumul nov.-déc.", CHALLENGE.ventes); renderRythmeChallenge(); }
 function playPodiums(scopeId){
   const root=document.getElementById(scopeId)||document;
   const s=root.querySelectorAll(".pstep");
