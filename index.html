@@ -1023,6 +1023,7 @@ const challengeSalesSO=salesSept.concat(salesOct); /* challenge Septembre-Octobr
 const salesNov=[
   /* même format : {client, floors, r1, payment, remise, modele, ht, date:"2026-11-JJ"} */
   {client:"Sanitas", floors:1, r1:true, payment:"subvention", remise:6.66, modele:"smart", ht:8436.02, date:"2026-11-03"}, /* VOF-290515 — devis et signature le 03/11 · Jutigny (77) · MaPrimeAdapt' via Logiadapt (AMO), installation après dépôt du dossier · reste à charge 2 594 € par chèque */
+  {client:"Petitjean", floors:1, r1:false, payment:"direct", remise:null, modele:null, ht:null, date:"2026-11-06"}, /* BDC reçu le 06/11 (date non remplie) · acompte 30 % = chèque 1 050 € (≈ 3 500 € TTC) + prélèvement 3 mensualités · modèle, prix, remise, R1/R2 et n° de devis à confirmer */
 ]; /* ventes du mois en cours (Novembre) — cycle commission actif */
 const challengeSalesND=salesNov; /* challenge Novembre-Décembre — ajouter salesDec en décembre */
 
