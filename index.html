@@ -663,8 +663,8 @@
 
       <!-- podium du mois -->
       <div class="pod card reveal tile w2" id="pod-month">
-        <div class="pod-t"><svg class="i"><use href="#i-calendar"/></svg>Podium du mois — Octobre (clos)</div>
-        <div class="pod-s">% objectif octobre · résultat final (tableau réseau du <span class="res-date"></span>)</div>
+        <div class="pod-t"><svg class="i"><use href="#i-calendar"/></svg>Podium du mois — Novembre</div>
+        <div class="pod-s">% objectif novembre · réseau au <span class="res-date"></span> · toi en direct</div>
         <div class="pod-row" data-podium="mois"></div>
         <div class="pod-me"></div>
       </div>
@@ -796,8 +796,8 @@
     </div>
 
     <div class="pod card reveal tile" id="pod-chal">
-      <div class="pod-t"><svg class="i"><use href="#i-flame"/></svg>Podium — Challenge Septembre-Octobre (clos)</div>
-      <div class="pod-s">% objectif du challenge · résultat final · prime 1 100 € pour toi</div>
+      <div class="pod-t"><svg class="i"><use href="#i-flame"/></svg>Podium — Challenge Novembre-Décembre</div>
+      <div class="pod-s">% objectif du challenge (provisoire : novembre seul) · réseau au <span class="res-date"></span> · toi en direct</div>
       <div class="pod-row" data-podium="chal" style="max-width:560px; margin:0 auto;"></div>
       <div class="pod-me"></div>
     </div>
@@ -1029,7 +1029,7 @@ const salesNov=[
   {client:"Sanchez", floors:1, r1:false, payment:"credit", remise:6.54, modele:"line", ht:3317.54, date:"2026-11-10"}, /* VOF-287348 (devis du 09/11) — R2 · RDC → 1er (Morsang-sur-Seine) · crédit Franfinance 12 × 291,66 € sans apport ni assurance */
   {client:"Bleuze", floors:1, r1:false, payment:"direct", remise:6.00, modele:"line", ht:2843.60, date:"2026-11-10"}, /* VOF-290579 (devis réédité le 15/11, BDC signé le 10/11) — RDC → 1er (Sainte-Geneviève-des-Bois) · R2 · chèque 100 % à l'installation */
   {client:"Hirigoyen", floors:1, r1:true, payment:"direct", remise:6.52, modele:"smart", ht:8530.81, date:"2026-11-10"}, /* VOF-291070 (devis 10/11) — RDC → 1er (Courbevoie) · R1 · prélèvement 3x, 100 % à l'installation · TTC cat. 10 109,54 − mesures 450 − remise suppl. 659,54 = 9 000 € TTC */
-  {client:"Pillard", floors:1, r1:false, payment:"subvention", remise:4.32, modele:"smart", ht:8720.38, date:"2026-11-09"}, /* VOF-284017 (devis 09/11, validité 6 mois) — RDC → 1er (Saint-Pierre-du-Perray) · Logiadapt plan prévisionnel 06/11 (bénéficiaire « Hermine » vs « Marie Joseph » sur le devis) : Anah 4 360,19 + AMO 600 + Essonne 1 500 = 6 460,19 € · reste à charge 3 829,81 € · BDC non reçu : date et R1/R2 à confirmer · TTC cat. 10 085,80 − mesures 450 − remise suppl. 435,80 = 9 200 € TTC */
+  {client:"Pillard", floors:1, r1:false, payment:"subvention", remise:4.32, modele:"smart", ht:8720.38, date:"2026-11-09"}, /* VOF-284017 (devis 09/11, validité 6 mois) — RDC → 1er (Saint-Pierre-du-Perray) · Logiadapt plan prévisionnel 06/11 (bénéficiaire « Hermine » vs « Marie Joseph » sur le devis) : Anah 4 360,19 + AMO 600 + Essonne 1 500 = 6 460,19 € · reste à charge 3 829,81 € · R2 · BDC non reçu : date à confirmer · TTC cat. 10 085,80 − mesures 450 − remise suppl. 435,80 = 9 200 € TTC */
 ]; /* ventes du mois en cours (Novembre) — cycle commission actif */
 const challengeSalesND=salesNov; /* challenge Novembre-Décembre — ajouter salesDec en décembre */
 
@@ -1077,21 +1077,21 @@ heroPts[heroPts.length-1].y=STATS.annee.pct;
 })();
 /* ===== Podiums réseau : données des autres commerciaux (tableau réseau) + MES compteurs à moi =====
    Mettre à jour RESEAU à chaque nouveau tableau (ma propre ligne est ignorée : ce sont mes compteurs qui comptent). */
-const RESEAU={date:"31/10", final:true, ratioMoi:44,
-  me:{mois:[25,19], chal:[40,38]},   /* octobre et challenge Sept.-Oct. CLOS : résultats figés (identiques au tableau officiel) */
+const RESEAU={date:"08/11 (fin W45)", final:false, ratioMoi:44,
+  me:{mois:[25,19], chal:[40,38]},   /* utilisé seulement si final:true (mois clos) — sinon mes compteurs en direct */
   subvMois:{label:"octobre", ventes:salesOct, reseau:26.5},
   reps:[
-  /* TABLEAU FINAL D'OCTOBRE — nom, octobre [ventes,obj], challenge sept-oct [ventes,obj], année [ventes,obj], ratio V/R1 cumul % */
-  ["Franck Abgrall",[6,19],[17,33],[110,148],37], ["Pascal Clivio",[14,19],[21,29],[105,159],33],
-  ["Cyrille Mongin",[18,15],[37,34],[153,151],42], ["Didier Milson",[20,18],[37,37],[157,155],42],
-  ["Fabrice Leroy",[13,19],[25,38],[105,155],41], ["Vincent Bergey",[9,19],[21,38],[113,162],42],
-  ["Jean Louis Amar",[12,19],[22,34],[88,150],31], ["Patrice Arnal",[13,17],[19,35],[94,163],30],
-  ["Valérie Bauge",[7,17],[12,36],[76,146],28], ["David Puchois",[13,17],[33,36],[150,150],45],
-  ["Safia Mehaya",[14,19],[22,38],[63,123],32], ["Elizabeth Bonnot",[10,19],[25,37],[98,153],31],
-  ["Guillaume Dubuisson",[17,17],[45,36],[159,148],49], ["Yoann Granger",[12,19],[24,35],[99,156],32],
-  ["Simon Pagnoni",[7,15],[25,34],[95,156],34], ["Jerome Gatien",[2,19],[10,34],[73,148],33],
-  ["Romain Manci",[14,18],[23,37],[95,153],42], ["Bakhti Rouahi",[21,19],[31,34],[127,150],45],
-  ["Julien Legay",[12,19],[19,36],[76,162],25]
+  /* TABLEAU RÉSEAU NOVEMBRE (W45) — nom, novembre [ventes,obj], challenge nov-déc [ventes,obj], année [ventes,obj], ratio V/R1 cumul % */
+  ["Franck Abgrall",[2,17],[2,17],[112,165],37], ["Pascal Clivio",[0,17],[0,17],[105,176],32],
+  ["Cyrille Mongin",[1,17],[1,17],[154,168],41], ["Didier Milson",[2,16],[2,16],[159,171],41],
+  ["Fabrice Leroy",[1,17],[1,17],[106,172],40], ["Vincent Bergey",[1,15],[1,15],[114,177],42],
+  ["Jean Louis Amar",[1,17],[1,17],[89,167],31], ["Patrice Arnal",[4,17],[4,17],[98,180],30],
+  ["Valérie Bauge",[2,14],[2,14],[78,160],28], ["David Puchois",[3,17],[3,17],[153,167],45],
+  ["Safia Mehaya",[4,17],[4,17],[67,140],34], ["Elizabeth Bonnot",[2,17],[2,17],[100,170],30],
+  ["Guillaume Dubuisson",[5,15],[5,15],[164,163],50], ["Yoann Granger",[1,15],[1,15],[100,171],32],
+  ["Simon Pagnoni",[1,15],[1,15],[96,171],34], ["Jerome Gatien",[2,15],[2,15],[76,163],34],
+  ["Romain Manci",[1,15],[1,15],[96,168],42], ["Bakhti Rouahi",[3,17],[3,17],[130,167],45],
+  ["Julien Legay",[1,17],[1,17],[77,179],25]
 ]};
 (function renderPodiums(){
   document.querySelectorAll(".res-date").forEach(n=>n.textContent=RESEAU.date);
