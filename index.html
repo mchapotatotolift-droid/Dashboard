@@ -1077,20 +1077,20 @@ heroPts[heroPts.length-1].y=STATS.annee.pct;
 })();
 /* ===== Podiums réseau : données des autres commerciaux (tableau réseau) + MES compteurs à moi =====
    Mettre à jour RESEAU à chaque nouveau tableau (ma propre ligne est ignorée : ce sont mes compteurs qui comptent). */
-const RESEAU={date:"08/11 (fin W45)", final:false, ratioMoi:44,
+const RESEAU={date:"17/11 (W47 en cours)", final:false, ratioMoi:44,
   me:{mois:[25,19], chal:[40,38]},   /* utilisé seulement si final:true (mois clos) — sinon mes compteurs en direct */
   subvMois:{label:"octobre", ventes:salesOct, reseau:26.5},
   reps:[
-  /* TABLEAU RÉSEAU NOVEMBRE (W45) — nom, novembre [ventes,obj], challenge nov-déc [ventes,obj], année [ventes,obj], ratio V/R1 cumul % */
-  ["Franck Abgrall",[2,17],[2,17],[112,165],37], ["Pascal Clivio",[0,17],[0,17],[105,176],32],
-  ["Cyrille Mongin",[1,17],[1,17],[154,168],41], ["Didier Milson",[2,16],[2,16],[159,171],41],
-  ["Fabrice Leroy",[1,17],[1,17],[106,172],40], ["Vincent Bergey",[1,15],[1,15],[114,177],42],
-  ["Jean Louis Amar",[1,17],[1,17],[89,167],31], ["Patrice Arnal",[4,17],[4,17],[98,180],30],
-  ["Valérie Bauge",[2,14],[2,14],[78,160],28], ["David Puchois",[3,17],[3,17],[153,167],45],
-  ["Safia Mehaya",[4,17],[4,17],[67,140],34], ["Elizabeth Bonnot",[2,17],[2,17],[100,170],30],
-  ["Guillaume Dubuisson",[5,15],[5,15],[164,163],50], ["Yoann Granger",[1,15],[1,15],[100,171],32],
-  ["Simon Pagnoni",[1,15],[1,15],[96,171],34], ["Jerome Gatien",[2,15],[2,15],[76,163],34],
-  ["Romain Manci",[1,15],[1,15],[96,168],42], ["Bakhti Rouahi",[3,17],[3,17],[130,167],45],
+  /* TABLEAU RÉSEAU NOVEMBRE (W45–W47) — nom, novembre [ventes,obj], challenge nov-déc [ventes,obj], année [ventes,obj], ratio V/R1 cumul % */
+  ["Franck Abgrall",[6,17],[6,17],[116,165],37], ["Pascal Clivio",[3,17],[3,17],[108,176],32],
+  ["Cyrille Mongin",[8,17],[8,17],[161,168],41], ["Didier Milson",[6,16],[6,16],[163,171],41],
+  ["Fabrice Leroy",[5,17],[5,17],[110,172],40], ["Vincent Bergey",[4,15],[4,15],[117,177],42],
+  ["Jean Louis Amar",[1,17],[1,17],[89,167],30], ["Patrice Arnal",[5,17],[5,17],[99,180],29],
+  ["Valérie Bauge",[5,14],[5,14],[81,160],28], ["David Puchois",[12,17],[12,17],[162,167],46],
+  ["Safia Mehaya",[6,17],[6,17],[69,140],33], ["Elizabeth Bonnot",[3,17],[3,17],[101,170],30],
+  ["Guillaume Dubuisson",[9,15],[9,15],[168,163],50], ["Yoann Granger",[1,15],[1,15],[100,171],31],
+  ["Simon Pagnoni",[3,15],[3,15],[98,171],34], ["Jerome Gatien",[3,15],[3,15],[77,163],34],
+  ["Romain Manci",[3,15],[3,15],[98,168],42], ["Bakhti Rouahi",[6,17],[6,17],[133,167],45],
   ["Julien Legay",[1,17],[1,17],[77,179],25]
 ]};
 (function renderPodiums(){
